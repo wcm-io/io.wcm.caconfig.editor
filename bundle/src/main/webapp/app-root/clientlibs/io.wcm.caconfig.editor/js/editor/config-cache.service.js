@@ -38,7 +38,7 @@
 
     /**
      * Gets "configNameObject" for a config from cache.
-     * If none exists, then the user has deep-linked to the config with cleared localstorage
+     * If none exists, then the user has deep-linked to the config with cleared sessionStorage
      * and will be unable to view or edit the config correctly.
      *
      * @param  {String} configName
@@ -81,8 +81,9 @@
 
       angular.forEach(properties, function (property) {
         var propertyName = property.name;
-        if (propertyName && angular.isUndefined(configCache[configName].propertyTypes[propertyName])) {
-          configCache[configName].propertyTypes[propertyName] = determinePropertyType(property);
+        var propertyType = determinePropertyType(property);
+        if (propertyName && configCache[configName].propertyTypes[propertyName] !== propertyType) {
+          configCache[configName].propertyTypes[propertyName] = propertyType;
         }
       });
     }
@@ -95,12 +96,20 @@
       if (property.nestedConfigCollection) {
         return "nestedConfigCollection";
       }
+      if (property.metadata && property.metadata.properties
+        && property.metadata.properties.widgetType === "dropdown") {
+        return "dropdown";
+      }
       if (property.metadata && property.metadata.multivalue) {
         return "multivalue";
       }
       if (property.metadata && property.metadata.properties
             && property.metadata.properties.widgetType === "pathbrowser") {
         return "pathbrowser";
+      }
+      if (property.metadata && property.metadata.properties
+                  && property.metadata.properties.widgetType === "textarea") {
+        return "textarea";
       }
       if (property.metadata && property.metadata.type) {
         input = inputMap[property.metadata.type];
@@ -174,7 +183,8 @@
       var children,
         config,
         configName,
-        properties;
+        properties,
+        propertyTypesCacheValid;
 
       if (angular.isObject(configData.nestedConfig)) {
         configName = configData.nestedConfig.configName;
@@ -198,8 +208,23 @@
 
       isCollectionItem = angular.isString(configData.collectionItemName);
 
+      if (angular.isUndefined(config.propertyTypes)) {
+        propertyTypesCacheValid = false;
+      }
+      else {
+        propertyTypesCacheValid = true;
+
+        // check if any properties have been added, or changed
+        angular.forEach(configData.properties, function (property) {
+          var propertyType = determinePropertyType(config);
+          if (angular.isUndefined(config.propertyTypes[property.name]) || config.propertyTypes[property.name] !== propertyType) {
+            propertyTypesCacheValid = false;
+          }
+        });
+      }
+
       // If config has already been "fully" added to cache
-      if (angular.isDefined(config.propertyTypes)
+      if (propertyTypesCacheValid
           && angular.isDefined(config.hasChildren)
           && !isCollectionItem
           && !isNestedCollection
@@ -216,7 +241,7 @@
             // User has deep-linked to a nested config with uncached parent.
             // This will cause problems, so we so we abort the process.
             configCache[configName] = null;
-            window.console.error($rootScope.i18n.deepLinkError);
+            window.console.error($rootScope.i18n("deepLinkError"));
             return;
           }
         }
@@ -238,7 +263,7 @@
 
       properties = getConfigProperties(configData, isNested, isNestedCollection);
 
-      if (angular.isUndefined(config.propertyTypes)) {
+      if (!propertyTypesCacheValid) {
         addPropertyTypesToCache(configName, properties);
       }
 
@@ -338,14 +363,14 @@
     }
 
     function setStoredConfigCache() {
-      $window.localStorage.setItem(STORED_CONFIG_CACHE, angular.toJson(configCache));
+      $window.sessionStorage.setItem(STORED_CONFIG_CACHE, angular.toJson(configCache));
     }
 
     /**
      * @return {object|null}
      */
     function getStoredConfigCache() {
-      var storedConfigCache = angular.fromJson($window.localStorage.getItem(STORED_CONFIG_CACHE));
+      var storedConfigCache = angular.fromJson($window.sessionStorage.getItem(STORED_CONFIG_CACHE));
       if (angular.isObject(storedConfigCache)) {
         return storedConfigCache;
       }
@@ -353,7 +378,7 @@
     }
 
     that.removeStoredConfigCache = function () {
-      $window.localStorage.removeItem(STORED_CONFIG_CACHE);
+      $window.sessionStorage.removeItem(STORED_CONFIG_CACHE);
     };
 
   }

@@ -20,7 +20,7 @@
 (function (angular) {
   "use strict";
 
-  var ANYTHING = /^.*$/;
+  var ANYTHING = /.*/;
   var BOOLEAN = /^(true|false)$/;
   var INTEGER = /^[-+]?[0-9]+([eE][-+]?[0-9]+)?$/;
   var FLOAT = /^[-+]?[0-9]*[.]?[0-9]+([eE][-+]?[0-9]+)?$/;
@@ -35,9 +35,11 @@
       pathbrowser: "pathbrowser.html",
       popupContainer: "popupContainer.html",
       popupContent: "popupContent.html",
+      propertyDropdown: "propertyDropdown.html",
       propertyEditLink: "propertyEditLink.html",
       propertyInputCheckbox: "propertyInputCheckbox.html",
       propertyInputText: "propertyInputText.html",
+      propertyInputTextarea: "propertyInputTextarea.html",
       propertyRow: "propertyRow.html",
       propertyRowPreview: "propertyRowPreview.html"
     })
