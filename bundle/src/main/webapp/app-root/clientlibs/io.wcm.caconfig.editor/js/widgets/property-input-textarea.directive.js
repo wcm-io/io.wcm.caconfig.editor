@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2016 wcm.io
+ * Copyright (C) 2019 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,20 +21,19 @@
   "use strict";
 
   /**
-   * Directive for a link to a nested configuration
+   * Directive for textarea field input, used for string multiline properties.
    */
   angular.module("io.wcm.caconfig.widgets")
-    .directive("caconfigPropertyEditLink", propertyEditLink);
+    .directive("caconfigPropertyInputTextarea", propertyInputTextarea);
 
-  propertyEditLink.$inject = ["templateUrlList", "$rootScope"];
+  propertyInputTextarea.$inject = ["templateUrlList", "inputMap"];
 
-  function propertyEditLink(templateList, $rootScope) {
+  function propertyInputTextarea(templateList, inputMap) {
 
     var directive = {
-      templateUrl: templateList.propertyEditLink,
+      templateUrl: templateList.propertyInputTextarea,
       scope: {
-        configName: "@",
-        linkText: "@"
+        property: "="
       },
       replace: true,
       link: link
@@ -43,10 +42,8 @@
     return directive;
 
     function link(scope) {
-      scope.configForm = $rootScope.configForm;
-      scope.go = $rootScope.go;
-      scope.saveWarning = $rootScope.saveWarning;
-      scope.linkText = $rootScope.i18n.button.edit;
+      var input = inputMap[scope.property.metadata.type];
+      scope.pattern = input.pattern;
     }
   }
 }(angular));
