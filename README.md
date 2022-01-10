@@ -1,4 +1,4 @@
-<img src="https://wcm.io/images/favicon-16@2x.png"/> io.wcm.caconfig.editor
+<img src="https://wcm.io/images/favicon-16@2x.png"/> Context-Aware Configuration Editor
 ======
 [![Build](https://github.com/wcm-io/io.wcm.caconfig.editor/workflows/Build/badge.svg?branch=develop)](https://github.com/wcm-io/io.wcm.caconfig.editor/actions?query=workflow%3ABuild+branch%3Adevelop)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm/io.wcm.caconfig.editor/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm/io.wcm.caconfig.editor)
