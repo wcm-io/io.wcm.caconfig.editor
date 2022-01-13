@@ -23,6 +23,33 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.9.0" date="2022-01-13">
+      <action type="add" dev="sseifert" issue="WCON-89">
+        Add additional "Manage Publication" button as alternative to "Quick Publish".
+      </action>
+      <action type="add" dev="sseifert">
+        Add possibility to provide dynamic list of dropdown options via DropdownOptionProvider service interface.
+      </action>
+      <action type="update" dev="sseifert">
+        Use Jackson instead of Sling Commons JSON for JSON processing.
+      </action>
+      <action type="update" dev="sseifert">
+        Add favicon to editor page.
+      </action>
+      <action type="update" dev="sseifert">
+        Switch to AEM 6.5 as minimum version.
+      </action>
+      <action type="fix" dev="sseifert">
+        Dropdown widget: Do not auto-select an option in editor if no option was saved previously.
+      </action>
+      <action type="fix" dev="sseifert">
+        Fix displaying message text in info/error popup dialogs.
+      </action>
+      <action type="fix" dev="sseifert">
+        Fix jQuery JS warning about unclosed textarea element.
+      </action>
+    </release>
+
     <release version="1.8.6" date="2021-08-16">
       <action type="fix" dev="sseifert">
         Ensure a context-aware configuration appears in configuration overview in editor when it is overridden only globally, and no config data exists.

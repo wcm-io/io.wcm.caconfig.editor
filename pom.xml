@@ -24,14 +24,14 @@
 
   <parent>
     <groupId>io.wcm</groupId>
-    <artifactId>io.wcm.caconfig.parent</artifactId>
-    <version>1.3.4</version>
-    <relativePath>../parent/pom.xml</relativePath>
+    <artifactId>io.wcm.caconfig.editor.parent</artifactId>
+    <version>1.9.0</version>
+    <relativePath>parent/pom.xml</relativePath>
   </parent>
 
   <groupId>io.wcm</groupId>
-  <artifactId>io.wcm.caconfig.editor.parent</artifactId>
-  <version>1.8.6</version>
+  <artifactId>io.wcm.caconfig.editor.root</artifactId>
+  <version>1.9.0</version>
   <packaging>pom</packaging>
 
   <name>Context-Aware Configuration Editor</name>
@@ -39,9 +39,9 @@
   <url>${site.url}/${site.url.module.prefix}/</url>
 
   <scm>
-    <connection>scm:git:https://github.com/wcm-io/wcm-io-caconfig.git</connection>
-    <developerConnection>scm:git:https://github.com/wcm-io/wcm-io-caconfig.git</developerConnection>
-    <url>https://github.com/wcm-io/wcm-io-caconfig</url>
+    <connection>scm:git:https://github.com/wcm-io/io.wcm.caconfig.editor.git</connection>
+    <developerConnection>scm:git:https://github.com/wcm-io/io.wcm.caconfig.editor.git</developerConnection>
+    <url>https://github.com/wcm-io/io.wcm.caconfig.editor</url>
     <tag>HEAD</tag>
   </scm>
 
@@ -50,12 +50,22 @@
   </properties>
 
   <modules>
+    <module>parent</module>
     <module>bundle</module>
     <module>package</module>
   </modules>
 
   <build>
     <plugins>
+
+      <!-- do not deploy this hierarchy pom into maven repository -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
 
       <!-- Do not generate eclipse project files -->
       <plugin>
@@ -75,13 +85,30 @@
         </configuration>
       </plugin>
 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <configuration>
+          <topSiteURL>${site.deploy.url}</topSiteURL>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-publish-plugin</artifactId>
+        <configuration>
+          <subDirectory>${site.url.module.prefix}</subDirectory>
+          <skipDeletedFiles>true</skipDeletedFiles>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
 
   <distributionManagement>
     <site>
       <id>${site.deploy.id}</id>
-      <url>${site.deploy.url}/${site.url.module.prefix}</url>
+      <url>${site.deploy.url}</url>
     </site>
   </distributionManagement>
 

@@ -130,6 +130,55 @@ class ConfigPersistServletTest {
   }
 
   @Test
+  void testPersist_AllValuesString() throws Exception {
+    String jsonData = "{properties:{"
+        + "stringProp:'value1',"
+        + "intProp:'5',"
+        + "longProp:'10',"
+        + "doubleProp:'1.23',"
+        + "boolProp:'true',"
+        + "otherString:'otherValue1'"
+        + "}}";
+    assertEquals(HttpServletResponse.SC_OK, post(CONFIG_NAME, false, jsonData));
+
+    ArgumentCaptor<ConfigurationPersistData> persistData = ArgumentCaptor.forClass(ConfigurationPersistData.class);
+    verify(configManager, times(1)).persistConfiguration(same(context.request().getResource()), eq(CONFIG_NAME), persistData.capture());
+
+    assertThat(persistData.getValue().getProperties(), allOf(
+        hasEntry("stringProp", (Object)"value1"),
+        hasEntry("intProp", (Object)5),
+        hasEntry("longProp", (Object)10L),
+        hasEntry("doubleProp", (Object)1.23d),
+        hasEntry("boolProp", (Object)true),
+        hasEntry("otherString", (Object)"otherValue1")));
+  }
+
+  @Test
+  void testPersist_NumericValuesExceedingMax() throws Exception {
+    String jsonData = "{properties:{"
+        + "stringProp:'value1',"
+        + "intProp:'999999999999999999999999999999999',"
+        + "longProp:'999999999999999999999999999999999',"
+        + "doubleProp:'999999999999999999999999999999999.23',"
+        + "boolProp:'true',"
+        + "otherString:'otherValue1',"
+        + "otherInt:999999999999999999999999999999999"
+        + "}}";
+    assertEquals(HttpServletResponse.SC_OK, post(CONFIG_NAME, false, jsonData));
+
+    ArgumentCaptor<ConfigurationPersistData> persistData = ArgumentCaptor.forClass(ConfigurationPersistData.class);
+    verify(configManager, times(1)).persistConfiguration(same(context.request().getResource()), eq(CONFIG_NAME), persistData.capture());
+
+    assertThat(persistData.getValue().getProperties(), allOf(
+        hasEntry("stringProp", (Object)"value1"),
+        hasEntry("intProp", (Object)0),
+        hasEntry("longProp", (Object)0L),
+        hasEntry("doubleProp", (Object)999999999999999999999999999999999.23d),
+        hasEntry("boolProp", (Object)true),
+        hasEntry("otherString", (Object)"otherValue1")));
+  }
+
+  @Test
   void testPersistCollection_None() throws Exception {
     String jsonData = "{items:[]}";
     assertEquals(HttpServletResponse.SC_OK, post(CONFIG_COL_NAME, true, jsonData));
