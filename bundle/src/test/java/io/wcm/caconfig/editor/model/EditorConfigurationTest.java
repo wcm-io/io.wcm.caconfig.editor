@@ -19,6 +19,9 @@
  */
 package io.wcm.caconfig.editor.model;
 
+import static io.wcm.caconfig.editor.model.EditorConfiguration.PATH_PATHFIELD_STANDARD;
+import static io.wcm.caconfig.editor.model.EditorConfiguration.PATH_PATHFIELD_WCMIO;
+import static io.wcm.caconfig.editor.model.EditorConfiguration.RT_WCMIO_PATHFIELD;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
@@ -72,6 +75,7 @@ class EditorConfigurationTest {
     assertEquals(SAMPLE_PATH + "." + ConfigDataServlet.SELECTOR + ".json", underTest.getConfigDataUrl());
     assertEquals(SAMPLE_PATH + "." + ConfigPersistServlet.SELECTOR + ".json", underTest.getConfigPersistUrl());
     assertEquals(SAMPLE_PATH, underTest.getContextPath());
+    assertEquals(PATH_PATHFIELD_STANDARD, underTest.getPathfieldContentPath());
     assertEquals(DEFAULT_LANGUAGE, underTest.getLanguage());
     assertTrue(underTest.isEnabled());
   }
@@ -86,6 +90,7 @@ class EditorConfigurationTest {
     assertEquals(SAMPLE_PATH + "." + ConfigDataServlet.SELECTOR + ".json", underTest.getConfigDataUrl());
     assertEquals(SAMPLE_PATH + "." + ConfigPersistServlet.SELECTOR + ".json", underTest.getConfigPersistUrl());
     assertEquals(SAMPLE_PATH, underTest.getContextPath());
+    assertEquals(PATH_PATHFIELD_STANDARD, underTest.getPathfieldContentPath());
     assertEquals(DEFAULT_LANGUAGE, underTest.getLanguage());
     assertTrue(underTest.isEnabled());
   }
@@ -101,8 +106,18 @@ class EditorConfigurationTest {
     assertEquals(SERVLET_CONTEXT_PATH + SAMPLE_PATH + "." + ConfigDataServlet.SELECTOR + ".json", underTest.getConfigDataUrl());
     assertEquals(SERVLET_CONTEXT_PATH + SAMPLE_PATH + "." + ConfigPersistServlet.SELECTOR + ".json", underTest.getConfigPersistUrl());
     assertEquals(SAMPLE_PATH, underTest.getContextPath());
+    assertEquals(SERVLET_CONTEXT_PATH + PATH_PATHFIELD_STANDARD, underTest.getPathfieldContentPath());
     assertEquals(DEFAULT_LANGUAGE, underTest.getLanguage());
     assertTrue(underTest.isEnabled());
+  }
+
+  @Test
+  void testProperties_WcmioPathfield() {
+    context.create().resource("/apps/" + RT_WCMIO_PATHFIELD);
+
+    EditorConfiguration underTest = AdaptTo.notNull(context.request(), EditorConfiguration.class);
+
+    assertEquals(PATH_PATHFIELD_WCMIO, underTest.getPathfieldContentPath());
   }
 
 }

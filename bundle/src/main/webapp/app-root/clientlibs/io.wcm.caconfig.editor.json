@@ -5,6 +5,7 @@
   ],
   "dependencies": [
     "coralui3",
+    "granite.ui.coral.foundation",
     "io.wcm.caconfig.editor.angularjs"
   ]
 }

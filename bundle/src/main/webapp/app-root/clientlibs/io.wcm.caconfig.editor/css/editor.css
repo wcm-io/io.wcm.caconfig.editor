@@ -97,7 +97,7 @@ span.caconfig-pathbrowser {
   margin-left: 0;
 }
 
-.caconfig-pathbrowser .coral-PathBrowser {
+.caconfig-pathbrowser foundation-autocomplete {
   width: 100%;
 }
 
