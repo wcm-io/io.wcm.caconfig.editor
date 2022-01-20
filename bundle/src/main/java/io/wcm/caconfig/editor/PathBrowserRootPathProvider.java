@@ -35,7 +35,7 @@ public interface PathBrowserRootPathProvider {
   /**
    * Name of OSGi property to distinguish different implementations of the provider.
    * The value that this property is set to has to be configured in the Context-Aware configuration property
-   * metadata using {@link io.wcm.caconfig.editor.EditorProperties#PROPERTY_DROPDOWN_OPTIONS_PROVIDER}.
+   * metadata using {@link io.wcm.caconfig.editor.EditorProperties#PROPERTY_PATHBROWSER_ROOT_PATH_PROVIDER}.
    */
   String PROPERTY_SELECTOR = "io.wcm.caconfig.editor.widget.pathbrowser.rootpath.provider";
 
