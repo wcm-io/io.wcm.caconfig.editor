@@ -21,6 +21,7 @@ package io.wcm.caconfig.editor;
 
 import org.apache.sling.api.resource.Resource;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.osgi.annotation.versioning.ConsumerType;
 
 /**
@@ -39,11 +40,11 @@ public interface PathBrowserRootPathProvider {
   String PROPERTY_SELECTOR = "io.wcm.caconfig.editor.widget.pathbrowser.rootpath.provider";
 
   /**
-   * Get dynamic list of dropdown items to available in the context-aware configuration editor.
+   * Get dynamic root path for pathbrowser widget in the context-aware configuration editor.
    * @param contextResource Context resource. This is usually the AEM page of the configuration editor
-   * @return List of dropdown items
+   * @return Root path or null
    */
-  @NotNull
+  @Nullable
   String getRootPath(@NotNull Resource contextResource);
 
 }
