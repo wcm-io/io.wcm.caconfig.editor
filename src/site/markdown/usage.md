@@ -102,6 +102,8 @@ Define a path browser widget for a string parameter with the current configurati
 String contextPath();
 ```
 
+Arrays of path browser widgets are not supported.
+
 
 #### dropdown
 
