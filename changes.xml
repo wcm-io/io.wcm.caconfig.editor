@@ -24,6 +24,9 @@
   <body>
 
     <release version="1.10.0" date="not released">
+      <action type="add" dev="sseifert">
+        Add possibility to provide dynamic root path via PathBrowserRootPathProvider service interface.
+      </action>
       <action type="update" dev="sseifert" issue="WCON-83">
         Switch to Coral UI 3 pathfield component for pathbrowser widget.
       </action>
