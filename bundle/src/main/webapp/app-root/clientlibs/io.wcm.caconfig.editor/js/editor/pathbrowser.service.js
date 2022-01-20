@@ -33,12 +33,29 @@
       var that = this;
 
       that.getPickerSrc = function(rootPath) {
-        return configUrls.pickerSrc.replace("{rootPath}", encodeURIComponent(rootPath));
+        var url = configUrls.pickerSrc;
+        url = that.replacePlaceholder(url, "rootPath", rootPath);
+
+        // guess nodeTypes filter from root path
+        var damPath = /^\/content\/dam(\/.*)?$/;
+        var nodeTypes = "cq:Page";
+        if (damPath.test(rootPath)) {
+          nodeTypes = "dam:Asset";
+        }
+        url = that.replacePlaceholder(url, "nodeTypes", nodeTypes);
+
+        return url;
       };
 
       that.getSuggestionSrc = function(rootPath) {
-        return configUrls.suggestionSrc.replace("{rootPath}", encodeURIComponent(rootPath));
+        var url = configUrls.suggestionSrc;
+        url = that.replacePlaceholder(url, "rootPath", rootPath);
+        return url;
       };
+
+      that.replacePlaceholder = function(url, placeholderKey, value) {
+        return url.replace("{" + placeholderKey + "}", encodeURIComponent(value));
+      }
     }
 
     this.setUrls = function (urls) {
