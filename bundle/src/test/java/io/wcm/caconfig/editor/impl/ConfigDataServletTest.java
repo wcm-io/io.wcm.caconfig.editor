@@ -54,6 +54,7 @@ import com.google.common.collect.ImmutableSet;
 import io.wcm.caconfig.editor.DropdownOptionItem;
 import io.wcm.caconfig.editor.DropdownOptionProvider;
 import io.wcm.caconfig.editor.EditorProperties;
+import io.wcm.caconfig.editor.PathBrowserRootPathProvider;
 import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.AemContextExtension;
 
@@ -90,6 +91,7 @@ class ConfigDataServletTest {
     context.registerService(ConfigurationManager.class, configManager);
     context.registerService(ConfigurationPersistenceStrategyMultiplexer.class, configurationPersistenceStrategy);
     context.registerInjectActivateService(DropdownOptionProviderService.class);
+    context.registerInjectActivateService(PathBrowserRootPathProviderService.class);
     context.registerInjectActivateService(EditorConfig.class);
     underTest = context.registerInjectActivateService(ConfigDataServlet.class);
   }
@@ -242,6 +244,24 @@ class ConfigDataServletTest {
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
   }
 
+  @Test
+  void testSingleWithPathBrowserRootPathDynamic() throws Exception {
+    ConfigurationData configData = buildConfigDataWithPathBrowserRootPathDynamic("name1");
+    when(configManager.getConfiguration(context.currentResource(), "name1")).thenReturn(configData);
+
+    context.request().setQueryString(RP_CONFIGNAME + "=" + configData.getConfigName());
+    underTest.doGet(context.request(), context.response());
+
+    assertEquals(HttpServletResponse.SC_OK, context.response().getStatus());
+
+    String expectedJson = "{configName:'name1',overridden:false,inherited:false,"
+        + "properties:["
+        + "{name:'param1',value:'option1',effectiveValue:'option1',default:false,inherited:true,overridden:false,"
+        + "metadata:{type:'String',properties:{widgetType:'pathbrowser',pathbrowserRootPath:'/content/dynamic-root-path'}}}"
+        + "]}";
+    JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
+  }
+
   @SuppressWarnings("unchecked")
   private ConfigurationData buildConfigData(String configName, int index) {
     ConfigurationData configData = mock(ConfigurationData.class);
@@ -321,6 +341,28 @@ class ConfigDataServletTest {
         new DropdownOptionItem("option1", "First option"),
         new DropdownOptionItem("option2", "Second option"),
         new DropdownOptionItem("option3", "Third option")));
+
+    return configData;
+  }
+
+  @SuppressWarnings("unchecked")
+  private ConfigurationData buildConfigDataWithPathBrowserRootPathDynamic(String configName) {
+    ConfigurationData configData = mock(ConfigurationData.class);
+    when(configData.getConfigName()).thenReturn(configName);
+    when(configData.getPropertyNames()).thenReturn(ImmutableSet.of("param1"));
+
+    ValueInfo param1 = buildValueInfo("param1", "option1", "option1", null);
+    when(param1.getPropertyMetadata()).thenReturn(
+        new PropertyMetadata<>("param1", String.class)
+            .properties(ImmutableMap.of(
+                EditorProperties.PROPERTY_WIDGET_TYPE, EditorProperties.WIDGET_TYPE_PATHBROWSER,
+                EditorProperties.PROPERTY_PATHBROWSER_ROOT_PATH_PROVIDER, "provider1")));
+    when(configData.getValueInfo("param1")).thenReturn(param1);
+
+    PathBrowserRootPathProvider provider = mock(PathBrowserRootPathProvider.class);
+    context.registerService(PathBrowserRootPathProvider.class, provider,
+        PathBrowserRootPathProvider.PROPERTY_SELECTOR, "provider1");
+    when(provider.getRootPath(context.currentResource())).thenReturn("/content/dynamic-root-path");
 
     return configData;
   }

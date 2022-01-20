@@ -51,6 +51,13 @@ public final class EditorProperties {
   public static final String PROPERTY_PATHBROWSER_ROOT_PATH_CONTEXT = "pathbrowserRootPathContext";
 
   /**
+   * Defines the OSGi service property of a {@link io.wcm.caconfig.editor.PathBrowserRootPathProvider} implementation
+   * that should be used to dynamically define the root path, instead of providing
+   * a fixed one via {@link #PROPERTY_PATHBROWSER_ROOT_PATH}.
+   */
+  public static final String PROPERTY_PATHBROWSER_ROOT_PATH_PROVIDER = "pathbrowserRootPathProvider";
+
+  /**
    * Widget type to add a dropdown list selection widget to a string or number parameter.
    */
   public static final String WIDGET_TYPE_DROPDOWN = "dropdown";
