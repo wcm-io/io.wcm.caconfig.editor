@@ -19,29 +19,22 @@
  */
 package io.wcm.caconfig.editor.impl;
 
-import static io.wcm.caconfig.editor.impl.JsonMapper.OBJECT_MAPPER;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import org.apache.sling.api.resource.Resource;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 
-import io.wcm.caconfig.editor.DropdownOptionItem;
-import io.wcm.caconfig.editor.DropdownOptionProvider;
+import io.wcm.caconfig.editor.PathBrowserRootPathProvider;
 
 /**
- * Get dynamic dropdown options.
+ * Get dynamic rooth paths for path browser.
  */
-@Component(service = DropdownOptionProviderService.class)
-public class DropdownOptionProviderService {
+@Component(service = PathBrowserRootPathProviderService.class)
+public class PathBrowserRootPathProviderService {
 
   private BundleContext bundleContext;
 
@@ -51,20 +44,20 @@ public class DropdownOptionProviderService {
   }
 
   /**
-   * Gets dropdown items from service implementations.
+   * Get root path from service implementations.
    * @param contextResource Context resource
-   * @return Dropdown items as as Maps
+   * @return Root path or null
    */
   @SuppressWarnings({ "null", "java:S112" })
-  public @NotNull List<Map<String, Object>> getDropdownOptions(@NotNull String selector, @NotNull Resource contextResource) {
-    final String filter = "(" + DropdownOptionProvider.PROPERTY_SELECTOR + "=" + selector + ")";
+  public @Nullable String getRootPath(@NotNull String selector, @NotNull Resource contextResource) {
+    final String filter = "(" + PathBrowserRootPathProvider.PROPERTY_SELECTOR + "=" + selector + ")";
     try {
-      ServiceReference<DropdownOptionProvider> ref = bundleContext.getServiceReferences(DropdownOptionProvider.class, filter)
+      ServiceReference<PathBrowserRootPathProvider> ref = bundleContext.getServiceReferences(PathBrowserRootPathProvider.class, filter)
           .stream().findFirst().orElse(null);
       if (ref != null) {
-        DropdownOptionProvider provider = bundleContext.getService(ref);
+        PathBrowserRootPathProvider provider = bundleContext.getService(ref);
         try {
-          return toMapList(provider.getDropdownOptions(contextResource));
+          return provider.getRootPath(contextResource);
         }
         finally {
           bundleContext.ungetService(ref);
@@ -74,17 +67,7 @@ public class DropdownOptionProviderService {
     catch (InvalidSyntaxException ex) {
       throw new RuntimeException("Invalid filter syntax: " + filter, ex);
     }
-    return Collections.emptyList();
-  }
-
-  @SuppressWarnings({ "null", "unchecked", "java:S1488" }) // further simplifying lambda expression leads to compilation failures
-  private @NotNull List<Map<String, Object>> toMapList(@NotNull List<DropdownOptionItem> items) {
-    return items.stream()
-        .map(item -> {
-          Map<String, Object> map = OBJECT_MAPPER.convertValue(item, Map.class);
-          return map;
-        })
-        .collect(Collectors.toList());
+    return null;
   }
 
 }

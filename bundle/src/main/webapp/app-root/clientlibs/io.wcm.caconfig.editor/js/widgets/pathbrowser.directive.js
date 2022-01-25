@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2016 wcm.io
+ * Copyright (C) 2022 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,15 +17,15 @@
  * limitations under the License.
  * #L%
  */
-(function (angular, CUI) {
+(function (angular, Coral, $) {
   "use strict";
 
   angular.module("io.wcm.caconfig.widgets")
     .directive("caconfigPathbrowser", pathbrowser);
 
-  pathbrowser.$inject = ["templateUrlList", "inputMap", "directivePropertyPrefixes", "$rootScope", "$http", "configService"];
+  pathbrowser.$inject = ["templateUrlList", "directivePropertyPrefixes", "$timeout", "$rootScope", "configService", "pathbrowserService"];
 
-  function pathbrowser(templateList, inputMap, directivePropertyPrefixes, $rootScope, $http, configService) {
+  function pathbrowser(templateList, directivePropertyPrefixes, $timeout, $rootScope, configService, pathbrowserService) {
     var directive = {
       replace: true,
       templateUrl: templateList.pathbrowser,
@@ -38,14 +38,11 @@
     return directive;
 
     function link(scope, element) {
-      var input = inputMap[scope.property.metadata.type];
       var prefix = directivePropertyPrefixes.pathbrowser;
       var props = scope.property.metadata.properties;
       var options = {};
-      var widget;
-
-      scope.type = input.type;
-      scope.i18n = $rootScope.i18n;
+      var pathfieldWidget;
+      var suggestionOverlay;
 
       angular.forEach(props, function (value, prop) {
         var propName;
@@ -65,47 +62,28 @@
         delete options.rootPathContext;
       }
 
-      options.predicate = options.predicate || "hierarchyNotFile";
-      options.pickerSrc = options.pickerSrc || "/libs/wcm/core/content/common/pathbrowser/column.html"
-        + options.rootPath + "?predicate=" + options.predicate;
-      options.optionLoader = loadAutocompleteOptions;
+      $timeout(function () {
+        pathfieldWidget = element.find("foundation-autocomplete")[0];
+        suggestionOverlay = element.find("coral-overlay[foundation-autocomplete-suggestion]")[0];
 
-      options.element = element.children(".coral-PathBrowser");
-      widget = new CUI.PathBrowser(options);
+        Coral.commons.ready(pathfieldWidget, function() {
+          pathfieldWidget.setAttribute("pickersrc", pathbrowserService.getPickerSrc(options.rootPath));
+          suggestionOverlay.setAttribute("data-foundation-picker-buttonlist-src", pathbrowserService.getSuggestionSrc(options.rootPath));
 
-      scope.$on("$destroy", function() {
-        // remove listeners
-        widget.off();
+          pathfieldWidget.value = scope.property.effectiveValue;
+
+          // Add change event listen
+          $(pathfieldWidget).on("change", function onChange() {
+            scope.property.value = pathfieldWidget.value;
+
+            if ($rootScope.configForm.$pristine) {
+              $rootScope.configForm.$setDirty();
+              scope.$digest();
+            }
+          });
+        });
       });
     }
 
-    /**
-     * Helper method for the CUI:PathBrowser widget
-     * @param  {String}    path
-     * @param  {Function=} callback
-     * @return {Boolean}
-     */
-    function loadAutocompleteOptions (path, callback) {
-      $http({
-        url: path + ".pages.json",
-        params: {
-          predicate: "hierarchyNotFile"
-        },
-        responseType: "json"
-      })
-        .then(function success(response) {
-          var pages = response.data.pages;
-          var result = [];
-          var i;
-          for (i = 0; i < pages.length; i++) {
-            result.push(pages[i].label);
-          }
-          if (callback) {
-            callback(result);
-          }
-        });
-
-      return false;
-    }
   }
-}(angular, CUI));
+}(angular, Coral, Granite.$));

@@ -176,7 +176,7 @@ public class ConfigPersistServlet extends SlingAllMethodsServlet {
     Iterator<String> propertyNames = properties.fieldNames();
     while (propertyNames.hasNext()) {
       String propertyName = propertyNames.next();
-      Class propertyType = null;
+      Class<?> propertyType = null;
       boolean isArray = false;
       if (configMetadata != null) {
         PropertyMetadata<?> propertyMetadata = configMetadata.getPropertyMetadata().get(propertyName);
@@ -243,7 +243,7 @@ public class ConfigPersistServlet extends SlingAllMethodsServlet {
         .collectionItemName(collectionItemName);
   }
 
-  private Object toSingle(@NotNull JsonNode value, @NotNull Class propertyType) {
+  private Object toSingle(@NotNull JsonNode value, @NotNull Class<?> propertyType) {
     if (propertyType.equals(String.class)) {
       return toString(value);
     }
@@ -286,7 +286,7 @@ public class ConfigPersistServlet extends SlingAllMethodsServlet {
     return null;
   }
 
-  private @NotNull Object toArray(@NotNull ArrayNode array, @NotNull Class propertyType) {
+  private @NotNull Object toArray(@NotNull ArrayNode array, @NotNull Class<?> propertyType) {
     if (propertyType.equals(String.class)) {
       String[] values = new String[array.size()];
       for (int i = 0; i < values.length; i++) {

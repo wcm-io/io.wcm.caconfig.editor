@@ -143,8 +143,8 @@ public class ConfigNamesServlet extends SlingSafeMethodsServlet {
     if (collection) {
       Collection<ConfigurationData> configs = configManager.getConfigurationCollection(contextResource, configName).getItems();
       result.exists = !configs.isEmpty();
-      result.inherited = configs.stream().filter(ConfigurationData::isInherited).findAny().isPresent();
-      result.overridden = configs.stream().filter(ConfigurationData::isOverridden).findAny().isPresent();
+      result.inherited = configs.stream().anyMatch(ConfigurationData::isInherited);
+      result.overridden = configs.stream().anyMatch(ConfigurationData::isOverridden);
     }
     else {
       ConfigurationData config = configManager.getConfiguration(contextResource, configName);

@@ -32,7 +32,7 @@
       <meta data-sly-call="${clientLib.js @ categories='io.wcm.caconfig.editor'}" data-sly-unwrap></meta>
       <script type="text/javascript">
         angular.module("io.wcm.caconfig.editor")
-          .config(["dataServiceProvider", "publishServiceProvider", function (dataServiceProvider, publishServiceProvider) {
+          .config(["dataServiceProvider", "publishServiceProvider", "pathbrowserServiceProvider", function (dataServiceProvider, publishServiceProvider, pathbrowserServiceProvider) {
             var configNamesUrl = "${editorConfig.configNamesUrl @ context='uri'}";
             var configDataUrl = "${editorConfig.configDataUrl @ context='uri'}";
             var configPersistUrl = "${editorConfig.configPersistUrl @ context='uri'}";
@@ -41,6 +41,8 @@
             var quickPublishUrl = "${editorConfig.servletContextPathPrefix @ context='uri'}/libs/wcm/core/content/sites/publishpagewizard.html";
             var managePublicationUrl = "${editorConfig.servletContextPathPrefix @ context='uri'}/mnt/override/libs/wcm/core/content/common/managepublicationwizard.html";
             var currentPagePath = "${currentPage.path @ context='uri'}";
+            var pathfieldPickerSrc = "${editorConfig.pathfieldContentPath @ context='uri'}/picker.html?_charset_=utf-8&path={value}&root={rootPath}&filter=hierarchyNotFile&selectionCount=single&nodeTypes={nodeTypes}";
+            var pathfieldSuggestionSrc = "${editorConfig.pathfieldContentPath @ context='uri'}/suggestion{.offset,limit}.html?_charset_=utf-8&root={rootPath}&filter=hierarchyNotFile{&query}";
 
             dataServiceProvider.setRestUrls({
               configNamesUrl: configNamesUrl,
@@ -54,6 +56,11 @@
               quickPublishUrl: quickPublishUrl,
               managePublicationUrl: managePublicationUrl,
               currentPagePath: currentPagePath
+            });
+
+            pathbrowserServiceProvider.setUrls({
+              pickerSrc: pathfieldPickerSrc,
+              suggestionSrc: pathfieldSuggestionSrc
             });
           }]);
       </script>

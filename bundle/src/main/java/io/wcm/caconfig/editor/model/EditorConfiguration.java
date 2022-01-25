@@ -31,6 +31,8 @@ import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import org.osgi.annotation.versioning.ProviderType;
 
+import com.day.cq.wcm.api.components.ComponentManager;
+
 import io.wcm.caconfig.editor.impl.ConfigDataServlet;
 import io.wcm.caconfig.editor.impl.ConfigNamesServlet;
 import io.wcm.caconfig.editor.impl.ConfigPersistServlet;
@@ -42,6 +44,10 @@ import io.wcm.caconfig.editor.impl.EditorConfig;
 @Model(adaptables = HttpServletRequest.class)
 @ProviderType
 public class EditorConfiguration {
+
+  static final String RT_WCMIO_PATHFIELD = "wcm-io/wcm/ui/granite/components/form/pathfield";
+  static final String PATH_PATHFIELD_STANDARD = "/mnt/overlay/granite/ui/content/coral/foundation/form/pathfield";
+  static final String PATH_PATHFIELD_WCMIO = "/mnt/overlay/wcm-io/wcm/ui/granite/content/form/pathfield";
 
   @SlingObject
   private Resource currentResource;
@@ -57,6 +63,7 @@ public class EditorConfiguration {
   private String configDataUrl;
   private String configPersistUrl;
   private String contextPath;
+  private String pathfieldContentPath;
   private String language;
   private boolean enabled;
 
@@ -66,12 +73,32 @@ public class EditorConfiguration {
     if (StringUtils.equals(this.servletContextPathPrefix, "/")) {
       this.servletContextPathPrefix = "";
     }
-    this.configNamesUrl = servletContextPathPrefix + currentResource.getPath() + "." + ConfigNamesServlet.SELECTOR + ".json";
-    this.configDataUrl = servletContextPathPrefix + currentResource.getPath() + "." + ConfigDataServlet.SELECTOR + ".json";
-    this.configPersistUrl = servletContextPathPrefix + currentResource.getPath() + "." + ConfigPersistServlet.SELECTOR + ".json";
+    this.configNamesUrl = buildServletPath(ConfigNamesServlet.SELECTOR);
+    this.configDataUrl = buildServletPath(ConfigDataServlet.SELECTOR);
+    this.configPersistUrl = buildServletPath(ConfigPersistServlet.SELECTOR);
     this.contextPath = configResourceResolver.getContextPath(currentResource);
+    this.pathfieldContentPath = buildPathfieldContentPath();
     this.language = request.getLocale().getLanguage();
     this.enabled = editorConfig.isEnabled();
+  }
+
+  private String buildServletPath(String selector) {
+    return servletContextPathPrefix + currentResource.getPath() + "." + selector + ".json";
+  }
+
+  /**
+   * Build path to pathfield content. If the module io.wcm.ui.granite is installed, the optimized
+   * pathfield from that module is used, otherwise the default pathfield.
+   * @return Pathfield content path
+   */
+  private String buildPathfieldContentPath() {
+    ComponentManager componentManager = request.getResourceResolver().adaptTo(ComponentManager.class);
+    if (componentManager != null && componentManager.getComponent(RT_WCMIO_PATHFIELD) != null) {
+      return servletContextPathPrefix + PATH_PATHFIELD_WCMIO;
+    }
+    else {
+      return servletContextPathPrefix + PATH_PATHFIELD_STANDARD;
+    }
   }
 
   public String getServletContextPathPrefix() {
@@ -92,6 +119,10 @@ public class EditorConfiguration {
 
   public String getContextPath() {
     return this.contextPath;
+  }
+
+  public String getPathfieldContentPath() {
+    return this.pathfieldContentPath;
   }
 
   public String getLanguage() {
