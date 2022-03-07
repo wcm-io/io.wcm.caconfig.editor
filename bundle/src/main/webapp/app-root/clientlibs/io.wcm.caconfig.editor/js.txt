@@ -39,3 +39,4 @@ widgets/property-input-text.directive.js
 widgets/property-input-textarea.directive.js
 widgets/property-row.directive.js
 widgets/property-row-preview.directive.js
+widgets/tagbrowser.directive.js

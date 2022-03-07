@@ -108,7 +108,11 @@
         return "pathbrowser";
       }
       if (property.metadata && property.metadata.properties
-                  && property.metadata.properties.widgetType === "textarea") {
+          && property.metadata.properties.widgetType === "tagbrowser") {
+        return "tagbrowser";
+      }
+      if (property.metadata && property.metadata.properties
+          && property.metadata.properties.widgetType === "textarea") {
         return "textarea";
       }
       if (property.metadata && property.metadata.type) {

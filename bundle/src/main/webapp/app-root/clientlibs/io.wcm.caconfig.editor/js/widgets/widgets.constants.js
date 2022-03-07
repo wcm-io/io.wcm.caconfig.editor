@@ -40,7 +40,8 @@
       propertyInputText: "propertyInputText.html",
       propertyInputTextarea: "propertyInputTextarea.html",
       propertyRow: "propertyRow.html",
-      propertyRowPreview: "propertyRowPreview.html"
+      propertyRowPreview: "propertyRowPreview.html",
+      tagbrowser: "tagbrowser.html"
     })
     .constant("cssClasses", {
       CONFIG_PREVIEW: "caconfig-is-preview",
