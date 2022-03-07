@@ -196,6 +196,10 @@
         return "<td caconfig-pathbrowser property=\"config.properties[" + obj.propIndex + "]\"></td>";
       }
 
+      if (obj.type === "tagbrowser") {
+        return "<td caconfig-tagbrowser property=\"config.properties[" + obj.propIndex + "]\"></td>";
+      }
+
       if (obj.type === "dropdown") {
         return "<td caconfig-property-dropdown property=\"config.properties[" + obj.propIndex + "]\""
           + "multivalue=\"" + Boolean(obj.property.metadata.multivalue) + "\"></td>";
