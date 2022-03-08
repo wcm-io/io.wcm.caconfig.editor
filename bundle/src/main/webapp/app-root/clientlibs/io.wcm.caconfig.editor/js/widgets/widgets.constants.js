@@ -53,7 +53,8 @@
       CONFIG_PROPERTY_INHERIT: "sling:configPropertyInherit"
     })
     .constant("directivePropertyPrefixes", {
-      pathbrowser: "pathbrowser"
+      pathbrowser: "pathbrowser",
+      tagbrowser: "tagbrowser"
     })
     .constant("inputMap", {
       Boolean: {

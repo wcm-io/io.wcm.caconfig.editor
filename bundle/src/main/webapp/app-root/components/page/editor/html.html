@@ -32,7 +32,7 @@
       <meta data-sly-call="${clientLib.js @ categories='io.wcm.caconfig.editor'}" data-sly-unwrap></meta>
       <script type="text/javascript">
         angular.module("io.wcm.caconfig.editor")
-          .config(["dataServiceProvider", "publishServiceProvider", "pathbrowserServiceProvider", function (dataServiceProvider, publishServiceProvider, pathbrowserServiceProvider) {
+          .config(["dataServiceProvider", "publishServiceProvider", "pathbrowserServiceProvider", "tagbrowserServiceProvider", function (dataServiceProvider, publishServiceProvider, pathbrowserServiceProvider, tagbrowserServiceProvider) {
             var configNamesUrl = "${editorConfig.configNamesUrl @ context='uri'}";
             var configDataUrl = "${editorConfig.configDataUrl @ context='uri'}";
             var configPersistUrl = "${editorConfig.configPersistUrl @ context='uri'}";
@@ -62,6 +62,12 @@
               pickerSrc: pathfieldPickerSrc,
               suggestionSrc: pathfieldSuggestionSrc
             });
+
+            tagbrowserServiceProvider.setUrls({
+              pickerSrc: pathfieldPickerSrc,
+              suggestionSrc: pathfieldSuggestionSrc
+            });
+
           }]);
       </script>
     </div>

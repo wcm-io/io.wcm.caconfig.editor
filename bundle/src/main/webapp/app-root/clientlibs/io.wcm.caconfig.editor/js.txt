@@ -16,6 +16,7 @@ editor/detail.controller.js
 editor/overview.controller.js
 editor/publish.service.js
 editor/pathbrowser.service.js
+editor/tagbrowser.service.js
 
 modals/modals.module.js
 modals/modal.service.js

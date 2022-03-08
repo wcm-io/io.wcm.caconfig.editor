@@ -23,9 +23,9 @@
   angular.module("io.wcm.caconfig.widgets")
     .directive("caconfigTagbrowser", tagbrowser);
 
-  tagbrowser.$inject = ["templateUrlList", "directivePropertyPrefixes", "$timeout", "$rootScope", "configService", "pathbrowserService"];
+  tagbrowser.$inject = ["templateUrlList", "directivePropertyPrefixes", "$timeout", "$rootScope", "configService", "tagbrowserService"];
 
-  function tagbrowser(templateList, directivePropertyPrefixes, $timeout, $rootScope, configService, pathbrowserService) {
+  function tagbrowser(templateList, directivePropertyPrefixes, $timeout, $rootScope, configService, tagbrowserService) {
     var directive = {
       replace: true,
       templateUrl: templateList.tagbrowser,
@@ -38,25 +38,26 @@
     return directive;
 
     function link(scope, element) {
-      var prefix = directivePropertyPrefixes.pathbrowser;
+      var prefix = directivePropertyPrefixes.tagbrowser;
       var props = scope.property.metadata.properties;
+      console.log(scope.property);
       var options = {};
       var pathfieldWidget;
       var suggestionOverlay;
 
       angular.forEach(props, function (value, prop) {
         var propName;
-        // if the property starts with the prefix "pathbrowser" followed by a pathbrowser property name
-        // remove the "pathbrowser" prefix and use the remaining part as option name
+        // if the property starts with the prefix "tagbrowser" followed by a tagbrowser property name
+        // remove the "tagbrowser" prefix and use the remaining part as option name
         if (prop && prop.length > prefix.length && prop.substring(0, prefix.length) !== -1) {
           propName = prop.substring(prefix.length);
           options[propName.charAt(0).toLowerCase() + propName.slice(1)] = props[prop];
         }
       });
 
-      // get root path from config
-      options.rootPath = options.rootPath || "/content";
-      // if rootPathContext is set set root path to current context path
+      // get root path from config or take /content/cq:tags as default
+      options.rootPath = options.rootPath || "/content/cq:tags";
+      // if rootPathContext is set root path to current context path
       if (options.rootPathContext === "true") {
         options.rootPath = configService.getState().contextPath || options.rootPath;
         delete options.rootPathContext;
@@ -67,8 +68,8 @@
         suggestionOverlay = element.find("coral-overlay[foundation-autocomplete-suggestion]")[0];
 
         Coral.commons.ready(pathfieldWidget, function() {
-          pathfieldWidget.setAttribute("pickersrc", pathbrowserService.getPickerSrc(options.rootPath));
-          suggestionOverlay.setAttribute("data-foundation-picker-buttonlist-src", pathbrowserService.getSuggestionSrc(options.rootPath));
+          pathfieldWidget.setAttribute("pickersrc", tagbrowserService.getPickerSrc(options.rootPath));
+          suggestionOverlay.setAttribute("data-foundation-picker-buttonlist-src", tagbrowserService.getSuggestionSrc(options.rootPath));
 
           pathfieldWidget.value = scope.property.effectiveValue;
 
