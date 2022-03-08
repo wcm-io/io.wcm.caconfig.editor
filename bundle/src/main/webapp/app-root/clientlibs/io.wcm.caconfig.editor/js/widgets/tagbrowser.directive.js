@@ -44,7 +44,7 @@
       var options = {};
       var pathfieldWidget;
       var suggestionOverlay;
-
+      var allValues = [];
       angular.forEach(props, function (value, prop) {
         var propName;
         // if the property starts with the prefix "tagbrowser" followed by a tagbrowser property name
@@ -74,6 +74,7 @@
           pathfieldWidget.value = scope.property.effectiveValue;
 
           // Add change event listen
+          //why, I'm not able to trigger this at all
           $(pathfieldWidget).on("change", function onChange() {
             scope.property.value = pathfieldWidget.value;
 
