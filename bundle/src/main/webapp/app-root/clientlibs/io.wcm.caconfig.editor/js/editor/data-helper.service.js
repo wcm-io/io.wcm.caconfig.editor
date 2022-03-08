@@ -127,9 +127,6 @@
         tempArray;
       for (i = 0; (config.properties && i < config.properties.length); i++) {
         property = config.properties[i];
-        console.log("property=" + property);
-        console.log("property.value=" + property.value);
-        console.log("property.value.isArray=" + angular.isArray(property.value));
         if (property.name === propertyNames.CONFIG_PROPERTY_INHERIT) {
           properties[property.name] = Boolean(property.value);
         }

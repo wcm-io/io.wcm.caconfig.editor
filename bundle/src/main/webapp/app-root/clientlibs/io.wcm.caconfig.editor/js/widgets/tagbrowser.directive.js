@@ -38,13 +38,17 @@
     return directive;
 
     function link(scope, element) {
+      scope.effectiveValues = [];
+      scope.values = [];
+
+      setValueArray(scope.property.effectiveValue, scope.effectiveValues);
+      setValueArray(scope.property.value, scope.values);
+
       var prefix = directivePropertyPrefixes.tagbrowser;
       var props = scope.property.metadata.properties;
-      console.log(scope.property);
       var options = {};
-      var pathfieldWidget;
+      var tagfieldWidget;
       var suggestionOverlay;
-      var allValues = [];
       angular.forEach(props, function (value, prop) {
         var propName;
         // if the property starts with the prefix "tagbrowser" followed by a tagbrowser property name
@@ -64,19 +68,28 @@
       }
 
       $timeout(function () {
-        pathfieldWidget = element.find("foundation-autocomplete")[0];
+        tagfieldWidget = element.find("foundation-autocomplete")[0];
         suggestionOverlay = element.find("coral-overlay[foundation-autocomplete-suggestion]")[0];
-
-        Coral.commons.ready(pathfieldWidget, function() {
-          pathfieldWidget.setAttribute("pickersrc", tagbrowserService.getPickerSrc(options.rootPath));
+        var taglist = element.find("coral-taglist")[0];
+        Coral.commons.ready(tagfieldWidget, function() {
+          tagfieldWidget.setAttribute("pickersrc", tagbrowserService.getPickerSrc(options.rootPath));
           suggestionOverlay.setAttribute("data-foundation-picker-buttonlist-src", tagbrowserService.getSuggestionSrc(options.rootPath));
 
-          pathfieldWidget.value = scope.property.effectiveValue;
+          for(let i = 0; i < scope.values.length; i++) {
+            let label = resolveTagLabel(options.rootPath, scope.values[i].value);
+            let loadedTag = new Coral.Tag().set({
+              value: scope.values[i].value,
+              label: {
+                innerHTML: label
+              }
+            });
+            taglist.items.add(loadedTag);
+          }
 
           // Add change event listen
           //why, I'm not able to trigger this at all
-          $(pathfieldWidget).on("change", function onChange() {
-            scope.property.value = pathfieldWidget.value;
+          $(taglist).on("coral-collection:add", function onAdd(event) {
+            scope.property.value = taglist.items.getAll().map(item => item.value);
 
             if ($rootScope.configForm.$pristine) {
               $rootScope.configForm.$setDirty();
@@ -85,6 +98,39 @@
           });
         });
       });
+    }
+
+    //this method can probably be improved...
+    function resolveTagLabel(rootPath, tagName) {
+      let tagPath = tagName.replace(":", "/");
+      let tagUrl = rootPath + "/" + tagPath + "/jcr:title.json";
+
+      let tagLabel = tagName.replace(":", "");
+
+      let xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.status === 200) {
+          tagLabel = $.parseJSON(this.responseText)["jcr:title"];
+        }
+      };
+      xhttp.open("GET", tagUrl, false);
+      xhttp.send();
+
+      return tagLabel;
+    }
+
+    function setValueArray(src, target) {
+      var i,
+          tempArray;
+      if (src && src.length > 0) {
+        tempArray = src;
+        for (i = 0; i < tempArray.length; i++) {
+          target.push({value: tempArray[i]});
+        }
+      }
+      else {
+        target = [];
+      }
     }
 
   }
