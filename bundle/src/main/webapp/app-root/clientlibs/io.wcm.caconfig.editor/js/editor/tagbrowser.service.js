@@ -32,7 +32,7 @@
     function TagbrowserService(configUrls) {
       var that = this;
 
-      that.getPickerSrc = function(rootPath) {
+      that.getPickerSrc = function(rootPath, mode) {
         var url = configUrls.pickerSrc;
         url = that.replacePlaceholder(url, "rootPath", rootPath);
 
@@ -43,6 +43,8 @@
           nodeTypes = "dam:Asset";
         }
         url = that.replacePlaceholder(url, "nodeTypes", nodeTypes);
+
+        url = that.replacePlaceholder(url, "mode", mode);
 
         return url;
       };

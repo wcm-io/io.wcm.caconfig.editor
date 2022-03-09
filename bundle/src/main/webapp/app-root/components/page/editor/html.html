@@ -43,8 +43,8 @@
             var currentPagePath = "${currentPage.path @ context='uri'}";
             var pathfieldPickerSrc = "${editorConfig.pathfieldContentPath @ context='uri'}/picker.html?_charset_=utf-8&path={value}&root={rootPath}&filter=hierarchyNotFile&selectionCount=single&nodeTypes={nodeTypes}";
             var pathfieldSuggestionSrc = "${editorConfig.pathfieldContentPath @ context='uri'}/suggestion{.offset,limit}.html?_charset_=utf-8&root={rootPath}&filter=hierarchyNotFile{&query}";
-            var tagfieldPickerSrc = "${editorConfig.tagfieldContentPath @ context='uri'}/picker.html?_charset_=utf-8&path={value}&root={rootPath}&selectionCount=multiple";
-            var tagfieldSuggestionSrc = "${editorConfig.tagfieldContentPath @ context='uri'}/suggestion{.offset,limit}.html?_charset_=utf-8&root={rootPath}";
+            var tagfieldPickerSrc = "${editorConfig.tagfieldContentPath @ context='uri'}/picker.html?_charset_=utf-8&path={value}&root={rootPath}&selectionCount={mode}";
+            var tagfieldSuggestionSrc = "${editorConfig.tagfieldContentPath @ context='uri'}/suggestion{.offset,limit}.html?_charset_=utf-8&root={rootPath}&filter=hierarchyNotFile{&query}";
 
             dataServiceProvider.setRestUrls({
               configNamesUrl: configNamesUrl,
