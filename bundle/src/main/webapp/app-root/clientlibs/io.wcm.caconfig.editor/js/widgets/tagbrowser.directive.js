@@ -81,7 +81,6 @@
         Coral.commons.ready(tagfieldWidget, function() {
           var selectionCount = "single"
           if(multiValue) {
-            tagfieldWidget.setAttribute("multiple");
             selectionCount = "multiple";
           }
           tagfieldWidget.setAttribute("pickersrc", tagbrowserService.getPickerSrc(options.rootPath, selectionCount));
@@ -92,11 +91,15 @@
           // Add change event listen
           $(taglist).on("coral-collection:add", function onAdd(event) {
             scope.property.value = taglist.items.getAll().map(item => item.value);
-           if(!multiValue) {
-              if(scope.property.value && angular.isArray(scope.property.value) && scope.property.value.length > 0) {
-                scope.property.value = scope.property.value[0];
-              } else {
+            if(!multiValue) {
+              if(!scope.property || !scope.property.value || !angular.isArray(scope.property.value)) {
                 scope.property.value = null;
+              } else if(scope.property.value.length > 0) {
+                if(scope.property.value.length > 1) {
+                  var tagNode = element.find("coral-tag")[0];
+                  tagNode.parentElement.removeChild(tagNode);
+                }
+                scope.property.value = taglist.items.getAll().map(item => item.value)[0];
               }
             }
 
@@ -104,13 +107,6 @@
               $rootScope.configForm.$setDirty();
               scope.$digest();
             }
-
-            // if(!multiValue) {
-            //   //update input field to tag-label
-            //   var txtInput = element.find("input[is=coral-textfield]")[0];
-            //   var coralTagLabel = element.find("coral-tag-label")[0];
-            //   txtInput.value = coralTagLabel.innerHTML;
-            // }
           });
           $(taglist).on("coral-collection:remove", function onAdd(event) {
             if(multiValue) {
