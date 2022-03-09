@@ -51,6 +51,8 @@
       var prefix = directivePropertyPrefixes.tagbrowser;
       var props = scope.property.metadata.properties;
 
+      var tagfieldName = "tags-" + Math.floor(Math.random() * 100000);
+
       var options = {};
       var tagfieldWidget;
       var suggestionOverlay;
@@ -83,6 +85,8 @@
             selectionCount = "multiple";
           }
           tagfieldWidget.setAttribute("pickersrc", tagbrowserService.getPickerSrc(options.rootPath, selectionCount));
+          tagfieldWidget.setAttribute("name", tagfieldName);
+          taglist.setAttribute("name", tagfieldName);
           suggestionOverlay.setAttribute("data-foundation-picker-buttonlist-src", tagbrowserService.getSuggestionSrc(options.rootPath));
 
           // Add change event listen
@@ -109,7 +113,11 @@
             // }
           });
           $(taglist).on("coral-collection:remove", function onAdd(event) {
-            scope.property.value = taglist.items.getAll().map(item => item.value);
+            if(multiValue) {
+              scope.property.value = taglist.items.getAll().map(item => item.value);
+            } else {
+              scope.property.value = null;
+            }
 
             if ($rootScope.configForm.$pristine) {
               $rootScope.configForm.$setDirty();
@@ -122,11 +130,13 @@
               addTagToList(scope.values[i].value, options.rootPath, taglist)
             }
           } else {
-            addTagToList(scope.property.value, options.rootPath, taglist)
+            if(scope.property.value) addTagToList(scope.property.value, options.rootPath, taglist)
           }
 
         });
       });
+
+
     }
 
     //there might be a better way to fetch the tag labels
