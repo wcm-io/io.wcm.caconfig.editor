@@ -88,6 +88,8 @@
           taglist.setAttribute("name", tagfieldName);
           suggestionOverlay.setAttribute("data-foundation-picker-buttonlist-src", tagbrowserService.getSuggestionSrc(options.rootPath));
 
+          let changedOffset = angular.isArray(scope.property.effectiveValue) ? scope.property.effectiveValue.length : 1;
+          let changedCount = 0;
           // Add change event listen
           $(taglist).on("coral-collection:add", function onAdd(event) {
             scope.property.value = taglist.items.getAll().map(item => item.value);
@@ -102,12 +104,16 @@
                 scope.property.value = taglist.items.getAll().map(item => item.value)[0];
               }
             }
+            changedCount++;
 
-            if ($rootScope.configForm.$pristine) {
+            let hasChanged = (changedCount > changedOffset) && !compare(scope.property.effectiveValue, scope.property.value);
+
+            if ($rootScope.configForm.$pristine && hasChanged) {
               $rootScope.configForm.$setDirty();
               scope.$digest();
             }
           });
+          
           $(taglist).on("coral-collection:remove", function onAdd(event) {
             if(multiValue) {
               scope.property.value = taglist.items.getAll().map(item => item.value);
@@ -115,7 +121,9 @@
               scope.property.value = null;
             }
 
-            if ($rootScope.configForm.$pristine) {
+            let hasChanged = !compare(scope.property.effectiveValue, scope.property.value);
+
+            if ($rootScope.configForm.$pristine && hasChanged) {
               $rootScope.configForm.$setDirty();
               scope.$digest();
             }
@@ -131,8 +139,19 @@
 
         });
       });
+    }
 
-
+    function compare(base, other) {
+      if(!base && !other) return true;
+      if(base && !other) return false;
+      if(!base && other) return false;
+      if(angular.isArray(base) && !angular.isArray(other)) return false;
+      if(angular.isArray(other) && !angular.isArray(base)) return false;
+      if(angular.isArray(other) && angular.isArray(base)) {
+        return base.length === other.length && base.every(function(value, index) { return value === other[index]});
+      } else {
+        return base === other;
+      }
     }
 
     //there might be a better way to fetch the tag labels
