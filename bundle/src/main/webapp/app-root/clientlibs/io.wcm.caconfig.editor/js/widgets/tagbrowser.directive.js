@@ -76,14 +76,7 @@
           suggestionOverlay.setAttribute("data-foundation-picker-buttonlist-src", tagbrowserService.getSuggestionSrc(options.rootPath));
 
           for(let i = 0; i < scope.values.length; i++) {
-            let label = resolveTagLabel(options.rootPath, scope.values[i].value);
-            let loadedTag = new Coral.Tag().set({
-              value: scope.values[i].value,
-              label: {
-                innerHTML: label
-              }
-            });
-            taglist.items.add(loadedTag);
+            addTagToList(scope.values[i].value, options.rootPath, taglist)
           }
 
           // Add change event listen
@@ -96,27 +89,57 @@
               scope.$digest();
             }
           });
+          $(taglist).on("coral-collection:remove", function onAdd(event) {
+            scope.property.value = taglist.items.getAll().map(item => item.value);
+
+            if ($rootScope.configForm.$pristine) {
+              $rootScope.configForm.$setDirty();
+              scope.$digest();
+            }
+          });
         });
       });
     }
 
-    //this method can probably be improved...
-    function resolveTagLabel(rootPath, tagName) {
-      let tagPath = tagName.replace(":", "/");
-      let tagUrl = rootPath + "/" + tagPath + "/jcr:title.json";
+    //there might be a better way to fetch the tag labels
+    function addTagToList(tagName, rootPath, tagList) {
+      let fullTagLabel = "";
+      try {
+        const jcrTitleJSONSuffix = "/jcr:title.json";
 
-      let tagLabel = tagName.replace(":", "");
-
-      let xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
-        if (this.status === 200) {
-          tagLabel = $.parseJSON(this.responseText)["jcr:title"];
+        let tagPath = tagName.replace(":", "/"); //tag-name can look like this: Main:sub/tag
+        let tagUrl = rootPath;
+        tagPath.split("/").filter(part => Boolean(part)).forEach(function (tagPart) {
+          tagUrl += "/" + tagPart;
+          let partUrl = tagUrl + jcrTitleJSONSuffix;
+          $.ajax({
+            url: partUrl,
+            type: "GET",
+            async: false, //force async=false to create the entire tag-path in order
+          })
+              .done(function (data) {
+                if (fullTagLabel) {
+                  fullTagLabel += " / ";
+                }
+                fullTagLabel += data["jcr:title"];
+              });
+        });
+        if(fullTagLabel) {
+          fullTagLabel = fullTagLabel.replace(" / ", " : ");
+        } else {
+          fullTagLabel = tagName.replace(":", "")
         }
-      };
-      xhttp.open("GET", tagUrl, false);
-      xhttp.send();
-
-      return tagLabel;
+      } catch(error) {
+        fullTagLabel = tagName.replace(":", "")
+      } finally {
+        let coralTag = new Coral.Tag().set({
+          value: tagName,
+          label: {
+            innerHTML: fullTagLabel
+          }
+        });
+        tagList.items.add(coralTag);
+      }
     }
 
     function setValueArray(src, target) {
