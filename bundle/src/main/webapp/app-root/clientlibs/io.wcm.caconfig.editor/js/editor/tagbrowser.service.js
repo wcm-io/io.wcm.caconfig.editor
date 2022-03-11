@@ -36,13 +36,7 @@
         var url = configUrls.pickerSrc;
         url = that.replacePlaceholder(url, "rootPath", rootPath);
 
-        // guess nodeTypes filter from root path
-        var damPath = /^\/content\/dam(\/.*)?$/;
-        var nodeTypes = "cq:Page";
-        if (damPath.test(rootPath)) {
-          nodeTypes = "dam:Asset";
-        }
-        url = that.replacePlaceholder(url, "nodeTypes", nodeTypes);
+        url = that.replacePlaceholder(url, "nodeTypes", "cq:tags");
 
         url = that.replacePlaceholder(url, "mode", mode);
 
