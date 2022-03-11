@@ -106,10 +106,16 @@
             }
             changedCount++;
 
+            if(!scope.property.effectiveValue && scope.property.value) {
+              scope.property.effectiveValue = [];
+            }
             let hasChanged = (changedCount >= changedOffset) && !compare(scope.property.effectiveValue, scope.property.value);
 
             if ($rootScope.configForm.$pristine && hasChanged) {
               $rootScope.configForm.$setDirty();
+              scope.$digest();
+            } else {
+              $rootScope.configForm.$setPristine();
               scope.$digest();
             }
           });
@@ -121,10 +127,16 @@
               scope.property.value = null;
             }
 
+            if(!scope.property.effectiveValue && scope.property.value) {
+              scope.property.effectiveValue = [];
+            }
             let hasChanged = !compare(scope.property.effectiveValue, scope.property.value);
 
             if ($rootScope.configForm.$pristine && hasChanged) {
               $rootScope.configForm.$setDirty();
+              scope.$digest();
+            } else {
+              $rootScope.configForm.$setPristine();
               scope.$digest();
             }
           });
