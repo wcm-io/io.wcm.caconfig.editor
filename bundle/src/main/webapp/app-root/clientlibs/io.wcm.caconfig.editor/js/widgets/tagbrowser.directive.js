@@ -111,9 +111,11 @@
             }
             let hasChanged = (changedCount >= changedOffset) && !compare(scope.property.effectiveValue, scope.property.value);
 
-            if ($rootScope.configForm.$pristine && hasChanged) {
-              $rootScope.configForm.$setDirty();
-              scope.$digest();
+            if(hasChanged) {
+              if ($rootScope.configForm.$pristine) {
+                $rootScope.configForm.$setDirty();
+                scope.$digest();
+              }
             } else {
               $rootScope.configForm.$setPristine();
               scope.$digest();
@@ -124,7 +126,7 @@
             if(multiValue) {
               scope.property.value = taglist.items.getAll().map(item => item.value);
             } else {
-              scope.property.value = null;
+              scope.property.value = [];
             }
 
             if(!scope.property.effectiveValue && scope.property.value) {
@@ -132,9 +134,11 @@
             }
             let hasChanged = !compare(scope.property.effectiveValue, scope.property.value);
 
-            if ($rootScope.configForm.$pristine && hasChanged) {
-              $rootScope.configForm.$setDirty();
-              scope.$digest();
+            if(hasChanged) {
+              if ($rootScope.configForm.$pristine) {
+                $rootScope.configForm.$setDirty();
+                scope.$digest();
+              }
             } else {
               $rootScope.configForm.$setPristine();
               scope.$digest();
@@ -175,7 +179,7 @@
         let tagPath = tagName.replace(":", "/"); //tag-name can look like this: Main:sub/tag
         let tagUrl = rootPath;
         tagPath.split("/").filter(part => Boolean(part)).forEach(function (tagPart) {
-          tagUrl += "/" + tagPart;
+          tagUrl = mergeUrlPaths(tagUrl, tagPart);
           let partUrl = tagUrl + jcrTitleJSONSuffix;
           $.ajax({
             url: partUrl,
@@ -204,6 +208,25 @@
           }
         });
         tagList.items.add(coralTag);
+      }
+    }
+
+    function mergeUrlPaths(basePath, mergePath) {
+      const separator = "/";
+      if(!mergePath.startsWith(separator)) {
+        mergePath = separator + mergePath;
+      }
+      if(!basePath.includes(mergePath)) {
+        while (mergePath && !basePath.includes(mergePath)) {
+          let subPath = mergePath.substring(mergePath.lastIndexOf(separator));
+          if (mergePath === subPath) break;
+        }
+        if (!mergePath.startsWith(separator)) {
+          mergePath = separator + mergePath;
+        }
+        return basePath + mergePath;
+      } else{
+        return basePath;
       }
     }
 
