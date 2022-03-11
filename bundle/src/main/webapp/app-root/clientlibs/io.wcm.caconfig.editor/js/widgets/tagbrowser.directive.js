@@ -106,7 +106,7 @@
             }
             changedCount++;
 
-            let hasChanged = (changedCount > changedOffset) && !compare(scope.property.effectiveValue, scope.property.value);
+            let hasChanged = (changedCount >= changedOffset) && !compare(scope.property.effectiveValue, scope.property.value);
 
             if ($rootScope.configForm.$pristine && hasChanged) {
               $rootScope.configForm.$setDirty();
