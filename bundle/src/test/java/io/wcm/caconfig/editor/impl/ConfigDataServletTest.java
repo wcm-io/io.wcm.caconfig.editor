@@ -19,17 +19,16 @@
  */
 package io.wcm.caconfig.editor.impl;
 
-import static io.wcm.caconfig.editor.impl.NameConstants.RP_COLLECTION;
-import static io.wcm.caconfig.editor.impl.NameConstants.RP_CONFIGNAME;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.nullable;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import io.wcm.caconfig.editor.TagBrowserRootPathProvider;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import io.wcm.caconfig.editor.DropdownOptionItem;
+import io.wcm.caconfig.editor.DropdownOptionProvider;
+import io.wcm.caconfig.editor.EditorProperties;
+import io.wcm.caconfig.editor.RootPathProvider;
+import io.wcm.testing.mock.aem.junit5.AemContext;
+import io.wcm.testing.mock.aem.junit5.AemContextExtension;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.sling.caconfig.management.ConfigurationCollectionData;
 import org.apache.sling.caconfig.management.ConfigurationData;
 import org.apache.sling.caconfig.management.ConfigurationManager;
@@ -48,16 +47,13 @@ import org.mockito.quality.Strictness;
 import org.mockito.stubbing.Answer;
 import org.skyscreamer.jsonassert.JSONAssert;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-
-import io.wcm.caconfig.editor.DropdownOptionItem;
-import io.wcm.caconfig.editor.DropdownOptionProvider;
-import io.wcm.caconfig.editor.EditorProperties;
-import io.wcm.caconfig.editor.PathBrowserRootPathProvider;
-import io.wcm.testing.mock.aem.junit5.AemContext;
-import io.wcm.testing.mock.aem.junit5.AemContextExtension;
+import static io.wcm.caconfig.editor.impl.NameConstants.RP_COLLECTION;
+import static io.wcm.caconfig.editor.impl.NameConstants.RP_CONFIGNAME;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.nullable;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(AemContextExtension.class)
 @ExtendWith(MockitoExtension.class)
@@ -92,8 +88,7 @@ class ConfigDataServletTest {
     context.registerService(ConfigurationManager.class, configManager);
     context.registerService(ConfigurationPersistenceStrategyMultiplexer.class, configurationPersistenceStrategy);
     context.registerInjectActivateService(DropdownOptionProviderService.class);
-    context.registerInjectActivateService(PathBrowserRootPathProviderService.class);
-    context.registerInjectActivateService(TagBrowserRootPathProviderService.class);
+    context.registerInjectActivateService(RootPathProviderService.class);
     context.registerInjectActivateService(EditorConfig.class);
     underTest = context.registerInjectActivateService(ConfigDataServlet.class);
   }
@@ -379,9 +374,9 @@ class ConfigDataServletTest {
                 EditorProperties.PROPERTY_PATHBROWSER_ROOT_PATH_PROVIDER, "provider1")));
     when(configData.getValueInfo("param1")).thenReturn(param1);
 
-    PathBrowserRootPathProvider provider = mock(PathBrowserRootPathProvider.class);
-    context.registerService(PathBrowserRootPathProvider.class, provider,
-        PathBrowserRootPathProvider.PROPERTY_SELECTOR, "provider1");
+    RootPathProvider provider = mock(RootPathProvider.class);
+    context.registerService(RootPathProvider.class, provider,
+        RootPathProvider.PROPERTY_SELECTOR, "provider1");
     when(provider.getRootPath(context.currentResource())).thenReturn("/content/dynamic-root-path");
 
     return configData;
@@ -400,9 +395,9 @@ class ConfigDataServletTest {
                             EditorProperties.PROPERTY_TAGBROWSER_ROOT_PATH_PROVIDER, "provider1")));
     when(configData.getValueInfo("param1")).thenReturn(param1);
 
-    TagBrowserRootPathProvider provider = mock(TagBrowserRootPathProvider.class);
-    context.registerService(TagBrowserRootPathProvider.class, provider,
-            TagBrowserRootPathProvider.PROPERTY_SELECTOR, "provider1");
+    RootPathProvider provider = mock(RootPathProvider.class);
+    context.registerService(RootPathProvider.class, provider,
+            RootPathProvider.PROPERTY_SELECTOR, "provider1");
     when(provider.getRootPath(context.currentResource())).thenReturn("/content/dynamic-root-path");
 
     return configData;

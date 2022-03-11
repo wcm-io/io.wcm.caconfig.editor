@@ -25,22 +25,23 @@ import org.jetbrains.annotations.Nullable;
 import org.osgi.annotation.versioning.ConsumerType;
 
 /**
- * Allows to provide a dynamic root path for path browser widget.
+ * Allows to provide a dynamic root path for path or tag browser widget.
  * Implement as OSGi service and set a service property {@link #PROPERTY_SELECTOR} which is used to reference
  * the implementation in the context-aware configuration property metadata options.
  */
 @ConsumerType
-public interface PathBrowserRootPathProvider {
+public interface RootPathProvider {
 
   /**
    * Name of OSGi property to distinguish different implementations of the provider.
    * The value that this property is set to has to be configured in the Context-Aware configuration property
-   * metadata using {@link io.wcm.caconfig.editor.EditorProperties#PROPERTY_PATHBROWSER_ROOT_PATH_PROVIDER}.
+   * metadata using {@link io.wcm.caconfig.editor.EditorProperties#PROPERTY_PATHBROWSER_ROOT_PATH_PROVIDER}
+   * or {@link io.wcm.caconfig.editor.EditorProperties#PROPERTY_TAGBROWSER_ROOT_PATH_PROVIDER}.
    */
-  String PROPERTY_SELECTOR = "io.wcm.caconfig.editor.widget.pathbrowser.rootpath.provider";
+  String PROPERTY_SELECTOR = "io.wcm.caconfig.editor.widget.rootpath.provider";
 
   /**
-   * Get dynamic root path for pathbrowser widget in the context-aware configuration editor.
+   * Get dynamic root path for path or tag browser widget in the context-aware configuration editor.
    * @param contextResource Context resource. This is usually the AEM page of the configuration editor
    * @return Root path or null
    */

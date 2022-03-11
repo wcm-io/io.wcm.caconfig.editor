@@ -19,27 +19,8 @@
  */
 package io.wcm.caconfig.editor.impl;
 
-import static io.wcm.caconfig.editor.impl.NameConstants.RP_COLLECTION;
-import static io.wcm.caconfig.editor.impl.NameConstants.RP_CONFIGNAME;
-import static io.wcm.caconfig.extensions.persistence.testcontext.PersistenceTestUtils.writeConfiguration;
-import static io.wcm.caconfig.extensions.persistence.testcontext.PersistenceTestUtils.writeConfigurationCollection;
-import static org.apache.sling.api.resource.ResourceResolver.PROPERTY_RESOURCE_TYPE;
-import static org.apache.sling.testing.mock.caconfig.ContextPlugins.CACONFIG;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.sling.testing.mock.caconfig.MockContextAwareConfig;
-import org.apache.sling.testing.mock.osgi.MockOsgi;
-import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.skyscreamer.jsonassert.JSONAssert;
-
 import com.day.cq.wcm.api.Page;
 import com.google.common.collect.ImmutableList;
-
 import io.wcm.caconfig.extensions.persistence.example.ListConfig;
 import io.wcm.caconfig.extensions.persistence.example.ListNestedConfig;
 import io.wcm.caconfig.extensions.persistence.example.NestedConfig;
@@ -51,6 +32,22 @@ import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.AemContextBuilder;
 import io.wcm.testing.mock.aem.junit5.AemContextCallback;
 import io.wcm.testing.mock.aem.junit5.AemContextExtension;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.sling.testing.mock.caconfig.MockContextAwareConfig;
+import org.apache.sling.testing.mock.osgi.MockOsgi;
+import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.skyscreamer.jsonassert.JSONAssert;
+
+import static io.wcm.caconfig.editor.impl.NameConstants.RP_COLLECTION;
+import static io.wcm.caconfig.editor.impl.NameConstants.RP_CONFIGNAME;
+import static io.wcm.caconfig.extensions.persistence.testcontext.PersistenceTestUtils.writeConfiguration;
+import static io.wcm.caconfig.extensions.persistence.testcontext.PersistenceTestUtils.writeConfigurationCollection;
+import static org.apache.sling.api.resource.ResourceResolver.PROPERTY_RESOURCE_TYPE;
+import static org.apache.sling.testing.mock.caconfig.ContextPlugins.CACONFIG;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(AemContextExtension.class)
 class ConfigDataServletPagePersistenceTest {
@@ -78,8 +75,7 @@ class ConfigDataServletPagePersistenceTest {
   @BeforeEach
   void setUp() {
     context.registerInjectActivateService(DropdownOptionProviderService.class);
-    context.registerInjectActivateService(PathBrowserRootPathProviderService.class);
-    context.registerInjectActivateService(TagBrowserRootPathProviderService.class);
+    context.registerInjectActivateService(RootPathProviderService.class);
     context.registerInjectActivateService(EditorConfig.class);
     underTest = context.registerInjectActivateService(ConfigDataServlet.class);
 
