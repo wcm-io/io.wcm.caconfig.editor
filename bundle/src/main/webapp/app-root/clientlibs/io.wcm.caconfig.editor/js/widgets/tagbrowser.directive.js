@@ -66,13 +66,8 @@
         }
       });
 
-      // get root path from config or take /content/cq:tags as default
+      // set root path from config or take /content/cq:tags as default
       options.rootPath = options.rootPath || "/content/cq:tags";
-      // if rootPathContext is set root path to current context path
-      if (options.rootPathContext === "true") {
-        options.rootPath = configService.getState().contextPath || options.rootPath;
-        delete options.rootPathContext;
-      }
 
       $timeout(function () {
         tagfieldWidget = element.find("foundation-autocomplete")[0];
