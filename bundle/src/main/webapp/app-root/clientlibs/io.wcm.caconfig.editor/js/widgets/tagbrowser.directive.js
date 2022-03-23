@@ -51,7 +51,7 @@
       var prefix = directivePropertyPrefixes.tagbrowser;
       var props = scope.property.metadata.properties;
 
-      var tagfieldName = "tags-" + Math.floor(Math.random() * 100000);
+      var tagfieldName = "tags-" + Coral.commons.getUID();
 
       var options = {};
       var tagfieldWidget;
