@@ -84,8 +84,6 @@
           taglist.setAttribute("name", tagfieldName);
           suggestionOverlay.setAttribute("data-foundation-picker-buttonlist-src", tagbrowserService.getSuggestionSrc(options.rootPath));
 
-          let changedOffset = angular.isArray(scope.property.effectiveValue) ? scope.property.effectiveValue.length : 1;
-          let changedCount = 0;
           // Add change event listen
           $(taglist).on("coral-collection:add", function onAdd(event) {
             scope.property.value = taglist.items.getAll().map(item => item.value);
@@ -100,12 +98,11 @@
                 scope.property.value = taglist.items.getAll().map(item => item.value)[0];
               }
             }
-            changedCount++;
 
             if(!scope.property.effectiveValue && scope.property.value) {
               scope.property.effectiveValue = [];
             }
-            let hasChanged = ((changedCount >= changedOffset) && !compare(scope.property.effectiveValue, scope.property.value) || wasInherited);
+            let hasChanged = !compare(scope.property.effectiveValue, scope.property.value) || wasInherited;
 
             if(hasChanged) {
               if ($rootScope.configForm.$pristine) {
