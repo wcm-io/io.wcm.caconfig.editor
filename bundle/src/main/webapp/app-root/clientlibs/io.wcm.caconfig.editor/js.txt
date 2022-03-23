@@ -16,6 +16,7 @@ editor/detail.controller.js
 editor/overview.controller.js
 editor/publish.service.js
 editor/pathbrowser.service.js
+editor/tagbrowser.service.js
 
 modals/modals.module.js
 modals/modal.service.js
@@ -39,3 +40,4 @@ widgets/property-input-text.directive.js
 widgets/property-input-textarea.directive.js
 widgets/property-row.directive.js
 widgets/property-row-preview.directive.js
+widgets/tagbrowser.directive.js

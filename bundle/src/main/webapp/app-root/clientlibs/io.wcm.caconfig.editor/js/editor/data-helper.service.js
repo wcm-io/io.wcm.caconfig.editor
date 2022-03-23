@@ -127,7 +127,6 @@
         tempArray;
       for (i = 0; (config.properties && i < config.properties.length); i++) {
         property = config.properties[i];
-
         if (property.name === propertyNames.CONFIG_PROPERTY_INHERIT) {
           properties[property.name] = Boolean(property.value);
         }

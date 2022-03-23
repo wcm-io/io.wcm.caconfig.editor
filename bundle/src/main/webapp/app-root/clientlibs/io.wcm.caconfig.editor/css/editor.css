@@ -69,6 +69,10 @@ span.caconfig-pathbrowser {
   width: 100% !important;
 }
 
+span.caconfig-tagbrowser {
+  width: 100% !important;
+}
+
 [ng\:cloak],
 [ng-cloak],
 [data-ng-cloak],
@@ -98,6 +102,10 @@ span.caconfig-pathbrowser {
 }
 
 .caconfig-pathbrowser foundation-autocomplete {
+  width: 100%;
+}
+
+.caconfig-tagbrowser foundation-autocomplete {
   width: 100%;
 }
 

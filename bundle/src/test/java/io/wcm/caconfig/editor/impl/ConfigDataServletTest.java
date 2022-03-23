@@ -19,16 +19,17 @@
  */
 package io.wcm.caconfig.editor.impl;
 
-import static io.wcm.caconfig.editor.impl.NameConstants.RP_COLLECTION;
-import static io.wcm.caconfig.editor.impl.NameConstants.RP_CONFIGNAME;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.nullable;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import io.wcm.caconfig.editor.DropdownOptionItem;
+import io.wcm.caconfig.editor.DropdownOptionProvider;
+import io.wcm.caconfig.editor.EditorProperties;
+import io.wcm.caconfig.editor.PathBrowserRootPathProvider;
+import io.wcm.caconfig.editor.TagBrowserRootPathProvider;
+import io.wcm.testing.mock.aem.junit5.AemContext;
+import io.wcm.testing.mock.aem.junit5.AemContextExtension;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.sling.caconfig.management.ConfigurationCollectionData;
 import org.apache.sling.caconfig.management.ConfigurationData;
 import org.apache.sling.caconfig.management.ConfigurationManager;
@@ -47,16 +48,13 @@ import org.mockito.quality.Strictness;
 import org.mockito.stubbing.Answer;
 import org.skyscreamer.jsonassert.JSONAssert;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-
-import io.wcm.caconfig.editor.DropdownOptionItem;
-import io.wcm.caconfig.editor.DropdownOptionProvider;
-import io.wcm.caconfig.editor.EditorProperties;
-import io.wcm.caconfig.editor.PathBrowserRootPathProvider;
-import io.wcm.testing.mock.aem.junit5.AemContext;
-import io.wcm.testing.mock.aem.junit5.AemContextExtension;
+import static io.wcm.caconfig.editor.impl.NameConstants.RP_COLLECTION;
+import static io.wcm.caconfig.editor.impl.NameConstants.RP_CONFIGNAME;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.nullable;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(AemContextExtension.class)
 @ExtendWith(MockitoExtension.class)
@@ -92,6 +90,7 @@ class ConfigDataServletTest {
     context.registerService(ConfigurationPersistenceStrategyMultiplexer.class, configurationPersistenceStrategy);
     context.registerInjectActivateService(DropdownOptionProviderService.class);
     context.registerInjectActivateService(PathBrowserRootPathProviderService.class);
+    context.registerInjectActivateService(TagBrowserRootPathProviderService.class);
     context.registerInjectActivateService(EditorConfig.class);
     underTest = context.registerInjectActivateService(ConfigDataServlet.class);
   }
@@ -262,6 +261,24 @@ class ConfigDataServletTest {
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
   }
 
+  @Test
+  void testSingleWithTagBrowserRootPathDynamic() throws Exception {
+    ConfigurationData configData = buildConfigDataWithTagBrowserRootPathDynamic("name1");
+    when(configManager.getConfiguration(context.currentResource(), "name1")).thenReturn(configData);
+
+    context.request().setQueryString(RP_CONFIGNAME + "=" + configData.getConfigName());
+    underTest.doGet(context.request(), context.response());
+
+    assertEquals(HttpServletResponse.SC_OK, context.response().getStatus());
+
+    String expectedJson = "{configName:'name1',overridden:false,inherited:false,"
+            + "properties:["
+            + "{name:'param1',value:'option1',effectiveValue:'option1',default:false,inherited:true,overridden:false,"
+            + "metadata:{type:'String',properties:{widgetType:'tagbrowser',tagbrowserRootPath:'/content/dynamic-root-path'}}}"
+            + "]}";
+    JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
+  }
+
   @SuppressWarnings("unchecked")
   private ConfigurationData buildConfigData(String configName, int index) {
     ConfigurationData configData = mock(ConfigurationData.class);
@@ -362,6 +379,27 @@ class ConfigDataServletTest {
     PathBrowserRootPathProvider provider = mock(PathBrowserRootPathProvider.class);
     context.registerService(PathBrowserRootPathProvider.class, provider,
         PathBrowserRootPathProvider.PROPERTY_SELECTOR, "provider1");
+    when(provider.getRootPath(context.currentResource())).thenReturn("/content/dynamic-root-path");
+
+    return configData;
+  }
+
+  private ConfigurationData buildConfigDataWithTagBrowserRootPathDynamic(String configName) {
+    ConfigurationData configData = mock(ConfigurationData.class);
+    when(configData.getConfigName()).thenReturn(configName);
+    when(configData.getPropertyNames()).thenReturn(ImmutableSet.of("param1"));
+
+    ValueInfo param1 = buildValueInfo("param1", "option1", "option1", null);
+    when(param1.getPropertyMetadata()).thenReturn(
+            new PropertyMetadata<>("param1", String.class)
+                    .properties(ImmutableMap.of(
+                            EditorProperties.PROPERTY_WIDGET_TYPE, EditorProperties.WIDGET_TYPE_TAGBROWSER,
+                            EditorProperties.PROPERTY_TAGBROWSER_ROOT_PATH_PROVIDER, "provider1")));
+    when(configData.getValueInfo("param1")).thenReturn(param1);
+
+    TagBrowserRootPathProvider provider = mock(TagBrowserRootPathProvider.class);
+    context.registerService(TagBrowserRootPathProvider.class, provider,
+            TagBrowserRootPathProvider.PROPERTY_SELECTOR, "provider1");
     when(provider.getRootPath(context.currentResource())).thenReturn("/content/dynamic-root-path");
 
     return configData;

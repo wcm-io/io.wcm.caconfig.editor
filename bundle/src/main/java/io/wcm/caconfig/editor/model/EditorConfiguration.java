@@ -49,6 +49,8 @@ public class EditorConfiguration {
   static final String PATH_PATHFIELD_STANDARD = "/mnt/overlay/granite/ui/content/coral/foundation/form/pathfield";
   static final String PATH_PATHFIELD_WCMIO = "/mnt/overlay/wcm-io/wcm/ui/granite/content/form/pathfield";
 
+  static final String PATH_TAGFIELD_CQ = "/mnt/overlay/cq/gui/content/coral/common/form/tagfield";
+
   @SlingObject
   private Resource currentResource;
   @SlingObject
@@ -64,6 +66,7 @@ public class EditorConfiguration {
   private String configPersistUrl;
   private String contextPath;
   private String pathfieldContentPath;
+  private String tagfieldContentPath;
   private String language;
   private boolean enabled;
 
@@ -78,6 +81,7 @@ public class EditorConfiguration {
     this.configPersistUrl = buildServletPath(ConfigPersistServlet.SELECTOR);
     this.contextPath = configResourceResolver.getContextPath(currentResource);
     this.pathfieldContentPath = buildPathfieldContentPath();
+    this.tagfieldContentPath = buildTagfieldContentPath();
     this.language = request.getLocale().getLanguage();
     this.enabled = editorConfig.isEnabled();
   }
@@ -99,6 +103,10 @@ public class EditorConfiguration {
     else {
       return servletContextPathPrefix + PATH_PATHFIELD_STANDARD;
     }
+  }
+
+  private String buildTagfieldContentPath() {
+    return servletContextPathPrefix + PATH_TAGFIELD_CQ;
   }
 
   public String getServletContextPathPrefix() {
@@ -123,6 +131,10 @@ public class EditorConfiguration {
 
   public String getPathfieldContentPath() {
     return this.pathfieldContentPath;
+  }
+
+  public String getTagfieldContentPath() {
+    return this.tagfieldContentPath;
   }
 
   public String getLanguage() {
