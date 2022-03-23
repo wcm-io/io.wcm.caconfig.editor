@@ -19,17 +19,16 @@
  */
 package io.wcm.caconfig.editor.impl;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import io.wcm.caconfig.editor.DropdownOptionItem;
-import io.wcm.caconfig.editor.DropdownOptionProvider;
-import io.wcm.caconfig.editor.EditorProperties;
-import io.wcm.caconfig.editor.PathBrowserRootPathProvider;
-import io.wcm.caconfig.editor.TagBrowserRootPathProvider;
-import io.wcm.testing.mock.aem.junit5.AemContext;
-import io.wcm.testing.mock.aem.junit5.AemContextExtension;
+import static io.wcm.caconfig.editor.impl.NameConstants.RP_COLLECTION;
+import static io.wcm.caconfig.editor.impl.NameConstants.RP_CONFIGNAME;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.nullable;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.sling.caconfig.management.ConfigurationCollectionData;
 import org.apache.sling.caconfig.management.ConfigurationData;
 import org.apache.sling.caconfig.management.ConfigurationManager;
@@ -48,13 +47,17 @@ import org.mockito.quality.Strictness;
 import org.mockito.stubbing.Answer;
 import org.skyscreamer.jsonassert.JSONAssert;
 
-import static io.wcm.caconfig.editor.impl.NameConstants.RP_COLLECTION;
-import static io.wcm.caconfig.editor.impl.NameConstants.RP_CONFIGNAME;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.nullable;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+
+import io.wcm.caconfig.editor.DropdownOptionItem;
+import io.wcm.caconfig.editor.DropdownOptionProvider;
+import io.wcm.caconfig.editor.EditorProperties;
+import io.wcm.caconfig.editor.PathBrowserRootPathProvider;
+import io.wcm.caconfig.editor.TagBrowserRootPathProvider;
+import io.wcm.testing.mock.aem.junit5.AemContext;
+import io.wcm.testing.mock.aem.junit5.AemContextExtension;
 
 @ExtendWith(AemContextExtension.class)
 @ExtendWith(MockitoExtension.class)
@@ -384,6 +387,7 @@ class ConfigDataServletTest {
     return configData;
   }
 
+  @SuppressWarnings("unchecked")
   private ConfigurationData buildConfigDataWithTagBrowserRootPathDynamic(String configName) {
     ConfigurationData configData = mock(ConfigurationData.class);
     when(configData.getConfigName()).thenReturn(configName);

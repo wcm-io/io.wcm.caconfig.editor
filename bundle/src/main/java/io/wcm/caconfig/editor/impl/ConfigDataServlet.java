@@ -19,10 +19,20 @@
  */
 package io.wcm.caconfig.editor.impl;
 
-import io.wcm.caconfig.editor.impl.data.configdata.ConfigCollectionItem;
-import io.wcm.caconfig.editor.impl.data.configdata.ConfigItem;
-import io.wcm.caconfig.editor.impl.data.configdata.PropertyItem;
-import io.wcm.caconfig.editor.impl.data.configdata.PropertyItemMetadata;
+import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_DROPDOWN_OPTIONS;
+import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_DROPDOWN_OPTIONS_PROVIDER;
+import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_PATHBROWSER_ROOT_PATH;
+import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_PATHBROWSER_ROOT_PATH_PROVIDER;
+import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_TAGBROWSER_ROOT_PATH;
+import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_TAGBROWSER_ROOT_PATH_PROVIDER;
+import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_WIDGET_TYPE;
+import static io.wcm.caconfig.editor.EditorProperties.WIDGET_TYPE_DROPDOWN;
+import static io.wcm.caconfig.editor.EditorProperties.WIDGET_TYPE_PATHBROWSER;
+import static io.wcm.caconfig.editor.EditorProperties.WIDGET_TYPE_TAGBROWSER;
+import static io.wcm.caconfig.editor.impl.JsonMapper.OBJECT_MAPPER;
+import static io.wcm.caconfig.editor.impl.NameConstants.RP_COLLECTION;
+import static io.wcm.caconfig.editor.impl.NameConstants.RP_CONFIGNAME;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -32,9 +42,11 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
+
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -57,19 +69,10 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_DROPDOWN_OPTIONS;
-import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_DROPDOWN_OPTIONS_PROVIDER;
-import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_PATHBROWSER_ROOT_PATH;
-import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_PATHBROWSER_ROOT_PATH_PROVIDER;
-import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_TAGBROWSER_ROOT_PATH;
-import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_TAGBROWSER_ROOT_PATH_PROVIDER;
-import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_WIDGET_TYPE;
-import static io.wcm.caconfig.editor.EditorProperties.WIDGET_TYPE_DROPDOWN;
-import static io.wcm.caconfig.editor.EditorProperties.WIDGET_TYPE_PATHBROWSER;
-import static io.wcm.caconfig.editor.EditorProperties.WIDGET_TYPE_TAGBROWSER;
-import static io.wcm.caconfig.editor.impl.JsonMapper.OBJECT_MAPPER;
-import static io.wcm.caconfig.editor.impl.NameConstants.RP_COLLECTION;
-import static io.wcm.caconfig.editor.impl.NameConstants.RP_CONFIGNAME;
+import io.wcm.caconfig.editor.impl.data.configdata.ConfigCollectionItem;
+import io.wcm.caconfig.editor.impl.data.configdata.ConfigItem;
+import io.wcm.caconfig.editor.impl.data.configdata.PropertyItem;
+import io.wcm.caconfig.editor.impl.data.configdata.PropertyItemMetadata;
 
 /**
  * Read configuration data.
@@ -281,8 +284,9 @@ public class ConfigDataServlet extends SlingSafeMethodsServlet {
    * inserted as JSON objects and not as string.
    * @param properties Map
    * @param contextResource Context resource
-   * @return JSON object
+   * @return JSON object or null
    */
+  @SuppressWarnings("PMD.ReturnEmptyCollectionRatherThanNull")
   private @Nullable Map<String, Object> toJsonWithValueConversion(@Nullable Map<String, String> properties,
       @NotNull Resource contextResource) {
     if (properties == null || properties.isEmpty()) {
