@@ -92,12 +92,6 @@ public final class EditorProperties {
   public static final String PROPERTY_TAGBROWSER_ROOT_PATH = "tagbrowserRootPath";
 
   /**
-   * With this additional property the root path for the tag browser widget can be set:
-   * If set to true, the current configuration context path is used as root path.
-   */
-  public static final String PROPERTY_TAGBROWSER_ROOT_PATH_CONTEXT = "tagbrowserRootPathContext";
-
-  /**
    * Defines the OSGi service property of a {@link io.wcm.caconfig.editor.RootPathProvider} implementation
    * that should be used to dynamically define the root path, instead of providing
    * a fixed one via {@link #PROPERTY_TAGBROWSER_ROOT_PATH}.
