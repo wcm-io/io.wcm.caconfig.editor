@@ -72,6 +72,7 @@
       $timeout(function () {
         tagfieldWidget = element.find("foundation-autocomplete")[0];
         suggestionOverlay = element.find("coral-overlay[foundation-autocomplete-suggestion]")[0];
+        var wasInherited = element.parent().parent().find('input:checkbox[ng-model="property.inherited"]').is(":checked");
         var taglist = element.find("coral-taglist")[0];
         Coral.commons.ready(tagfieldWidget, function() {
           var selectionCount = "single"
@@ -104,7 +105,7 @@
             if(!scope.property.effectiveValue && scope.property.value) {
               scope.property.effectiveValue = [];
             }
-            let hasChanged = (changedCount >= changedOffset) && !compare(scope.property.effectiveValue, scope.property.value);
+            let hasChanged = ((changedCount >= changedOffset) && !compare(scope.property.effectiveValue, scope.property.value) || wasInherited);
 
             if(hasChanged) {
               if ($rootScope.configForm.$pristine) {
