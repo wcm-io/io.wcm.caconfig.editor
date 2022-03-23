@@ -20,5 +20,5 @@
 /**
  * Configuration editor API.
  */
-@org.osgi.annotation.versioning.Version("2.0")
+@org.osgi.annotation.versioning.Version("1.6")
 package io.wcm.caconfig.editor;

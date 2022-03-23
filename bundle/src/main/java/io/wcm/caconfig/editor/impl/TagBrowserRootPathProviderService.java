@@ -19,6 +19,7 @@
  */
 package io.wcm.caconfig.editor.impl;
 
+import io.wcm.caconfig.editor.TagBrowserRootPathProvider;
 import org.apache.sling.api.resource.Resource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -28,13 +29,11 @@ import org.osgi.framework.ServiceReference;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 
-import io.wcm.caconfig.editor.RootPathProvider;
-
 /**
- * Get dynamic rooth paths for path or tag browser.
+ * Get dynamic rooth paths for tag browser.
  */
-@Component(service = RootPathProviderService.class)
-public class RootPathProviderService {
+@Component(service = TagBrowserRootPathProviderService.class)
+public class TagBrowserRootPathProviderService {
 
   private BundleContext bundleContext;
 
@@ -45,18 +44,17 @@ public class RootPathProviderService {
 
   /**
    * Get root path from service implementations.
-   * @param selector Selector
    * @param contextResource Context resource
    * @return Root path or null
    */
   @SuppressWarnings({ "null", "java:S112" })
   public @Nullable String getRootPath(@NotNull String selector, @NotNull Resource contextResource) {
-    final String filter = "(" + RootPathProvider.PROPERTY_SELECTOR + "=" + selector + ")";
+    final String filter = "(" + TagBrowserRootPathProvider.PROPERTY_SELECTOR + "=" + selector + ")";
     try {
-      ServiceReference<RootPathProvider> ref = bundleContext.getServiceReferences(RootPathProvider.class, filter)
-          .stream().findFirst().orElse(null);
+      ServiceReference<TagBrowserRootPathProvider> ref = bundleContext.getServiceReferences(TagBrowserRootPathProvider.class, filter)
+              .stream().findFirst().orElse(null);
       if (ref != null) {
-        RootPathProvider provider = bundleContext.getService(ref);
+        TagBrowserRootPathProvider provider = bundleContext.getService(ref);
         try {
           return provider.getRootPath(contextResource);
         }

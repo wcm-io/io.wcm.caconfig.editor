@@ -19,14 +19,13 @@
  */
 package io.wcm.caconfig.editor.model;
 
-import static io.wcm.caconfig.editor.model.EditorConfiguration.PATH_PATHFIELD_STANDARD;
-import static io.wcm.caconfig.editor.model.EditorConfiguration.PATH_PATHFIELD_WCMIO;
-import static io.wcm.caconfig.editor.model.EditorConfiguration.PATH_TAGFIELD_CQ;
-import static io.wcm.caconfig.editor.model.EditorConfiguration.RT_WCMIO_PATHFIELD;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
-
+import io.wcm.caconfig.editor.impl.ConfigDataServlet;
+import io.wcm.caconfig.editor.impl.ConfigNamesServlet;
+import io.wcm.caconfig.editor.impl.ConfigPersistServlet;
+import io.wcm.caconfig.editor.impl.EditorConfig;
+import io.wcm.sling.commons.adapter.AdaptTo;
+import io.wcm.testing.mock.aem.junit5.AemContext;
+import io.wcm.testing.mock.aem.junit5.AemContextExtension;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.caconfig.resource.ConfigurationResourceResolver;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,13 +34,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import io.wcm.caconfig.editor.impl.ConfigDataServlet;
-import io.wcm.caconfig.editor.impl.ConfigNamesServlet;
-import io.wcm.caconfig.editor.impl.ConfigPersistServlet;
-import io.wcm.caconfig.editor.impl.EditorConfig;
-import io.wcm.sling.commons.adapter.AdaptTo;
-import io.wcm.testing.mock.aem.junit5.AemContext;
-import io.wcm.testing.mock.aem.junit5.AemContextExtension;
+import static io.wcm.caconfig.editor.model.EditorConfiguration.PATH_PATHFIELD_STANDARD;
+import static io.wcm.caconfig.editor.model.EditorConfiguration.PATH_PATHFIELD_WCMIO;
+import static io.wcm.caconfig.editor.model.EditorConfiguration.PATH_TAGFIELD_CQ;
+import static io.wcm.caconfig.editor.model.EditorConfiguration.RT_WCMIO_PATHFIELD;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(AemContextExtension.class)
 @ExtendWith(MockitoExtension.class)
@@ -122,6 +121,15 @@ class EditorConfigurationTest {
     EditorConfiguration underTest = AdaptTo.notNull(context.request(), EditorConfiguration.class);
 
     assertEquals(PATH_PATHFIELD_WCMIO, underTest.getPathfieldContentPath());
+  }
+
+  @Test
+  void testProperties_CqTagfield() {
+    context.create().resource("/apps/" + PATH_TAGFIELD_CQ);
+
+    EditorConfiguration underTest = AdaptTo.notNull(context.request(), EditorConfiguration.class);
+
+    assertEquals(PATH_TAGFIELD_CQ, underTest.getTagfieldContentPath());
   }
 
 }

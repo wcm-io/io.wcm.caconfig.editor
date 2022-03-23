@@ -51,7 +51,7 @@ public final class EditorProperties {
   public static final String PROPERTY_PATHBROWSER_ROOT_PATH_CONTEXT = "pathbrowserRootPathContext";
 
   /**
-   * Defines the OSGi service property of a {@link RootPathProvider} implementation
+   * Defines the OSGi service property of a {@link PathBrowserRootPathProvider} implementation
    * that should be used to dynamically define the root path, instead of providing
    * a fixed one via {@link #PROPERTY_PATHBROWSER_ROOT_PATH}.
    */
@@ -92,7 +92,7 @@ public final class EditorProperties {
   public static final String PROPERTY_TAGBROWSER_ROOT_PATH = "tagbrowserRootPath";
 
   /**
-   * Defines the OSGi service property of a {@link io.wcm.caconfig.editor.RootPathProvider} implementation
+   * Defines the OSGi service property of a {@link PathBrowserRootPathProvider} implementation
    * that should be used to dynamically define the root path, instead of providing
    * a fixed one via {@link #PROPERTY_TAGBROWSER_ROOT_PATH}.
    */

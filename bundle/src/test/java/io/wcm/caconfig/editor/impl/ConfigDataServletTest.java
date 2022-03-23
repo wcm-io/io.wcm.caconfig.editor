@@ -25,7 +25,8 @@ import com.google.common.collect.ImmutableSet;
 import io.wcm.caconfig.editor.DropdownOptionItem;
 import io.wcm.caconfig.editor.DropdownOptionProvider;
 import io.wcm.caconfig.editor.EditorProperties;
-import io.wcm.caconfig.editor.RootPathProvider;
+import io.wcm.caconfig.editor.PathBrowserRootPathProvider;
+import io.wcm.caconfig.editor.TagBrowserRootPathProvider;
 import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.AemContextExtension;
 import javax.servlet.http.HttpServletResponse;
@@ -88,7 +89,8 @@ class ConfigDataServletTest {
     context.registerService(ConfigurationManager.class, configManager);
     context.registerService(ConfigurationPersistenceStrategyMultiplexer.class, configurationPersistenceStrategy);
     context.registerInjectActivateService(DropdownOptionProviderService.class);
-    context.registerInjectActivateService(RootPathProviderService.class);
+    context.registerInjectActivateService(PathBrowserRootPathProviderService.class);
+    context.registerInjectActivateService(TagBrowserRootPathProviderService.class);
     context.registerInjectActivateService(EditorConfig.class);
     underTest = context.registerInjectActivateService(ConfigDataServlet.class);
   }
@@ -374,9 +376,9 @@ class ConfigDataServletTest {
                 EditorProperties.PROPERTY_PATHBROWSER_ROOT_PATH_PROVIDER, "provider1")));
     when(configData.getValueInfo("param1")).thenReturn(param1);
 
-    RootPathProvider provider = mock(RootPathProvider.class);
-    context.registerService(RootPathProvider.class, provider,
-        RootPathProvider.PROPERTY_SELECTOR, "provider1");
+    PathBrowserRootPathProvider provider = mock(PathBrowserRootPathProvider.class);
+    context.registerService(PathBrowserRootPathProvider.class, provider,
+        PathBrowserRootPathProvider.PROPERTY_SELECTOR, "provider1");
     when(provider.getRootPath(context.currentResource())).thenReturn("/content/dynamic-root-path");
 
     return configData;
@@ -395,9 +397,9 @@ class ConfigDataServletTest {
                             EditorProperties.PROPERTY_TAGBROWSER_ROOT_PATH_PROVIDER, "provider1")));
     when(configData.getValueInfo("param1")).thenReturn(param1);
 
-    RootPathProvider provider = mock(RootPathProvider.class);
-    context.registerService(RootPathProvider.class, provider,
-            RootPathProvider.PROPERTY_SELECTOR, "provider1");
+    TagBrowserRootPathProvider provider = mock(TagBrowserRootPathProvider.class);
+    context.registerService(TagBrowserRootPathProvider.class, provider,
+            TagBrowserRootPathProvider.PROPERTY_SELECTOR, "provider1");
     when(provider.getRootPath(context.currentResource())).thenReturn("/content/dynamic-root-path");
 
     return configData;

@@ -100,7 +100,10 @@ public class ConfigDataServlet extends SlingSafeMethodsServlet {
   @Reference
   private DropdownOptionProviderService dropdownOptionProviderService;
   @Reference
-  private RootPathProviderService rootPathProviderService;
+  private PathBrowserRootPathProviderService pathBrowserRootPathProviderService;
+
+  @Reference
+  private TagBrowserRootPathProviderService tagBrowserRootPathProviderService;
 
   private static Logger log = LoggerFactory.getLogger(ConfigDataServlet.class);
 
@@ -310,30 +313,35 @@ public class ConfigDataServlet extends SlingSafeMethodsServlet {
     // check for dynamic root path injection
     boolean isPathBrowser = WIDGET_TYPE_PATHBROWSER.equals(metadataProps.get(PROPERTY_WIDGET_TYPE));
     if (isPathBrowser) {
-      injectDynamicRootPath(PROPERTY_PATHBROWSER_ROOT_PATH, PROPERTY_PATHBROWSER_ROOT_PATH_PROVIDER, metadataProps, contextResource);
+      Optional<String> dynamicProvider = Optional.ofNullable(metadataProps.get(PROPERTY_PATHBROWSER_ROOT_PATH_PROVIDER))
+              .filter(Objects::nonNull)
+              .map(String::valueOf)
+              .filter(StringUtils::isNotBlank);
+      if (dynamicProvider.isPresent()) {
+        String rootPath = pathBrowserRootPathProviderService.getRootPath(dynamicProvider.get(), contextResource);
+        if (rootPath != null) {
+          metadataProps.put(PROPERTY_PATHBROWSER_ROOT_PATH, rootPath);
+        }
+        metadataProps.remove(PROPERTY_PATHBROWSER_ROOT_PATH_PROVIDER);
+      }
     }
 
     boolean isTagBrowser = WIDGET_TYPE_TAGBROWSER.equals(metadataProps.get(PROPERTY_WIDGET_TYPE));
     if (isTagBrowser) {
-      injectDynamicRootPath(PROPERTY_TAGBROWSER_ROOT_PATH, PROPERTY_TAGBROWSER_ROOT_PATH_PROVIDER, metadataProps, contextResource);
+      Optional<String> dynamicProvider = Optional.ofNullable(metadataProps.get(PROPERTY_TAGBROWSER_ROOT_PATH_PROVIDER))
+              .filter(Objects::nonNull)
+              .map(String::valueOf)
+              .filter(StringUtils::isNotBlank);
+      if (dynamicProvider.isPresent()) {
+        String rootPath = tagBrowserRootPathProviderService.getRootPath(dynamicProvider.get(), contextResource);
+        if (rootPath != null) {
+          metadataProps.put(PROPERTY_TAGBROWSER_ROOT_PATH, rootPath);
+        }
+        metadataProps.remove(PROPERTY_TAGBROWSER_ROOT_PATH_PROVIDER);
+      }
     }
 
     return metadataProps;
-  }
-
-  private void injectDynamicRootPath(@NotNull final String rootPathProp, @NotNull final String rootPathProviderProp,
-                                     @NotNull final Map<String, Object> metadataProps, @NotNull Resource contextResource) {
-    Optional<String> dynamicProvider = Optional.ofNullable(metadataProps.get(rootPathProviderProp))
-            .filter(Objects::nonNull)
-            .map(String::valueOf)
-            .filter(StringUtils::isNotBlank);
-    if (dynamicProvider.isPresent()) {
-      String rootPath = rootPathProviderService.getRootPath(dynamicProvider.get(), contextResource);
-      if (rootPath != null) {
-        metadataProps.put(rootPathProp, rootPath);
-      }
-      metadataProps.remove(rootPathProviderProp);
-    }
   }
 
   private @Nullable Object tryConvertJsonString(@Nullable String value) {

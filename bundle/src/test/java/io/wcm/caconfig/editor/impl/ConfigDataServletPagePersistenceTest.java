@@ -75,7 +75,8 @@ class ConfigDataServletPagePersistenceTest {
   @BeforeEach
   void setUp() {
     context.registerInjectActivateService(DropdownOptionProviderService.class);
-    context.registerInjectActivateService(RootPathProviderService.class);
+    context.registerInjectActivateService(PathBrowserRootPathProviderService.class);
+    context.registerInjectActivateService(TagBrowserRootPathProviderService.class);
     context.registerInjectActivateService(EditorConfig.class);
     underTest = context.registerInjectActivateService(ConfigDataServlet.class);
 
