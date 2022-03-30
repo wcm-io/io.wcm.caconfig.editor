@@ -19,7 +19,7 @@
  */
 package io.wcm.caconfig.editor.impl;
 
-import io.wcm.caconfig.editor.PathBrowserRootPathProvider;
+import io.wcm.caconfig.editor.TagBrowserRootPathProvider;
 import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.AemContextExtension;
 import org.apache.sling.api.resource.Resource;
@@ -35,27 +35,27 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(AemContextExtension.class)
 @ExtendWith(MockitoExtension.class)
-class PathBrowserRootPathProviderServiceTest {
+class TagBrowserRootPathProviderServiceTest {
 
   private final AemContext context = new AemContext();
 
   @Mock
   private Resource resource;
   @Mock(lenient = true)
-  private PathBrowserRootPathProvider provider1;
+  private TagBrowserRootPathProvider provider1;
   @Mock(lenient = true)
-  private PathBrowserRootPathProvider provider2;
+  private TagBrowserRootPathProvider provider2;
 
-  private PathBrowserRootPathProviderService underTest;
+  private TagBrowserRootPathProviderService underTest;
 
   @BeforeEach
   void setUp() throws Exception {
     when(provider1.getRootPath(resource)).thenReturn("/content/root1");
-    context.registerService(PathBrowserRootPathProvider.class, provider1, PathBrowserRootPathProvider.PROPERTY_SELECTOR, "provider1");
+    context.registerService(TagBrowserRootPathProvider.class, provider1, TagBrowserRootPathProvider.PROPERTY_SELECTOR, "provider1");
     when(provider2.getRootPath(resource)).thenReturn("/content/root2");
-    context.registerService(PathBrowserRootPathProvider.class, provider2, PathBrowserRootPathProvider.PROPERTY_SELECTOR, "provider2");
+    context.registerService(TagBrowserRootPathProvider.class, provider2, TagBrowserRootPathProvider.PROPERTY_SELECTOR, "provider2");
 
-    underTest = context.registerInjectActivateService(PathBrowserRootPathProviderService.class);
+    underTest = context.registerInjectActivateService(TagBrowserRootPathProviderService.class);
   }
 
   @Test

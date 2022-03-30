@@ -105,6 +105,19 @@ String contextPath();
 Arrays of path browser widgets are not supported.
 
 
+#### tagbrowser
+
+Define a tag browser widget for a string array parameter:
+
+```java
+@Property(label = "Tags", description = "Picks tags.", property = {
+    "widgetType=tagbrowser",
+    "tagbrowserRootPath=/content/cq:tags"
+})
+String[] tags();
+```
+
+
 #### dropdown
 
 Define a dropdown list of options to choose from. The description is displayed to the user, the value of the chosen option is stored in the configuration.

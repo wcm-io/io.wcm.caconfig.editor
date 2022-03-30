@@ -51,7 +51,7 @@ public final class EditorProperties {
   public static final String PROPERTY_PATHBROWSER_ROOT_PATH_CONTEXT = "pathbrowserRootPathContext";
 
   /**
-   * Defines the OSGi service property of a {@link io.wcm.caconfig.editor.PathBrowserRootPathProvider} implementation
+   * Defines the OSGi service property of a {@link PathBrowserRootPathProvider} implementation
    * that should be used to dynamically define the root path, instead of providing
    * a fixed one via {@link #PROPERTY_PATHBROWSER_ROOT_PATH}.
    */
@@ -79,5 +79,24 @@ public final class EditorProperties {
    * Widget type that allows to enter multiple lines of text for a string parameter.
    */
   public static final String WIDGET_TYPE_TEXTAREA = "textarea";
+
+  /**
+   * Widget type to add a tagbrowser selection widget to a string parameter.
+   */
+  public static final String WIDGET_TYPE_TAGBROWSER = "tagbrowser";
+
+  /**
+   * With this additional property the root path for the tag browser widget can be set:
+   * The root path is passed as string value of the property.
+   */
+  public static final String PROPERTY_TAGBROWSER_ROOT_PATH = "tagbrowserRootPath";
+
+  /**
+   * Defines the OSGi service property of a {@link PathBrowserRootPathProvider} implementation
+   * that should be used to dynamically define the root path, instead of providing
+   * a fixed one via {@link #PROPERTY_TAGBROWSER_ROOT_PATH}.
+   */
+  public static final String PROPERTY_TAGBROWSER_ROOT_PATH_PROVIDER = "tagbrowserRootPathProvider";
+
 
 }

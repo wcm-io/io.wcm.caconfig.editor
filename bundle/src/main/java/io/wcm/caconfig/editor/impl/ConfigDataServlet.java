@@ -23,9 +23,12 @@ import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_DROPDOWN_OPTIONS;
 import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_DROPDOWN_OPTIONS_PROVIDER;
 import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_PATHBROWSER_ROOT_PATH;
 import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_PATHBROWSER_ROOT_PATH_PROVIDER;
+import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_TAGBROWSER_ROOT_PATH;
+import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_TAGBROWSER_ROOT_PATH_PROVIDER;
 import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_WIDGET_TYPE;
 import static io.wcm.caconfig.editor.EditorProperties.WIDGET_TYPE_DROPDOWN;
 import static io.wcm.caconfig.editor.EditorProperties.WIDGET_TYPE_PATHBROWSER;
+import static io.wcm.caconfig.editor.EditorProperties.WIDGET_TYPE_TAGBROWSER;
 import static io.wcm.caconfig.editor.impl.JsonMapper.OBJECT_MAPPER;
 import static io.wcm.caconfig.editor.impl.NameConstants.RP_COLLECTION;
 import static io.wcm.caconfig.editor.impl.NameConstants.RP_CONFIGNAME;
@@ -101,6 +104,9 @@ public class ConfigDataServlet extends SlingSafeMethodsServlet {
   private DropdownOptionProviderService dropdownOptionProviderService;
   @Reference
   private PathBrowserRootPathProviderService pathBrowserRootPathProviderService;
+
+  @Reference
+  private TagBrowserRootPathProviderService tagBrowserRootPathProviderService;
 
   private static Logger log = LoggerFactory.getLogger(ConfigDataServlet.class);
 
@@ -278,8 +284,9 @@ public class ConfigDataServlet extends SlingSafeMethodsServlet {
    * inserted as JSON objects and not as string.
    * @param properties Map
    * @param contextResource Context resource
-   * @return JSON object
+   * @return JSON object or null
    */
+  @SuppressWarnings("PMD.ReturnEmptyCollectionRatherThanNull")
   private @Nullable Map<String, Object> toJsonWithValueConversion(@Nullable Map<String, String> properties,
       @NotNull Resource contextResource) {
     if (properties == null || properties.isEmpty()) {
@@ -311,15 +318,30 @@ public class ConfigDataServlet extends SlingSafeMethodsServlet {
     boolean isPathBrowser = WIDGET_TYPE_PATHBROWSER.equals(metadataProps.get(PROPERTY_WIDGET_TYPE));
     if (isPathBrowser) {
       Optional<String> dynamicProvider = Optional.ofNullable(metadataProps.get(PROPERTY_PATHBROWSER_ROOT_PATH_PROVIDER))
-          .filter(Objects::nonNull)
-          .map(String::valueOf)
-          .filter(StringUtils::isNotBlank);
+              .filter(Objects::nonNull)
+              .map(String::valueOf)
+              .filter(StringUtils::isNotBlank);
       if (dynamicProvider.isPresent()) {
         String rootPath = pathBrowserRootPathProviderService.getRootPath(dynamicProvider.get(), contextResource);
         if (rootPath != null) {
           metadataProps.put(PROPERTY_PATHBROWSER_ROOT_PATH, rootPath);
         }
         metadataProps.remove(PROPERTY_PATHBROWSER_ROOT_PATH_PROVIDER);
+      }
+    }
+
+    boolean isTagBrowser = WIDGET_TYPE_TAGBROWSER.equals(metadataProps.get(PROPERTY_WIDGET_TYPE));
+    if (isTagBrowser) {
+      Optional<String> dynamicProvider = Optional.ofNullable(metadataProps.get(PROPERTY_TAGBROWSER_ROOT_PATH_PROVIDER))
+              .filter(Objects::nonNull)
+              .map(String::valueOf)
+              .filter(StringUtils::isNotBlank);
+      if (dynamicProvider.isPresent()) {
+        String rootPath = tagBrowserRootPathProviderService.getRootPath(dynamicProvider.get(), contextResource);
+        if (rootPath != null) {
+          metadataProps.put(PROPERTY_TAGBROWSER_ROOT_PATH, rootPath);
+        }
+        metadataProps.remove(PROPERTY_TAGBROWSER_ROOT_PATH_PROVIDER);
       }
     }
 
@@ -336,7 +358,7 @@ public class ConfigDataServlet extends SlingSafeMethodsServlet {
       }
       catch (IOException ex) {
         // no valid json - ignore
-        log.trace("Conversion to JSON arary value failed for: {}", value, ex);
+        log.trace("Conversion to JSON array value failed for: {}", value, ex);
       }
     }
     if (JSON_STRING_OBJECT_PATTERN.matcher(value).matches()) {
