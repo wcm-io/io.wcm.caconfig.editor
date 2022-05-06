@@ -44,6 +44,7 @@ See [Deploy and configure Context-Aware Configuration in AEM][deploy-configure-c
 
 |Context-Aware Configuration Editor version |AEM version supported
 |-------------------------------------------|----------------------
+|1.11.2 or higher                           |AEM 6.5.7+, AEMaaCS
 |1.9.x or higher                            |AEM 6.5+, AEMaaCS
 |1.8.x                                      |AEM 6.4+, AEMaaCS
 |1.7.x                                      |AEM 6.3+
