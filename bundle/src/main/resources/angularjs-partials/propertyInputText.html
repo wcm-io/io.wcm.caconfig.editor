@@ -1,7 +1,9 @@
-<div>
+<div ng-form="inputTextForm">
   <input is="coral-textfield" class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-not-inherited"
          ng-model="property.value" ng-trim="false"
-         ng-pattern="pattern" />
+         ng-pattern="pattern" caconfig-custom-validation="\bblah\b"
+         name="textField"/>
+  <span style="color:red" ng-show="inputTextForm.textField.$error.caconfigCustomValidation">WRONG custom!</span>
   <input is="coral-textfield" class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-inherited"
          ng-model="property.value"
          disabled readonly />

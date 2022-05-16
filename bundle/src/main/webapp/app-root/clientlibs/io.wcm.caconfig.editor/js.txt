@@ -30,6 +30,7 @@ modals/save-config.controller.js
 widgets/widgets.module.js
 widgets/widgets.constants.js
 widgets/config-table.directive.js
+widgets/custom-validation.directive.js
 widgets/description-popup.directive.js
 widgets/multifield.directive.js
 widgets/pathbrowser.directive.js
