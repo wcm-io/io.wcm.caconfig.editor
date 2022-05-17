@@ -30,7 +30,6 @@ modals/save-config.controller.js
 widgets/widgets.module.js
 widgets/widgets.constants.js
 widgets/config-table.directive.js
-widgets/custom-validation.directive.js
 widgets/description-popup.directive.js
 widgets/multifield.directive.js
 widgets/pathbrowser.directive.js
@@ -42,3 +41,4 @@ widgets/property-input-textarea.directive.js
 widgets/property-row.directive.js
 widgets/property-row-preview.directive.js
 widgets/tagbrowser.directive.js
+widgets/validation-granite-foundation.directive.js

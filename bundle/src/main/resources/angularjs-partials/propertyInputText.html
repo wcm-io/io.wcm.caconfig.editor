@@ -1,9 +1,10 @@
 <div ng-form="inputTextForm">
   <input is="coral-textfield" class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-not-inherited"
          ng-model="property.value" ng-trim="false"
-         ng-pattern="pattern" caconfig-custom-validation="\bblah\b"
+         ng-pattern="pattern"
+         caconfig-validation-granite-foundation="wcmio.email"
          name="textField"/>
-  <span style="color:red" ng-show="inputTextForm.textField.$error.caconfigCustomValidation">WRONG custom!</span>
+  <span style="color:red" ng-show="inputTextForm.textField.$error.caconfigValidationGraniteFoundation">Custom validation failed</span>
   <input is="coral-textfield" class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-inherited"
          ng-model="property.value"
          disabled readonly />
