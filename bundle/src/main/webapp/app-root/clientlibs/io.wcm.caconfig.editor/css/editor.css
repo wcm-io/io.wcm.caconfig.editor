@@ -65,6 +65,10 @@ form.ng-pristine .caconfig-if-form-valid-and-dirty {
   display: none;
 }
 
+form div.caconfig-invalid-message {
+  color: #f00
+}
+
 span.caconfig-pathbrowser {
   width: 100% !important;
 }

@@ -44,30 +44,31 @@
           return;
         }
 
-        // build mocked DOM element with data-foundation-validation property to match selectors against
-        var validatorName = attr.caconfigValidationGraniteFoundation
-        var mockElement = document.createElement("div")
-        mockElement.setAttribute("data-foundation-validation", validatorName);
-
-        // find matching validator from registry
-        var validators = registry.get("foundation.validation.validator")
-            .filter(item => item.selector != undefined && item.validate != undefined)
-            .filter(item => mockElement.matches(item.selector));
-        if (validators.length == 0) {
-          return;
-        }
-        var validator = validators[0];
-
-        // validate against matching validators
-        ctrl.$validators.caconfigValidationGraniteFoundation = function(modelValue, viewValue) {
-          var value = modelValue || viewValue;
-          var mockInputElement = document.createElement("input");
-          mockInputElement.value = value
-          // GraniteUI validators return a validation message in case of failure
-          // but we cannot pass it over to AngularJS here, so just return true if no messages was returned
-          return validator.validate(mockInputElement) == undefined
-        };
-
+        // observe attribute to get result from interpolations
+        attr.$observe('caconfigValidationGraniteFoundation', function(validatorName) {
+          // build mocked DOM element with data-foundation-validation property to match selectors against
+          var mockElement = document.createElement("div")
+          mockElement.setAttribute("data-foundation-validation", validatorName);
+  
+          // find matching validator from registry
+          var validators = registry.get("foundation.validation.validator")
+              .filter(item => item.selector != undefined && item.validate != undefined)
+              .filter(item => mockElement.matches(item.selector));
+          if (validators.length == 0) {
+            return;
+          }
+          var validator = validators[0];
+  
+          // validate against matching validators
+          ctrl.$validators.caconfigValidationGraniteFoundation = function(modelValue, viewValue) {
+            var value = modelValue || viewValue || "";
+            var mockInputElement = document.createElement("input");
+            mockInputElement.value = value
+            // GraniteUI validators return a validation message in case of failure
+            // but we cannot pass it over to AngularJS here, so just return true if no messages was returned
+            return validator.validate(mockInputElement) == undefined
+          };
+        });
       }
     };
   }

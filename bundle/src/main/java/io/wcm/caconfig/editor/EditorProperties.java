@@ -98,5 +98,16 @@ public final class EditorProperties {
    */
   public static final String PROPERTY_TAGBROWSER_ROOT_PATH_PROVIDER = "tagbrowserRootPathProvider";
 
+  /**
+   * Property name for defining a custom validation via Granite UI Foundation validators.
+   * Set to the name of the validator.
+   */
+  public static final String PROPERTY_VALIDATION_GRANITE_FOUNDATION = "validationGraniteFoundation";
+
+  /**
+   * Property name for defining a custom validation via Granite UI Foundation validators.
+   * Set to a message (or i18n key) to be displayed if the validation fails.
+   */
+  public static final String PROPERTY_VALIDATION_GRANITE_FOUNDATION_MESSAGE = "validationGraniteFoundationMessage";
 
 }
