@@ -24,9 +24,9 @@
    * Directive for synchronous validation via a validator registered in Granite UI Foundation Registry.
    */
   angular.module("io.wcm.caconfig.widgets")
-    .directive("caconfigValidationGraniteFoundation", validate);
+    .directive("caconfigValidationGraniteFoundation", validationGraniteFoundation);
 
-  function validate() {
+  function validationGraniteFoundation() {
     return {
       // restrict to an attribute type.
       restrict: 'A',
@@ -49,7 +49,7 @@
         var mockElement = document.createElement("div")
         mockElement.setAttribute("data-foundation-validation", validatorName);
 
-        // find all matching validatiors from registry
+        // find matching validator from registry
         var validators = registry.get("foundation.validation.validator")
             .filter(item => item.selector != undefined && item.validate != undefined)
             .filter(item => mockElement.matches(item.selector));
