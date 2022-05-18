@@ -97,19 +97,14 @@
     // configure a debounce of 1/4 sec to ensure async call is not executed constantly
     ctrl.$overrideModelOptions({debounce: 250}); 
 
+    // validator returns a JS promise with resolved = valid, rejected = invalid
+    // $asyncValidators expects the same but using a $q promise 
     ctrl.$asyncValidators.caconfigValidation = function(modelValue, viewValue) {
       var deferred = $q.defer();
       var value = modelValue || viewValue;
       if (value) {
         var promise = validator.validate(value, options);
-        promise.then(function (valid) {
-          if (valid) {
-            deferred.resolve();
-          }
-          else {
-            deferred.reject();
-          }
-        }, deferred.reject);
+        promise.then(deferred.resolve, deferred.reject);
       }
       else {
         deferred.resolve();
