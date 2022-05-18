@@ -44,6 +44,11 @@
     function link(scope) {
       var input = inputMap[scope.property.metadata.type];
       scope.pattern = input.pattern;
+
+      // Validation settings
+      var props = scope.property.metadata.properties || {};
+      scope.validation = props.validation;
+      scope.validationMessage = props.validationMessage ? Granite.I18n.get(props.validationMessage) : undefined;
     }
   }
 }(angular));

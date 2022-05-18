@@ -158,6 +158,12 @@ String stringTextArea();
 ```
 
 
+
+### Validation
+
+See [Field Validation][validation].
+
+
 ### Filter configurations
 
 On a system that hosts multiple tenants or websites it may be desirable to offer only a subset of context-aware configurations that are present in the system. This is possible by adding a [Context-Aware Service][wcmio-caservice] that implements the interface [ConfigurationEditorFilter][configurationeditorfilter-interface].
@@ -192,7 +198,7 @@ You should disable the configuration editor on publish by applying an OSGi confi
 ```
 
 
-
+[validation]: validation.html
 [sling-caconfig]: https://sling.apache.org/documentation/bundles/context-aware-configuration/context-aware-configuration.html
 [deploy-configure-caconfig-in-aem]: https://wcm.io/caconfig/deploy-configure-caconfig-in-aem.html
 [wcmio-caconfig-extensions]: https://wcm.io/caconfig/extensions/

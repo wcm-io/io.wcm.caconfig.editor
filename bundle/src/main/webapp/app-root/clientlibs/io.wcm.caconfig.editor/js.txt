@@ -41,3 +41,4 @@ widgets/property-input-textarea.directive.js
 widgets/property-row.directive.js
 widgets/property-row-preview.directive.js
 widgets/tagbrowser.directive.js
+widgets/validation.directive.js

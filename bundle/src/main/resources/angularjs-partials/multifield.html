@@ -71,18 +71,23 @@
   </div>
 
   <div class="caconfig-multifield caconfig-if-config-not-inherited caconfig-if-property-not-overridden-and-not-inherited"
-       ng-repeat="value in values">
+       ng-repeat="value in values" ng-form="inputTextForm">
     <label class="coral-Checkbox"
            bo-if="type==='checkbox'">
       <input class="coral-Checkbox-input" type="checkbox"
              ng-model="value.value" />
       <span class="coral-Checkbox-checkmark"></span>
     </label>
-    <input is="coral-textfield" type="type"
-           bo-if="type!=='checkbox'"
-           ng-model="value.value"
-           ng-trim="false"
-           ng-pattern="pattern" />
+    <div class="caconfig-textfield-wrapper">
+      <input is="coral-textfield" type="type"
+             bo-if="type!=='checkbox'"
+             ng-model="value.value"
+             ng-trim="false"
+             ng-pattern="pattern"
+             caconfig-validation="{{validation}}"
+             name="textField"/>
+      <div class="caconfig-invalid-message" ng-if="validationMessage" ng-show="inputTextForm.textField.$error.caconfigValidation || inputTextForm.textField.$pending.caconfigValidation">{{validationMessage}}</div>
+    </div>
     <div class="coral-ButtonGroup _coral-ButtonGroup coral3-ButtonGroup">
       <button class="coral-ButtonGroup-item coral3-ButtonGroup-item caconfig-disableable-button"
               is="coral-button" variant="action" icon="add" ng-click="addNewValue($index)"></button>
