@@ -26,9 +26,9 @@
   angular.module("io.wcm.caconfig.widgets")
     .directive("caconfigValidation", validation);
 
-  validation.$inject = ["$q"];
+  validation.$inject = ["$q", "configService"];
 
-  function validation($q) {
+  function validation($q, configService) {
     return {
       // restrict to an attribute type.
       restrict: 'A',
@@ -46,26 +46,33 @@
           return;
         }
 
+        var options = buildOptions(configService);
+
         // observe attribute to get result from interpolations
         attr.$observe('caconfigValidation', function(validatorName) {
-          applyValidator(ctrl, validatorName, registry, $q);
+          applyValidator(ctrl, validatorName, options, registry, $q);
         });
       }
     };
   }
 
   /**
+   * Builds options to pass additional context information to the validators.
+   */
+  function buildOptions(configService) {
+    return {
+      contextPath: configService.getState().contextPath
+    }
+  }
+
+  /**
    * Apply validators to input control.
    */
-  function applyValidator(ctrl, validatorName, registry, $q) {
+  function applyValidator(ctrl, validatorName, options, registry, $q) {
     var validator = getValidator(validatorName, registry);
     if (!validator) {
       return;
     }
-
-    // build options to give access to context information to validators
-    // TODO: build options
-    var options = {}
 
     // apply validator synchronously or asynchronously
     if (validator.async) {
