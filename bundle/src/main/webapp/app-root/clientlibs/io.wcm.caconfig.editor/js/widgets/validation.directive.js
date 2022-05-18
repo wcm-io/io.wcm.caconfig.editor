@@ -94,6 +94,9 @@
   }
 
   function applyAsyncValidator(ctrl, validator, options, $q) {
+    // configure a debounce of 1/4 sec to ensure async call is not executed constantly
+    ctrl.$overrideModelOptions({debounce: 250}); 
+
     ctrl.$asyncValidators.caconfigValidation = function(modelValue, viewValue) {
       var deferred = $q.defer();
       var value = modelValue || viewValue;
