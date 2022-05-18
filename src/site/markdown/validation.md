@@ -34,6 +34,8 @@ AEM provides very few built-in validators to be used in edit dialogs, but they c
 
 The benefit of implementing and registering a validator in this way is that it can be used in both Context-Aware Configuration Editor and Edit dialog. But it is not possible to implement asynchronous validations, so this is not the best fit if the validation e.g. involves HTTP requests. Additionally the Context-Aware Configuration Editor cannot display the actual validation message returned by the validator, it always displays the validation message provided via the `validationMessage` property.
 
+The client library that contains the validator has to be registered to the category `io.wcm.caconfig.editor.validation`.
+
 
 ### Validating with custom validator
 
@@ -72,6 +74,7 @@ Two parameters are provided for the `validate` method:
 * `value`: The value to validate
 * `options`: Further context options. Contains currently only one property `contextPath` which contains the root page path of the context-aware configuration context. This can be used to make request to Sling Servlets bound to resources in context of the site/tenant where the editor is opened.
 
+The client library that contains the validator has to be registered to the category `io.wcm.caconfig.editor.validation`.
 
 See [examples][custom-validator-examples] for custom validators.
 

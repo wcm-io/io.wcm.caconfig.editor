@@ -7,6 +7,6 @@
     "coralui3",
     "granite.ui.coral.foundation",
     "io.wcm.caconfig.editor.angularjs",
-    "io.wcm.caconfig.editor.validations"
+    "io.wcm.caconfig.editor.validation"
   ]
 }
