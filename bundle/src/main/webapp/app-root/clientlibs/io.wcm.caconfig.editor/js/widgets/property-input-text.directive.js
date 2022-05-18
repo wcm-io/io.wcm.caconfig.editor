@@ -45,13 +45,10 @@
       var input = inputMap[scope.property.metadata.type];
       scope.pattern = input.pattern;
 
+      // Validation settings
       var props = scope.property.metadata.properties || {};
-
-      // Granite UI Foundation validation
-      scope.validationGraniteFoundation = props.validationGraniteFoundation
-      if (props.validationGraniteFoundationMessage) {
-        scope.validationGraniteFoundationMessage = Granite.I18n.get(props.validationGraniteFoundationMessage);
-      }
+      scope.validation = props.validation;
+      scope.validationMessage = props.validationMessage ? Granite.I18n.get(props.validationMessage) : undefined;
     }
   }
 }(angular));

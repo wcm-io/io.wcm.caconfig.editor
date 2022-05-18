@@ -2,9 +2,9 @@
   <input is="coral-textfield" class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-not-inherited"
          ng-model="property.value" ng-trim="false"
          ng-pattern="pattern"
-         caconfig-validation-granite-foundation="{{validationGraniteFoundation}}"
+         caconfig-validation="{{validation}}"
          name="textField"/>
-  <div class="caconfig-invalid-message" ng-if="validationGraniteFoundationMessage" ng-show="inputTextForm.textField.$error.caconfigValidationGraniteFoundation">{{validationGraniteFoundationMessage}}</div>
+  <div class="caconfig-invalid-message" ng-if="validationMessage" ng-show="inputTextForm.textField.$error.caconfigValidation">{{validationMessage}}</div>
   <input is="coral-textfield" class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-inherited"
          ng-model="property.value"
          disabled readonly />
