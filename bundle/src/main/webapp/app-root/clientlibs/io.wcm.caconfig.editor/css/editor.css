@@ -48,19 +48,23 @@
 }
 
 form.ng-dirty textarea.ng-dirty.ng-invalid,
-form.ng-dirty input.ng-dirty.ng-invalid {
+form.ng-dirty textarea.ng-dirty.ng-pending,
+form.ng-dirty input.ng-dirty.ng-invalid,
+form.ng-dirty input.ng-dirty.ng-pending {
   border: 1px solid #f00;
 }
 
 form.ng-dirty .caconfig-if-form-pristine,
 form.ng-pristine .caconfig-if-form-dirty,
 form.ng-valid .caconfig-if-form-invalid,
-form.ng-invalid .caconfig-if-form-valid {
+form.ng-invalid .caconfig-if-form-valid,
+form.ng-pending .caconfig-if-form-valid {
   display: none;
 }
 
 form.ng-valid.ng-dirty .caconfig-if-form-invalid-or-pristine,
 form.ng-invalid .caconfig-if-form-valid-and-dirty,
+form.ng-pending .caconfig-if-form-valid-and-dirty,
 form.ng-pristine .caconfig-if-form-valid-and-dirty {
   display: none;
 }
