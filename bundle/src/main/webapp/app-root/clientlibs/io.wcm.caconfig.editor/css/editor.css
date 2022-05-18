@@ -92,7 +92,11 @@ span.caconfig-tagbrowser {
 
 .caconfig-multifield {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+}
+
+.caconfig-multifield .caconfig-textfield-wrapper {
+  width: 100%;
 }
 
 .caconfig-multifield + .caconfig-multifield {

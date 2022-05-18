@@ -48,6 +48,11 @@
       scope.effectiveValues = [];
       scope.values = [];
 
+      // Validation settings
+      var props = scope.property.metadata.properties || {};
+      scope.validation = props.validation;
+      scope.validationMessage = props.validationMessage ? Granite.I18n.get(props.validationMessage) : undefined;
+
       setValueArray(scope.property.effectiveValue, scope.effectiveValues);
       setValueArray(scope.property.value, scope.values);
 
