@@ -98,5 +98,17 @@ public final class EditorProperties {
    */
   public static final String PROPERTY_TAGBROWSER_ROOT_PATH_PROVIDER = "tagbrowserRootPathProvider";
 
+  /**
+   * Property name for defining a custom validation for a string or numeric parameter.
+   * The value is either a name of a Granite UI Foundation Validator, or a registered custom validation method.
+   * See <a href="https://wcm.io/caconfig/editor/validation.html">documentation</a> for details.
+   */
+  public static final String PROPERTY_VALIDATION = "validation";
+
+  /**
+   * Property name for defining a custom validation message.
+   * Set to a message (or i18n key) to be displayed if any of the configured validations fails.
+   */
+  public static final String PROPERTY_VALIDATION_MESSAGE = "validationMessage";
 
 }
