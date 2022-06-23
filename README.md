@@ -1,7 +1,7 @@
 <img src="https://wcm.io/images/favicon-16@2x.png"/> Context-Aware Configuration Editor
 ======
 [![Build](https://github.com/wcm-io/io.wcm.caconfig.editor/workflows/Build/badge.svg?branch=develop)](https://github.com/wcm-io/io.wcm.caconfig.editor/actions?query=workflow%3ABuild+branch%3Adevelop)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm/io.wcm.caconfig.editor/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm/io.wcm.caconfig.editor)
+[![Maven Central](https://img.shields.io/maven-central/v/io.wcm/io.wcm.caconfig.editor)](https://repo1.maven.org/maven2/io/wcm/io.wcm.caconfig.editor/)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=wcm-io_io.wcm.caconfig.editor&metric=coverage)](https://sonarcloud.io/summary/new_code?id=wcm-io_io.wcm.caconfig.editor)
 
 Context-Aware Configuration Editor Template for AEM.

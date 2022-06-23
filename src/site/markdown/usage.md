@@ -18,8 +18,8 @@ In most cases you will deploy the configuration editor bundle `io.wcm.caconfig.e
 Alternatively you can deploy it using an AEM package which contains the config editor bundle together with a template definition which allows all paths below `/content`.
 
 |---|---|---|
-| [wcm.io Context-Aware Configuration Editor Bundle (JAR)](https://maven-badges.herokuapp.com/maven-central/io.wcm/io.wcm.caconfig.editor) | [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm/io.wcm.caconfig.editor/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm/io.wcm.caconfig.editor) |
-| [wcm.io Context-Aware Configuration Editor AEM Package with Template Definition (ZIP)](https://maven-badges.herokuapp.com/maven-central/io.wcm/io.wcm.caconfig.editor.package) | [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm/io.wcm.caconfig.editor.package/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm/io.wcm.caconfig.editor.package) |
+| [wcm.io Context-Aware Configuration Editor Bundle (JAR)](https://repo1.maven.org/maven2/io/wcm/io.wcm.caconfig.editor/) | [![Maven Central](https://img.shields.io/maven-central/v/io.wcm/io.wcm.caconfig.editor)](https://repo1.maven.org/maven2/io/wcm/io.wcm.caconfig.editor/) |
+| [wcm.io Context-Aware Configuration Editor AEM Package with Template Definition (ZIP)](https://repo1.maven.org/maven2/io/wcm/io.wcm.caconfig.editor.package/) | [![Maven Central](https://img.shields.io/maven-central/v/io.wcm/io.wcm.caconfig.editor.package)](https://repo1.maven.org/maven2/io/wcm/io.wcm.caconfig.editor.package/) |
 
 
 When you are using AEM 6.1 or 6.2 you have to additionally deploy the Apache Sling Context-Aware Configuration bundles (API, SPI, Impl) to AEM. In AEM 6.3 you have to update the Apache Sling Context-Aware Configuration SPI and Impl version to the latest version if you want to use Editor version 1.1 and upwards. See [Deploy and configure Context-Aware Configuration in AEM][deploy-configure-caconfig-in-aem] for details.

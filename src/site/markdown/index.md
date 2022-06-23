@@ -2,7 +2,7 @@
 
 Context-Aware Configuration Editor Template for AEM.
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm/io.wcm.caconfig.editor/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm/io.wcm.caconfig.editor)
+[![Maven Central](https://img.shields.io/maven-central/v/io.wcm/io.wcm.caconfig.editor)](https://repo1.maven.org/maven2/io/wcm/io.wcm.caconfig.editor/)
 
 
 ### Documentation
