@@ -61,7 +61,7 @@
         var $popover = element.find("coral-popover");
         var popover = $popover[0];
         Coral.commons.ready(popover, function() {
-          popover.content.innerHTML = "<p class=\"u-coral-margin\">" + scope.content + "</p>";
+          $popover.append($('<p class="u-coral-margin"></p>').text(scope.content));
         });
       }, false);
     }
