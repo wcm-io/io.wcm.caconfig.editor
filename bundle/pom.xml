@@ -25,13 +25,13 @@
   <parent>
     <groupId>io.wcm</groupId>
     <artifactId>io.wcm.caconfig.editor.parent</artifactId>
-    <version>1.12.2</version>
+    <version>1.12.3-SNAPSHOT</version>
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
   <groupId>io.wcm</groupId>
   <artifactId>io.wcm.caconfig.editor</artifactId>
-  <version>1.12.2</version>
+  <version>1.12.3-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>Context-Aware Configuration Editor</name>
@@ -42,7 +42,7 @@
     <site.url.module.prefix>caconfig/editor/bundle</site.url.module.prefix>
 
     <!-- Enable reproducible builds -->
-    <project.build.outputTimestamp>2022-08-24T11:39:50Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2022-08-24T11:41:54Z</project.build.outputTimestamp>
   </properties>
 
   <dependencies>
