@@ -26,9 +26,9 @@
   angular.module("io.wcm.caconfig.widgets")
     .directive("caconfigPropertyInputTextarea", propertyInputTextarea);
 
-  propertyInputTextarea.$inject = ["templateUrlList", "inputMap"];
+  propertyInputTextarea.$inject = ["$rootScope", "templateUrlList", "inputMap"];
 
-  function propertyInputTextarea(templateList, inputMap) {
+  function propertyInputTextarea($rootScope, templateList, inputMap) {
 
     var directive = {
       templateUrl: templateList.propertyInputTextarea,
@@ -44,6 +44,7 @@
     function link(scope) {
       var input = inputMap[scope.property.metadata.type];
       scope.pattern = input.pattern;
+      scope.i18n = $rootScope.i18n;
     }
   }
 }(angular));

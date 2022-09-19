@@ -86,7 +86,7 @@
              ng-pattern="pattern"
              caconfig-validation="{{validation}}"
              name="textField"/>
-      <div class="caconfig-invalid-message" ng-if="validationMessage" ng-show="inputTextForm.textField.$error.caconfigValidation || inputTextForm.textField.$pending.caconfigValidation">{{validationMessage}}</div>
+      <div class="coral-Form-errorlabel" ng-if="validationMessage" ng-show="inputTextForm.textField.$error.caconfigValidation || inputTextForm.textField.$pending.caconfigValidation" bo-text="validationMessage"></div>
     </div>
     <div class="coral-ButtonGroup _coral-ButtonGroup coral3-ButtonGroup">
       <button class="coral-ButtonGroup-item coral3-ButtonGroup-item caconfig-disableable-button"

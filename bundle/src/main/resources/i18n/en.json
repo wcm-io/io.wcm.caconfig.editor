@@ -89,6 +89,11 @@
         "allowed": "Allowed characters: A-Z a-z 0-9 - _",
         "unique": "This name is already in use."
       }
+    },
+
+    "validation": {
+      "required": "Please fill out this field."
     }
+
   }
 }
