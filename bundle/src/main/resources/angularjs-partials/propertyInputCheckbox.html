@@ -1,4 +1,4 @@
-<div ng-form="inputCheckbox">
+<div ng-form="inputCheckboxForm">
   <label class="coral-Checkbox coral3-Checkbox caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-not-inherited">
     <input class="coral-Checkbox-input coral3-Checkbox-input" type="checkbox"
            ng-model="property.value"
@@ -6,7 +6,7 @@
            name="checkbox"/>
     <span class="coral-Checkbox-checkmark coral3-Checkbox-checkmark"></span>
   </label>
-  <div class="coral-Form-errorlabel" ng-if="i18n('validation.required')" ng-show="inputCheckbox.checkbox.$error.required" bo-text="i18n('validation.required')"></div>
+  <div class="coral-Form-errorlabel" ng-if="i18n('validation.required')" ng-show="inputCheckboxForm.checkbox.$error.required" bo-text="i18n('validation.required')"></div>
   <label class="coral-Checkbox coral3-Checkbox caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-inherited">
     <input class="coral-Checkbox-input coral3-Checkbox-input" type="checkbox"
            ng-model="property.value"
