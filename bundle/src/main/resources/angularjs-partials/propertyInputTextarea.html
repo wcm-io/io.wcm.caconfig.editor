@@ -1,7 +1,7 @@
 <div ng-form="inputTextArea">
   <textarea is="coral-textarea" class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-not-inherited"
             ng-model="property.value" ng-trim="false"
-            ng-required="{{property.metadata.properties.mandatory}}"
+            ng-required="{{property.metadata.properties.required}}"
             name="textArea"></textarea>
   <div class="coral-Form-errorlabel" ng-if="i18n('validation.required')" ng-show="inputTextArea.textArea.$error.required" bo-text="i18n('validation.required')"></div>
   <textarea is="coral-textarea" class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-inherited"

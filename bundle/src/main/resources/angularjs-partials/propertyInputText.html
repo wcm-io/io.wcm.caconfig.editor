@@ -2,7 +2,7 @@
   <input is="coral-textfield" class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-not-inherited"
          ng-model="property.value" ng-trim="false"
          ng-pattern="pattern"
-         ng-required="{{property.metadata.properties.mandatory}}"
+         ng-required="{{property.metadata.properties.required}}"
          caconfig-validation="{{validation}}"
          name="textField"/>
   <div class="coral-Form-errorlabel" ng-if="i18n('validation.required')" ng-show="inputTextForm.textField.$error.required" bo-text="i18n('validation.required')"></div>
