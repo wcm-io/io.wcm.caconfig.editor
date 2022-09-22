@@ -40,7 +40,9 @@
     function link(scope, element) {
       var multiValue = scope.property.metadata.multivalue;
 
-      if(multiValue) {
+      scope.i18n = $rootScope.i18n;
+
+      if (multiValue) {
         scope.effectiveValues = [];
         scope.values = [];
 

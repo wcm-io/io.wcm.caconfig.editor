@@ -44,6 +44,8 @@
       var pathfieldWidget;
       var suggestionOverlay;
 
+      scope.i18n = $rootScope.i18n;
+
       angular.forEach(props, function (value, prop) {
         var propName;
         // if the property starts with the prefix "pathbrowser" followed by a pathbrowser property name
