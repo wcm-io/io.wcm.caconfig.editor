@@ -23,9 +23,9 @@
   angular.module("io.wcm.caconfig.widgets")
     .directive("caconfigTagbrowser", tagbrowser);
 
-  tagbrowser.$inject = ["templateUrlList", "directivePropertyPrefixes", "$timeout", "$rootScope", "configService", "tagbrowserService"];
+  tagbrowser.$inject = ["templateUrlList", "directivePropertyPrefixes", "$timeout", "$rootScope", "tagbrowserService"];
 
-  function tagbrowser(templateList, directivePropertyPrefixes, $timeout, $rootScope, configService, tagbrowserService) {
+  function tagbrowser(templateList, directivePropertyPrefixes, $timeout, $rootScope, tagbrowserService) {
     var directive = {
       replace: true,
       templateUrl: templateList.tagbrowser,
@@ -78,7 +78,7 @@
         var taglist = element.find("coral-taglist")[0];
         Coral.commons.ready(tagfieldWidget, function() {
           var selectionCount = "single"
-          if(multiValue) {
+          if (multiValue) {
             selectionCount = "multiple";
           }
           tagfieldWidget.setAttribute("pickersrc", tagbrowserService.getPickerSrc(options.rootPath, selectionCount));
@@ -90,10 +90,11 @@
           $(taglist).on("coral-collection:add", function onAdd(event) {
             scope.property.value = taglist.items.getAll().map(item => item.value);
             if(!multiValue) {
-              if(!scope.property || !scope.property.value || !angular.isArray(scope.property.value)) {
+              if (!scope.property || !scope.property.value || !angular.isArray(scope.property.value)) {
                 scope.property.value = null;
-              } else if(scope.property.value.length > 0) {
-                if(scope.property.value.length > 1) {
+              }
+              else if(scope.property.value.length > 0) {
+                if (scope.property.value.length > 1) {
                   var tagNode = element.find("coral-tag")[0];
                   tagNode.parentElement.removeChild(tagNode);
                 }
@@ -101,26 +102,28 @@
               }
             }
 
-            if(!scope.property.effectiveValue && scope.property.value) {
+            if (!scope.property.effectiveValue && scope.property.value) {
               scope.property.effectiveValue = [];
             }
             let hasChanged = !compare(scope.property.effectiveValue, scope.property.value) || wasInherited;
 
-            if(hasChanged) {
+            if (hasChanged) {
               if ($rootScope.configForm.$pristine) {
                 $rootScope.configForm.$setDirty();
                 scope.$digest();
               }
-            } else {
+            }
+            else {
               $rootScope.configForm.$setPristine();
               scope.$digest();
             }
           });
           
           $(taglist).on("coral-collection:remove", function onAdd(event) {
-            if(multiValue) {
+            if (multiValue) {
               scope.property.value = taglist.items.getAll().map(item => item.value);
-            } else {
+            }
+            else {
               scope.property.value = [];
             }
 
@@ -129,22 +132,24 @@
             }
             let hasChanged = !compare(scope.property.effectiveValue, scope.property.value);
 
-            if(hasChanged) {
+            if (hasChanged) {
               if ($rootScope.configForm.$pristine) {
                 $rootScope.configForm.$setDirty();
                 scope.$digest();
               }
-            } else {
+            }
+            else {
               $rootScope.configForm.$setPristine();
               scope.$digest();
             }
           });
 
-          if(multiValue) {
+          if (multiValue) {
             for (let i = 0; i < scope.values.length; i++) {
               addTagToList(scope.values[i].value, options.rootPath, taglist)
             }
-          } else {
+          }
+          else {
             if(scope.property.value) addTagToList(scope.property.value, options.rootPath, taglist)
           }
 
@@ -153,14 +158,15 @@
     }
 
     function compare(base, other) {
-      if(!base && !other) return true;
-      if(base && !other) return false;
-      if(!base && other) return false;
-      if(angular.isArray(base) && !angular.isArray(other)) return false;
-      if(angular.isArray(other) && !angular.isArray(base)) return false;
-      if(angular.isArray(other) && angular.isArray(base)) {
+      if (!base && !other) return true;
+      if (base && !other) return false;
+      if (!base && other) return false;
+      if (angular.isArray(base) && !angular.isArray(other)) return false;
+      if (angular.isArray(other) && !angular.isArray(base)) return false;
+      if (angular.isArray(other) && angular.isArray(base)) {
         return base.length === other.length && base.every(function(value, index) { return value === other[index]});
-      } else {
+      }
+      else {
         return base === other;
       }
     }
@@ -181,21 +187,24 @@
             type: "GET",
             async: false, //force async=false to create the entire tag-path in order
           })
-              .done(function (data) {
-                if (fullTagLabel) {
-                  fullTagLabel += " / ";
-                }
-                fullTagLabel += data["jcr:title"];
-              });
+          .done(function (data) {
+            if (fullTagLabel) {
+              fullTagLabel += " / ";
+            }
+            fullTagLabel += data["jcr:title"];
+          });
         });
-        if(fullTagLabel) {
+        if (fullTagLabel) {
           fullTagLabel = fullTagLabel.replace(" / ", " : ");
-        } else {
+        }
+        else {
           fullTagLabel = tagName.replace(":", "")
         }
-      } catch(error) {
+      }
+      catch(error) {
         fullTagLabel = tagName.replace(":", "")
-      } finally {
+      }
+      finally {
         let coralTag = new Coral.Tag().set({
           value: tagName,
           label: {
@@ -208,10 +217,10 @@
 
     function mergeUrlPaths(basePath, mergePath) {
       const separator = "/";
-      if(!mergePath.startsWith(separator)) {
+      if (!mergePath.startsWith(separator)) {
         mergePath = separator + mergePath;
       }
-      if(!basePath.includes(mergePath)) {
+      if (!basePath.includes(mergePath)) {
         while (mergePath && !basePath.includes(mergePath)) {
           let subPath = mergePath.substring(mergePath.lastIndexOf(separator));
           if (mergePath === subPath) break;
@@ -220,7 +229,8 @@
           mergePath = separator + mergePath;
         }
         return basePath + mergePath;
-      } else{
+      }
+      else {
         return basePath;
       }
     }
