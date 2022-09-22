@@ -23,9 +23,9 @@
   angular.module("io.wcm.caconfig.widgets")
     .directive("caconfigTagbrowser", tagbrowser);
 
-  tagbrowser.$inject = ["templateUrlList", "directivePropertyPrefixes", "$timeout", "$rootScope", "configService", "tagbrowserService"];
+  tagbrowser.$inject = ["templateUrlList", "directivePropertyPrefixes", "$timeout", "$rootScope", "tagbrowserService"];
 
-  function tagbrowser(templateList, directivePropertyPrefixes, $timeout, $rootScope, configService, tagbrowserService) {
+  function tagbrowser(templateList, directivePropertyPrefixes, $timeout, $rootScope, tagbrowserService) {
     var directive = {
       replace: true,
       templateUrl: templateList.tagbrowser,
