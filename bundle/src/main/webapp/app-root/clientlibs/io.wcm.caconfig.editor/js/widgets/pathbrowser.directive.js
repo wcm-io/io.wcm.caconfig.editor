@@ -23,9 +23,9 @@
   angular.module("io.wcm.caconfig.widgets")
     .directive("caconfigPathbrowser", pathbrowser);
 
-  pathbrowser.$inject = ["templateUrlList", "directivePropertyPrefixes", "$timeout", "$rootScope", "configService", "pathbrowserService"];
+  pathbrowser.$inject = ["templateUrlList", "directivePropertyPrefixes", "$timeout", "$rootScope", "configService", "pathbrowserService", "$compile"];
 
-  function pathbrowser(templateList, directivePropertyPrefixes, $timeout, $rootScope, configService, pathbrowserService) {
+  function pathbrowser(templateList, directivePropertyPrefixes, $timeout, $rootScope, configService, pathbrowserService, $compile) {
     var directive = {
       replace: true,
       templateUrl: templateList.pathbrowser,
@@ -73,15 +73,22 @@
           suggestionOverlay.setAttribute("data-foundation-picker-buttonlist-src", pathbrowserService.getSuggestionSrc(options.rootPath));
 
           pathfieldWidget.value = scope.property.effectiveValue;
+          scope.property.value = scope.property.effectiveValue;
 
-          // Add change event listen
+          // bind model to input field (dynamically created by Coral UI)
+          var $input = $("input", pathfieldWidget);
+          $input.attr("name", "pathBrowser");
+          $input.attr("ng-required", props.required);
+          $input.attr("ng-model", "property.value");
+          $compile($input[0])(scope);
+
+          // Add change event listener
           $(pathfieldWidget).on("change", function onChange() {
             scope.property.value = pathfieldWidget.value;
-
             if ($rootScope.configForm.$pristine) {
               $rootScope.configForm.$setDirty();
-              scope.$digest();
             }
+            scope.$digest();
           });
         });
       });
