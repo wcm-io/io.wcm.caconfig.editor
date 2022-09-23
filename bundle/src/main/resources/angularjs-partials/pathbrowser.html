@@ -1,10 +1,12 @@
 <div bindonce class="caconfig-pathbrowser" ng-form="inputPathBrowserForm">
 
-  <foundation-autocomplete class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-not-inherited">
-    <coral-overlay foundation-autocomplete-suggestion class="foundation-picker-buttonlist"></coral-overlay>
-    <coral-taglist foundation-autocomplete-value></coral-taglist>
-  </foundation-autocomplete>
-  <div class="coral-Form-errorlabel" ng-if="i18n('validation.required')" ng-show="inputPathBrowserForm.pathBrowser.$error.required" bo-text="i18n('validation.required')"></div>
+  <div class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-not-inherited">
+    <foundation-autocomplete>
+      <coral-overlay foundation-autocomplete-suggestion class="foundation-picker-buttonlist"></coral-overlay>
+      <coral-taglist foundation-autocomplete-value></coral-taglist>
+    </foundation-autocomplete>
+    <div class="coral-Form-errorlabel" bindonce="i18n('validation.required')" ng-show="inputPathBrowserForm.pathBrowser.$error.required" bo-text="i18n('validation.required')"></div>
+  </div>
 
   <input is="coral-textfield" class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-inherited"
          ng-model="property.value"

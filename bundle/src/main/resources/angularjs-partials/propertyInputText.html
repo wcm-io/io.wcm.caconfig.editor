@@ -1,12 +1,14 @@
 <div ng-form="inputTextForm">
-  <input is="coral-textfield" class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-not-inherited"
-         ng-model="property.value" ng-trim="false"
-         ng-pattern="pattern"
-         ng-required="{{property.metadata.properties.required}}"
-         caconfig-validation="{{validation}}"
-         name="textField"/>
-  <div class="coral-Form-errorlabel" ng-if="i18n('validation.required')" ng-show="inputTextForm.textField.$error.required" bo-text="i18n('validation.required')"></div>
-  <div class="coral-Form-errorlabel" ng-if="validationMessage" ng-show="inputTextForm.textField.$error.caconfigValidation || inputTextForm.textField.$pending.caconfigValidation" bo-text="validationMessage"></div>
+  <div class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-not-inherited">
+    <input is="coral-textfield"
+           ng-model="property.value" ng-trim="false"
+           ng-pattern="pattern"
+           ng-required="{{property.metadata.properties.required}}"
+           caconfig-validation="{{validation}}"
+           name="textField"/>
+    <div class="coral-Form-errorlabel" bindonce="i18n('validation.required')" ng-show="inputTextForm.textField.$error.required" bo-text="i18n('validation.required')"></div>
+    <div class="coral-Form-errorlabel" bindonce="validationMessage" ng-show="inputTextForm.textField.$error.caconfigValidation || inputTextForm.textField.$pending.caconfigValidation" bo-text="validationMessage"></div>
+  </div>
   <input is="coral-textfield" class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-inherited"
          ng-model="property.value"
          disabled readonly />

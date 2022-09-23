@@ -89,8 +89,8 @@
              ng-required="{{property.metadata.properties.required}}"
              caconfig-validation="{{validation}}"
              name="inputField"/>
-      <div class="coral-Form-errorlabel" ng-if="i18n('validation.required')" ng-show="inputMultifieldForm.inputField.$error.required" bo-text="i18n('validation.required')"></div>
-      <div class="coral-Form-errorlabel" ng-if="validationMessage" ng-show="inputMultifieldForm.inputField.$error.caconfigValidation || inputTextForm.textField.$pending.caconfigValidation" bo-text="validationMessage"></div>
+      <div class="coral-Form-errorlabel" bindonce="i18n('validation.required')" ng-show="inputMultifieldForm.inputField.$error.required" bo-text="i18n('validation.required')"></div>
+      <div class="coral-Form-errorlabel" bindonce="validationMessage" ng-show="inputMultifieldForm.inputField.$error.caconfigValidation || inputTextForm.textField.$pending.caconfigValidation" bo-text="validationMessage"></div>
     </div>
     <div class="coral-ButtonGroup _coral-ButtonGroup coral3-ButtonGroup">
       <button class="coral-ButtonGroup-item coral3-ButtonGroup-item caconfig-disableable-button"
