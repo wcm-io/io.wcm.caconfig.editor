@@ -46,8 +46,20 @@
 
     function link(scope) {
       scope.propertyRow = {
-        handleInheritedChange: currentConfigService.handleInheritedChange
+        handleInheritedChange: currentConfigService.handleInheritedChange,
+        required: isRequired(scope)
       };
+    }
+
+    /**
+     * Check if this property is set as required.
+     * Also check if the widget types supports this, and ignore the setting if not.
+     */
+    function isRequired(scope) {
+      var props = scope.property.metadata.properties || {};
+      return (props.required == 'true'
+          && props.widgetType != 'tagbrowser'
+          && props.widgetType != 'dropdown');
     }
   }
 }(angular));
