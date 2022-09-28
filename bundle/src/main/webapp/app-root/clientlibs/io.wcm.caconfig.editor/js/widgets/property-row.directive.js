@@ -56,7 +56,8 @@
      * Also check if the widget types supports this, and ignore the setting if not.
      */
     function isRequired(scope) {
-      var props = scope.property.metadata.properties || {};
+      var metadata = scope.property.metadata || {};
+      var props = metadata.properties || {};
       return (props.required == 'true'
           && props.widgetType != 'tagbrowser'
           && props.widgetType != 'dropdown');

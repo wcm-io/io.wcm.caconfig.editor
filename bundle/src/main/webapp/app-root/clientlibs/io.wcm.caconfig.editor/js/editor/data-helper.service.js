@@ -141,7 +141,7 @@
             });
             properties[property.name] = angular.copy(tempArray);
           }
-          else if (property.metadata.type !== "String" && property.value === "") {
+          else if ((property.metadata == undefined || property.metadata.type !== "String") && property.value === "") {
             properties[property.name] = null;
           }
           else {
