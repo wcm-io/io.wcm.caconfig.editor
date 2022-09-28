@@ -27,6 +27,9 @@
       <action type="add" dev="sseifert">
         Add support for defining properties as "required", forcing users to enter a value.
       </action>
+      <action type="fix" dev="sseifert">
+        Tag Browser widget should never call $setPristine because it might overwrite $dirty state caused by other fields.
+      </action>
     </release>
 
     <release version="1.12.2" date="2022-08-24">

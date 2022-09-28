@@ -112,7 +112,6 @@
               }
             }
             else {
-              $rootScope.configForm.$setPristine();
               scope.$digest();
             }
           });
@@ -137,7 +136,6 @@
               }
             }
             else {
-              $rootScope.configForm.$setPristine();
               scope.$digest();
             }
           });
