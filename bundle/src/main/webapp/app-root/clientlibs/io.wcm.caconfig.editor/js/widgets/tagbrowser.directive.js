@@ -121,7 +121,7 @@
               scope.property.value = taglist.items.getAll().map(item => item.value);
             }
             else {
-              scope.property.value = [];
+              scope.property.value = taglist.items.getAll().map(item => item.value)[0];
             }
 
             if(!scope.property.effectiveValue && scope.property.value) {

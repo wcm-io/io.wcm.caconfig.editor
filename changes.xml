@@ -28,7 +28,10 @@
         Add support for defining properties as "required", forcing users to enter a value.
       </action>
       <action type="fix" dev="sseifert">
-        Tag Browser widget should never call $setPristine because it might overwrite $dirty state caused by other fields.
+        Tag Browser: Fix single tag selection problem in AEM 6.5.
+      </action>
+      <action type="fix" dev="sseifert">
+        Tag Browser: Widget should never call $setPristine because it might overwrite $dirty state caused by other fields.
       </action>
     </release>
 
