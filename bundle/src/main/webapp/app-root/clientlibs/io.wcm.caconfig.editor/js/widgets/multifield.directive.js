@@ -43,6 +43,8 @@
       var input = inputMap[scope.property.metadata.type];
       var inheritedStateChanged = false;
 
+      scope.i18n = $rootScope.i18n;
+
       scope.type = input.type;
       scope.pattern = input.pattern;
       scope.effectiveValues = [];

@@ -26,18 +26,23 @@
   angular.module("io.wcm.caconfig.widgets")
     .directive("caconfigPropertyInputCheckbox", propertyInputCheckbox);
 
-  propertyInputCheckbox.$inject = ["templateUrlList"];
+  propertyInputCheckbox.$inject = ["$rootScope", "templateUrlList"];
 
-  function propertyInputCheckbox(templateList) {
+  function propertyInputCheckbox($rootScope, templateList) {
 
     var directive = {
       templateUrl: templateList.propertyInputCheckbox,
       scope: {
         property: "="
       },
-      replace: true
+      replace: true,
+      link: link
     };
 
     return directive;
+
+    function link(scope) {
+      scope.i18n = $rootScope.i18n;
+    }
   }
 }(angular));

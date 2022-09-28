@@ -1,6 +1,11 @@
-<div>
-  <textarea is="coral-textarea" class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-not-inherited"
-            ng-model="property.value" ng-trim="false"></textarea>
+<div ng-form="inputTextAreaForm">
+  <div class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-not-inherited">
+    <textarea is="coral-textarea"
+              ng-model="property.value" ng-trim="false"
+              ng-required="{{property.metadata.properties.required && !property.overridden && !property.inherited}}"
+              name="textArea"></textarea>
+    <div class="coral-Form-errorlabel" bindonce="i18n('validation.required')" ng-show="inputTextAreaForm.textArea.$error.required" bo-text="i18n('validation.required')"></div>
+  </div>
   <textarea is="coral-textarea" class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-inherited"
             ng-model="property.value"
             disabled readonly></textarea>
