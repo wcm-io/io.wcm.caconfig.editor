@@ -71,11 +71,13 @@
   </div>
 
   <div class="caconfig-multifield caconfig-if-config-not-inherited caconfig-if-property-not-overridden-and-not-inherited"
-       ng-repeat="value in values" ng-form="inputTextForm">
-    <label class="coral-Checkbox"
+       ng-repeat="value in values" ng-form="inputMultifieldForm">
+    <label class="coral-Checkbox" style="margin-right:10px;"
            bo-if="type==='checkbox'">
       <input class="coral-Checkbox-input" type="checkbox"
-             ng-model="value.value" />
+             ng-model="value.value"
+             ng-required="{{property.metadata.properties.required && !property.overridden && !property.inherited}}"
+             name="inputField"/>
       <span class="coral-Checkbox-checkmark"></span>
     </label>
     <div class="caconfig-textfield-wrapper">
@@ -84,9 +86,11 @@
              ng-model="value.value"
              ng-trim="false"
              ng-pattern="pattern"
+             ng-required="{{property.metadata.properties.required && !property.overridden && !property.inherited}}"
              caconfig-validation="{{validation}}"
-             name="textField"/>
-      <div class="caconfig-invalid-message" ng-if="validationMessage" ng-show="inputTextForm.textField.$error.caconfigValidation || inputTextForm.textField.$pending.caconfigValidation">{{validationMessage}}</div>
+             name="inputField"/>
+      <div class="coral-Form-errorlabel" bindonce="i18n('validation.required')" ng-show="inputMultifieldForm.inputField.$error.required" bo-text="i18n('validation.required')"></div>
+      <div class="coral-Form-errorlabel" bindonce="validationMessage" ng-show="inputMultifieldForm.inputField.$error.caconfigValidation || inputTextForm.textField.$pending.caconfigValidation" bo-text="validationMessage"></div>
     </div>
     <div class="coral-ButtonGroup _coral-ButtonGroup coral3-ButtonGroup">
       <button class="coral-ButtonGroup-item coral3-ButtonGroup-item caconfig-disableable-button"

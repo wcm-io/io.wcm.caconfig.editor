@@ -26,9 +26,9 @@
   angular.module("io.wcm.caconfig.widgets")
     .directive("caconfigPropertyInputText", propertyInputText);
 
-  propertyInputText.$inject = ["templateUrlList", "inputMap"];
+  propertyInputText.$inject = ["$rootScope", "templateUrlList", "inputMap"];
 
-  function propertyInputText(templateList, inputMap) {
+  function propertyInputText($rootScope, templateList, inputMap) {
 
     var directive = {
       templateUrl: templateList.propertyInputText,
@@ -44,6 +44,7 @@
     function link(scope) {
       var input = inputMap[scope.property.metadata.type];
       scope.pattern = input.pattern;
+      scope.i18n = $rootScope.i18n;
 
       // Validation settings
       var props = scope.property.metadata.properties || {};
