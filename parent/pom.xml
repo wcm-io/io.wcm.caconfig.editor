@@ -31,7 +31,7 @@
 
   <groupId>io.wcm</groupId>
   <artifactId>io.wcm.caconfig.editor.parent</artifactId>
-  <version>1.13.0-SNAPSHOT</version>
+  <version>1.13.0</version>
   <packaging>pom</packaging>
 
   <name>Context-Aware Configuration Editor</name>
@@ -39,7 +39,7 @@
   
   <properties>
     <!-- Enable reproducible builds -->
-    <project.build.outputTimestamp>2022-09-20T14:22:41Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2022-09-29T07:43:18Z</project.build.outputTimestamp>
   </properties>
 
   <build>
