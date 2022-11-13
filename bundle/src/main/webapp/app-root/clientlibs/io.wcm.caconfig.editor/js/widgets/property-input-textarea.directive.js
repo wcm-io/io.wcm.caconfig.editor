@@ -45,6 +45,11 @@
       var input = inputMap[scope.property.metadata.type];
       scope.pattern = input.pattern;
       scope.i18n = $rootScope.i18n;
+
+      // Validation settings
+      var props = scope.property.metadata.properties || {};
+      scope.validation = props.validation;
+      scope.validationMessage = props.validationMessage ? Granite.I18n.get(props.validationMessage) : undefined;
     }
   }
 }(angular));
