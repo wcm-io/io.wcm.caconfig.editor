@@ -22,6 +22,11 @@
 <document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/changes/1.0.0"
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
+    <release version="1.14.0" date="2022-11-15">
+      <action type="add" dev="gweng">
+        Add support of custom validators to textarea.
+      </action>
+    </release>
 
     <release version="1.13.0" date="2022-09-29">
       <action type="add" dev="sseifert">
