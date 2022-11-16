@@ -22,9 +22,10 @@
 <document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/changes/1.0.0"
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
-    <release version="1.14.0" date="2022-11-15">
+
+    <release version="1.14.0" date="not released">
       <action type="add" dev="gweng">
-        Add support to custom rows attribute of textarea.
+        Textarea widget: Allow to specfify the number of rows to display via rows attribute.
       </action>
     </release>
 

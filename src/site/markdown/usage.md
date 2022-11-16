@@ -153,7 +153,7 @@ Allows to enter multiple lines of text for a string parameter.
 ```java
 @Property(label = "String Text Area", description = "Enter multiple lines of text.", property = {
     "widgetType=textarea",
-    "textareaRows=10"        
+    "textareaRows=10"
 })
 String stringTextArea();
 ```
