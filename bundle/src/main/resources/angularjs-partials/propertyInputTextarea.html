@@ -4,6 +4,7 @@
               ng-model="property.value" ng-trim="false"
               ng-required="{{property.metadata.properties.required && !property.overridden && !property.inherited}}"
               caconfig-validation="{{validation}}"
+              ng-attr-rows="{{textareaRows}}"
               name="textArea"></textarea>
     <div class="coral-Form-errorlabel" bindonce="i18n('validation.required')" ng-show="inputTextAreaForm.textArea.$error.required" bo-text="i18n('validation.required')"></div>
     <div class="coral-Form-errorlabel" bindonce="validationMessage" ng-show="inputTextAreaForm.textArea.$error.caconfigValidation || inputTextAreaForm.textArea.$pending.caconfigValidation" bo-text="validationMessage"></div>
