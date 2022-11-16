@@ -27,6 +27,9 @@
       <action type="add" dev="gweng">
         Textarea widget: Allow to specfify the number of rows to display via rows attribute.
       </action>
+      <action type="add" dev="gweng">
+        Textarea widget: Support custom validation.
+      </action>
     </release>
 
     <release version="1.13.0" date="2022-09-29">
