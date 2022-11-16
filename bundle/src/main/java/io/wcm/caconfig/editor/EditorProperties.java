@@ -116,4 +116,9 @@ public final class EditorProperties {
    */
   public static final String PROPERTY_VALIDATION_MESSAGE = "validationMessage";
 
+  /**
+   * Property name for defining the property "rows" of Textarea.
+   */
+  public static final String PROPERTY_TEXTAREA_ROWS = "textareaRows";
+
 }

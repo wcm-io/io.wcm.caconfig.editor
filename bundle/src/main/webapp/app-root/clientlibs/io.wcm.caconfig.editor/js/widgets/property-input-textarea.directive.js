@@ -45,6 +45,9 @@
       var input = inputMap[scope.property.metadata.type];
       scope.pattern = input.pattern;
       scope.i18n = $rootScope.i18n;
+
+      var props = scope.property.metadata.properties || {};
+      scope.textareaRows = props.textareaRows;
     }
   }
 }(angular));
