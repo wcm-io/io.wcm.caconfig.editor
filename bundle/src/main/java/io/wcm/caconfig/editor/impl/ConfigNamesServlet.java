@@ -19,11 +19,13 @@
  */
 package io.wcm.caconfig.editor.impl;
 
+import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_CATEGORY;
 import static io.wcm.caconfig.editor.impl.JsonMapper.OBJECT_MAPPER;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -117,6 +119,7 @@ public class ConfigNamesServlet extends SlingSafeMethodsServlet {
         item.setConfigName(configName);
         item.setLabel(metadata.getLabel());
         item.setDescription(metadata.getDescription());
+        item.setCategory(getPropertiesString(metadata.getProperties(), PROPERTY_CATEGORY));
         item.setCollection(metadata.isCollection());
 
         ConfigurationState state = getConfigurationState(contextResource, configName, metadata.isCollection());
@@ -155,6 +158,13 @@ public class ConfigNamesServlet extends SlingSafeMethodsServlet {
       }
     }
     return result;
+  }
+
+  private static String getPropertiesString(Map<String, String> properties, String key) {
+    if (properties == null) {
+      return null;
+    }
+    return properties.get(key);
   }
 
   private static final class ConfigurationState {

@@ -19,6 +19,7 @@
  */
 package io.wcm.caconfig.editor.impl;
 
+import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_CATEGORY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -41,6 +42,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.skyscreamer.jsonassert.JSONAssert;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedSet;
 
 import io.wcm.caconfig.editor.ConfigurationEditorFilter;
@@ -68,7 +70,8 @@ class ConfigNamesServletTest {
 
     ConfigurationMetadata metadata1 = new ConfigurationMetadata("name1", ImmutableList.<PropertyMetadata<?>>of(), false)
         .label("B-label1")
-        .description("desc1");
+        .description("desc1")
+        .properties(ImmutableMap.of(PROPERTY_CATEGORY, "category1"));
     ConfigurationMetadata metadata2 = new ConfigurationMetadata("name2", ImmutableList.<PropertyMetadata<?>>of(), true)
         .label("A-label2");
     ConfigurationMetadata metadata3 = new ConfigurationMetadata("name3", ImmutableList.<PropertyMetadata<?>>of(), false)
@@ -100,7 +103,7 @@ class ConfigNamesServletTest {
 
     String expectedJson = "{contextPath:'/context/path',configNames:["
         + "{configName:'name2',label:'A-label2',collection=true,exists:true,inherited:false,overridden:false,allowAdd:true},"
-        + "{configName:'name1',label:'B-label1',description:'desc1',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true},"
+        + "{configName:'name1',label:'B-label1',description:'desc1',category:'category1',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true},"
         + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
         + "]}";
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
@@ -120,7 +123,7 @@ class ConfigNamesServletTest {
 
     String expectedJson = "{contextPath:'/context/path',configNames:["
         + "{configName:'name2',label:'A-label2',collection=true,exists:true,inherited:true,overridden:true,allowAdd:true},"
-        + "{configName:'name1',label:'B-label1',description:'desc1',collection:false,exists:true,inherited:true,overridden:true,allowAdd:true},"
+        + "{configName:'name1',label:'B-label1',description:'desc1',category:'category1',collection:false,exists:true,inherited:true,overridden:true,allowAdd:true},"
         + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
         + "]}";
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
@@ -140,7 +143,7 @@ class ConfigNamesServletTest {
 
     String expectedJson = "{contextPath:'/context/path',configNames:["
         + "{configName:'name2',label:'A-label2',collection=true,exists:true,inherited:false,overridden:true,allowAdd:true},"
-        + "{configName:'name1',label:'B-label1',description:'desc1',collection:false,exists:true,inherited:false,overridden:true,allowAdd:true},"
+        + "{configName:'name1',label:'B-label1',description:'desc1',category:'category1',collection:false,exists:true,inherited:false,overridden:true,allowAdd:true},"
         + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
         + "]}";
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
@@ -164,7 +167,7 @@ class ConfigNamesServletTest {
 
     String expectedJson = "{contextPath:'/context/path',configNames:["
         + "{configName:'name2',label:'A-label2',collection=true,exists:true,inherited:false,overridden:false,allowAdd:true},"
-        + "{configName:'name1',label:'B-label1',description:'desc1',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true},"
+        + "{configName:'name1',label:'B-label1',description:'desc1',category:'category1',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true},"
         + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:false}"
         + "]}";
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);

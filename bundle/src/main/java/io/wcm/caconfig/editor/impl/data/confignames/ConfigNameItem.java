@@ -32,6 +32,7 @@ public class ConfigNameItem {
   private String configName;
   private String label;
   private String description;
+  private String category;
   private Boolean collection;
   private Boolean exists;
   private Boolean inherited;
@@ -60,6 +61,14 @@ public class ConfigNameItem {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public String getCategory() {
+    return this.category;
+  }
+
+  public void setCategory(String category) {
+    this.category = category;
   }
 
   public boolean isCollection() {
