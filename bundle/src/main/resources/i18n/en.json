@@ -26,6 +26,7 @@
     },
 
     "config": {
+      "category": "Category",
       "description": "Description",
       "edit": "Click to edit config.",
       "inherited": "Inherited",

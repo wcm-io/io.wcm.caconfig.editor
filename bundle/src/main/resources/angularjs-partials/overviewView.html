@@ -30,6 +30,7 @@
         <th class="coral-Table-headerCell" style="width:1%"></th>
         <th class="coral-Table-headerCell" bo-text="i18n('config.name')"></th>
         <th class="coral-Table-headerCell" bo-text="i18n('config.description')"></th>
+        <th class="coral-Table-headerCell" bo-text="i18n('config.category')"></th>
         <th class="coral-Table-headerCell" style="width:1%"></th>
       </tr>
     </thead>
@@ -42,6 +43,7 @@
         </td>
         <td class="coral-Table-cell" bo-text="config.label || config.configName"></td>
         <td class="coral-Table-cell" bo-text="config.description"></td>
+        <td class="coral-Table-cell" bo-text="config.category"></td>
         <td class="coral-Table-cell">
           <coral-icon bo-if="config.overridden" icon="lockOn"
              data-init="quicktip" data-quicktip-arrow="right" data-quicktip-type="info" role="img" tabindex="0"

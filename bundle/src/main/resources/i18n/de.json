@@ -26,6 +26,7 @@
     },
 
     "config": {
+      "category": "Kategorie",
       "description": "Beschreibung",
       "edit": "Klicken Sie hier, um die Konfiguration zu bearbeiten.",
       "inherited": "Vererbt",
