@@ -52,6 +52,8 @@
         function success(response) {
           state.contextPath = response.data.contextPath;
           state.configNames = response.data.configNames;
+          state.configCategories = response.data.configCategories;
+          state.hasConfigCategories = response.data.configCategories && response.data.configCategories.length > 0;
           configCacheService.plantConfigCache(response.data.configNames);
         },
         function error(response) {

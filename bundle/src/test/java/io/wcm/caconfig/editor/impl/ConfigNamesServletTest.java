@@ -105,7 +105,7 @@ class ConfigNamesServletTest {
         + "{configName:'name2',label:'A-label2',collection=true,exists:true,inherited:false,overridden:false,allowAdd:true},"
         + "{configName:'name1',label:'B-label1',description:'desc1',category:'category1',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true},"
         + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
-        + "]}";
+        + "],configCategories:[{category:'category1',label:'category1'}]}";
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
   }
 
@@ -125,7 +125,7 @@ class ConfigNamesServletTest {
         + "{configName:'name2',label:'A-label2',collection=true,exists:true,inherited:true,overridden:true,allowAdd:true},"
         + "{configName:'name1',label:'B-label1',description:'desc1',category:'category1',collection:false,exists:true,inherited:true,overridden:true,allowAdd:true},"
         + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
-        + "]}";
+        + "],configCategories:[{category:'category1',label:'category1'}]}";
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
   }
 
@@ -145,7 +145,7 @@ class ConfigNamesServletTest {
         + "{configName:'name2',label:'A-label2',collection=true,exists:true,inherited:false,overridden:true,allowAdd:true},"
         + "{configName:'name1',label:'B-label1',description:'desc1',category:'category1',collection:false,exists:true,inherited:false,overridden:true,allowAdd:true},"
         + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
-        + "]}";
+        + "],configCategories:[{category:'category1',label:'category1'}]}";
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
   }
 
@@ -169,7 +169,7 @@ class ConfigNamesServletTest {
         + "{configName:'name2',label:'A-label2',collection=true,exists:true,inherited:false,overridden:false,allowAdd:true},"
         + "{configName:'name1',label:'B-label1',description:'desc1',category:'category1',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true},"
         + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:false}"
-        + "]}";
+        + "],configCategories:[{category:'category1',label:'category1'}]}";
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
   }
 

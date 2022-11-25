@@ -26,8 +26,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -50,6 +52,7 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.component.annotations.ReferencePolicyOption;
 
+import io.wcm.caconfig.editor.impl.data.confignames.ConfigCategoryItem;
 import io.wcm.caconfig.editor.impl.data.confignames.ConfigNameItem;
 import io.wcm.caconfig.editor.impl.data.confignames.ConfigNamesResponse;
 
@@ -91,6 +94,7 @@ public class ConfigNamesServlet extends SlingSafeMethodsServlet {
     ConfigNamesResponse result = new ConfigNamesResponse();
     result.setContextPath(getContextPath(contextResource));
     result.setConfigNames(getConfigNames(contextResource));
+    result.setConfigCategories(getCategories(result.getConfigNames()));
 
     response.setContentType("application/json;charset=" + StandardCharsets.UTF_8.name());
     response.getWriter().write(OBJECT_MAPPER.writeValueAsString(result));
@@ -132,6 +136,17 @@ public class ConfigNamesServlet extends SlingSafeMethodsServlet {
       }
     }
     return sortedResult;
+  }
+
+  @SuppressWarnings("null")
+  private Collection<ConfigCategoryItem> getCategories(Collection<ConfigNameItem> configNames) {
+    return configNames.stream()
+        .map(ConfigNameItem::getCategory)
+        .filter(Objects::nonNull)
+        .distinct()
+        .sorted()
+        .map(category -> new ConfigCategoryItem(category, category))
+        .collect(Collectors.toList());
   }
 
   private boolean allowAdd(Resource contextResource, String configName) {

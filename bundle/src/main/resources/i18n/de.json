@@ -25,6 +25,11 @@
       "toTop": "Nach oben"
     },
 
+    "categoryFilter": {
+      "label": "Kategorie",
+      "all": "(alle)"
+    },
+
     "config": {
       "category": "Kategorie",
       "description": "Beschreibung",
