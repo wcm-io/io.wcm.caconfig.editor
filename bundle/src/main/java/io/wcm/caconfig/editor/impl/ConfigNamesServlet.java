@@ -145,7 +145,7 @@ public class ConfigNamesServlet extends SlingSafeMethodsServlet {
         .filter(Objects::nonNull)
         .distinct()
         .sorted()
-        .map(category -> new ConfigCategoryItem(category, category))
+        .map(category -> new ConfigCategoryItem(category, StringUtils.capitalize(category)))
         .collect(Collectors.toList());
   }
 

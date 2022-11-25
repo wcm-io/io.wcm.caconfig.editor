@@ -19,8 +19,11 @@
  */
 package io.wcm.caconfig.editor.impl.data.confignames;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import io.wcm.caconfig.editor.impl.ConfigNamesServlet;
 
@@ -36,17 +39,17 @@ public class ConfigCategoryItem {
    * @param category Category
    * @param label Category Label
    */
-  public ConfigCategoryItem(String category, String label) {
+  public ConfigCategoryItem(@NotNull String category, @Nullable String label) {
     this.category = category;
     this.label = label;
   }
 
-  public String getCategory() {
+  public @NotNull String getCategory() {
     return this.category;
   }
 
-  public String getLabel() {
-    return this.label;
+  public @NotNull String getLabel() {
+    return StringUtils.defaultString(this.label, this.category);
   }
 
   @Override
