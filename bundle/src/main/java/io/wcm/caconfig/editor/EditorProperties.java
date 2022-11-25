@@ -29,6 +29,12 @@ public final class EditorProperties {
   }
 
   /**
+   * Property name for defining a category for configurations. The editor allows to filter by category.
+   * This property has to be applied to a configuration definition, not to a property definition.
+   */
+  public static final String PROPERTY_CATEGORY = "category";
+
+  /**
    * Property name for defining the widget type. Values should be one of the WIDGET_TYPE_* properties.
    */
   public static final String PROPERTY_WIDGET_TYPE = "widgetType";
