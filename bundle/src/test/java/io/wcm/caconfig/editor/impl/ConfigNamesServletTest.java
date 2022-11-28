@@ -157,8 +157,8 @@ class ConfigNamesServletTest {
         return !StringUtils.equals(configName, "name3");
       }
     });
-    context.registerInjectActivateService(new ContextAwareServiceResolverImpl());
-    context.registerInjectActivateService(new ConfigurationEditorFilterService());
+    context.registerInjectActivateService(ContextAwareServiceResolverImpl.class);
+    context.registerInjectActivateService(ConfigurationEditorFilterService.class);
     ConfigNamesServlet underTest = context.registerInjectActivateService(new ConfigNamesServlet());
 
     underTest.doGet(context.request(), context.response());
