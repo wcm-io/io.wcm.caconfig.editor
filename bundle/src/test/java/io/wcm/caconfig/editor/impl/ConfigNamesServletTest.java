@@ -34,6 +34,7 @@ import org.apache.sling.caconfig.resource.ConfigurationResourceResolver;
 import org.apache.sling.caconfig.spi.metadata.ConfigurationMetadata;
 import org.apache.sling.caconfig.spi.metadata.PropertyMetadata;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,6 +46,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedSet;
 
+import io.wcm.caconfig.editor.ConfigurationCategory;
+import io.wcm.caconfig.editor.ConfigurationCategoryProvider;
 import io.wcm.caconfig.editor.ConfigurationEditorFilter;
 import io.wcm.sling.commons.caservice.impl.ContextAwareServiceResolverImpl;
 import io.wcm.testing.mock.aem.junit5.AemContext;
@@ -96,7 +99,7 @@ class ConfigNamesServletTest {
 
   @Test
   void testResponse() throws Exception {
-    ConfigNamesServlet underTest = context.registerInjectActivateService(new ConfigNamesServlet());
+    ConfigNamesServlet underTest = context.registerInjectActivateService(ConfigNamesServlet.class);
     underTest.doGet(context.request(), context.response());
 
     assertEquals(HttpServletResponse.SC_OK, context.response().getStatus());
@@ -105,7 +108,7 @@ class ConfigNamesServletTest {
         + "{configName:'name2',label:'A-label2',collection=true,exists:true,inherited:false,overridden:false,allowAdd:true},"
         + "{configName:'name1',label:'B-label1',description:'desc1',category:'category1',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true},"
         + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
-        + "],configCategories:[{category:'category1',label:'Category1'}]}";
+        + "],configCategories:[{category:'category1',label:'category1'}]}";
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
   }
 
@@ -116,7 +119,7 @@ class ConfigNamesServletTest {
     when(configData.isInherited()).thenReturn(true);
     when(configData.isOverridden()).thenReturn(true);
 
-    ConfigNamesServlet underTest = context.registerInjectActivateService(new ConfigNamesServlet());
+    ConfigNamesServlet underTest = context.registerInjectActivateService(ConfigNamesServlet.class);
     underTest.doGet(context.request(), context.response());
 
     assertEquals(HttpServletResponse.SC_OK, context.response().getStatus());
@@ -125,7 +128,7 @@ class ConfigNamesServletTest {
         + "{configName:'name2',label:'A-label2',collection=true,exists:true,inherited:true,overridden:true,allowAdd:true},"
         + "{configName:'name1',label:'B-label1',description:'desc1',category:'category1',collection:false,exists:true,inherited:true,overridden:true,allowAdd:true},"
         + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
-        + "],configCategories:[{category:'category1',label:'Category1'}]}";
+        + "],configCategories:[{category:'category1',label:'category1'}]}";
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
   }
 
@@ -136,7 +139,7 @@ class ConfigNamesServletTest {
     when(configData.isInherited()).thenReturn(false);
     when(configData.isOverridden()).thenReturn(true);
 
-    ConfigNamesServlet underTest = context.registerInjectActivateService(new ConfigNamesServlet());
+    ConfigNamesServlet underTest = context.registerInjectActivateService(ConfigNamesServlet.class);
     underTest.doGet(context.request(), context.response());
 
     assertEquals(HttpServletResponse.SC_OK, context.response().getStatus());
@@ -145,7 +148,7 @@ class ConfigNamesServletTest {
         + "{configName:'name2',label:'A-label2',collection=true,exists:true,inherited:false,overridden:true,allowAdd:true},"
         + "{configName:'name1',label:'B-label1',description:'desc1',category:'category1',collection:false,exists:true,inherited:false,overridden:true,allowAdd:true},"
         + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
-        + "],configCategories:[{category:'category1',label:'Category1'}]}";
+        + "],configCategories:[{category:'category1',label:'category1'}]}";
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
   }
 
@@ -159,7 +162,7 @@ class ConfigNamesServletTest {
     });
     context.registerInjectActivateService(ContextAwareServiceResolverImpl.class);
     context.registerInjectActivateService(ConfigurationEditorFilterService.class);
-    ConfigNamesServlet underTest = context.registerInjectActivateService(new ConfigNamesServlet());
+    ConfigNamesServlet underTest = context.registerInjectActivateService(ConfigNamesServlet.class);
 
     underTest.doGet(context.request(), context.response());
 
@@ -169,7 +172,54 @@ class ConfigNamesServletTest {
         + "{configName:'name2',label:'A-label2',collection=true,exists:true,inherited:false,overridden:false,allowAdd:true},"
         + "{configName:'name1',label:'B-label1',description:'desc1',category:'category1',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true},"
         + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:false}"
-        + "],configCategories:[{category:'category1',label:'Category1'}]}";
+        + "],configCategories:[{category:'category1',label:'category1'}]}";
+    JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
+  }
+
+  @Test
+  void testResponseWithCategories() throws Exception {
+    context.registerInjectActivateService(ContextAwareServiceResolverImpl.class);
+    context.registerInjectActivateService(ConfigurationCategoryProviderService.class);
+
+    ConfigNamesServlet underTest = context.registerInjectActivateService(ConfigNamesServlet.class);
+    underTest.doGet(context.request(), context.response());
+
+    assertEquals(HttpServletResponse.SC_OK, context.response().getStatus());
+
+    String expectedJson = "{contextPath:'/context/path',configNames:["
+        + "{configName:'name2',label:'A-label2',collection=true,exists:true,inherited:false,overridden:false,allowAdd:true},"
+        + "{configName:'name1',label:'B-label1',description:'desc1',category:'category1',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true},"
+        + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
+        + "],configCategories:[{category:'category1',label:'category1'}]}";
+    JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
+  }
+
+  @Test
+  void testResponseWithCategoriesAndConfigurationCategoryProvider() throws Exception {
+    context.registerService(ConfigurationCategoryProvider.class, new ConfigurationCategoryProvider() {
+      @Override
+      public @Nullable ConfigurationCategory getCategoryMetadata(@NotNull String category) {
+        return new ConfigurationCategory(category).label(StringUtils.capitalize(category) + "!");
+      }
+      @Override
+      public @Nullable String getCategory(@NotNull ConfigurationMetadata configurationMetadata) {
+        return "defaultCategory";
+      }
+    });
+
+    context.registerInjectActivateService(ContextAwareServiceResolverImpl.class);
+    context.registerInjectActivateService(ConfigurationCategoryProviderService.class);
+
+    ConfigNamesServlet underTest = context.registerInjectActivateService(ConfigNamesServlet.class);
+    underTest.doGet(context.request(), context.response());
+
+    assertEquals(HttpServletResponse.SC_OK, context.response().getStatus());
+
+    String expectedJson = "{contextPath:'/context/path',configNames:["
+        + "{configName:'name2',label:'A-label2',category:'defaultCategory',collection=true,exists:true,inherited:false,overridden:false,allowAdd:true},"
+        + "{configName:'name1',label:'B-label1',description:'desc1',category:'category1',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true},"
+        + "{configName:'name3',label:'C-label3',category:'defaultCategory',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
+        + "],configCategories:[{category:'category1',label:'Category1!'},{category:'defaultCategory',label:'DefaultCategory!'}]}";
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
   }
 

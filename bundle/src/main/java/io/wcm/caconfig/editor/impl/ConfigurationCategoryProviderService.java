@@ -19,26 +19,120 @@
  */
 package io.wcm.caconfig.editor.impl;
 
+import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_CATEGORY;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.Objects;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.caconfig.spi.metadata.ConfigurationMetadata;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.osgi.framework.ServiceReference;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.FieldOption;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
+import org.osgi.service.component.annotations.ReferencePolicy;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 import io.wcm.caconfig.editor.ConfigurationCategory;
+import io.wcm.caconfig.editor.ConfigurationCategoryProvider;
+import io.wcm.sling.commons.caservice.ContextAwareServiceCollectionResolver;
 import io.wcm.sling.commons.caservice.ContextAwareServiceResolver;
 
 /**
  * Manages getting and assigning configuration categories.
+ * This service is only available if the bundle io.wcm.sling.commons is present in the system.
  */
 @Component(service = ConfigurationCategoryProviderService.class)
 public class ConfigurationCategoryProviderService {
 
-  @Reference
-  private ContextAwareServiceResolver serviceResolver;
+  @Reference(cardinality = ReferenceCardinality.MULTIPLE, fieldOption = FieldOption.UPDATE,
+      policy = ReferencePolicy.DYNAMIC, policyOption = ReferencePolicyOption.GREEDY)
+  private Collection<ServiceReference<ConfigurationCategoryProvider>> filters;
 
-  public @Nullable ConfigurationCategory getCategory(@NotNull Resource contextResource, @NotNull String configName) {
+  @Reference
+  private ContextAwareServiceResolver contextAwareServiceResolver;
+  private ContextAwareServiceCollectionResolver<ConfigurationCategoryProvider, Void> contextAwareServiceCollectionResolver;
+
+  @Activate
+  private void activate() {
+    // store a map with all categories per name for each provider
+    this.contextAwareServiceCollectionResolver = contextAwareServiceResolver.getCollectionResolver(this.filters);
+  }
+
+  /**
+   * Gets the category (including metadata) that is assigned to a configuration definition.
+   * @param contextResource Content resource
+   * @param configurationMetadata Configuration definition
+   * @return Assigned/detected category, or null if none is detected.
+   */
+  public @Nullable ConfigurationCategory getCategory(@NotNull Resource contextResource, @NotNull ConfigurationMetadata configurationMetadata) {
+
+    // check for assigned or detected category name
+    String category = getCategoryName(contextResource, configurationMetadata);
+    if (category == null) {
+      return null;
+    }
+
+    // get category metadata
+    return getCategoryMetadata(contextResource, category);
+  }
+
+  /**
+   * Get category name that is in the metadata of the configuration definition.
+   * If none is set, check if a {@link ConfigurationCategoryProvider} provides a configuration name.
+   * Returns null if no category found.
+   */
+  private @Nullable String getCategoryName(@NotNull Resource contextResource, @NotNull ConfigurationMetadata configurationMetadata) {
+    String category = getPropertiesString(configurationMetadata.getProperties(), PROPERTY_CATEGORY);
+
+    if (StringUtils.isEmpty(category)) {
+      category = contextAwareServiceCollectionResolver.resolveAll(contextResource)
+          .map(provider -> provider.getCategory(configurationMetadata))
+          .filter(Objects::nonNull)
+          .findFirst().orElse(null);
+    }
+
+    return category;
+  }
+
+  /**
+   * Try to get configuration metadata from {@link ConfigurationCategoryProvider}.
+   * If not present, return metadata only based on the internal category name as fallback.
+   */
+  @SuppressWarnings("null")
+  private @NotNull ConfigurationCategory getCategoryMetadata(@NotNull Resource contextResource, @NotNull String category) {
+    return contextAwareServiceCollectionResolver.resolveAll(contextResource)
+        .map(provider -> provider.getCategoryMetadata(category))
+        .filter(Objects::nonNull)
+        .findFirst()
+        .orElse(new ConfigurationCategory(category));
+  }
+
+  /**
+   * Get directly assigned category bypassing any check for {@link ConfigurationCategoryProvider}.
+   * This is used when io.wcm.sling.commons is not present.
+   * @param configurationMetadata Configuration metadata
+   * @return Category metadata or null if no category assigned
+   */
+  static final @Nullable ConfigurationCategory getAssignedCategory(@NotNull ConfigurationMetadata configurationMetadata) {
+    String category = getPropertiesString(configurationMetadata.getProperties(), PROPERTY_CATEGORY);
+    if (StringUtils.isNotEmpty(category)) {
+      return new ConfigurationCategory(category);
+    }
     return null;
+  }
+
+  private static String getPropertiesString(Map<String, String> properties, String key) {
+    if (properties == null) {
+      return null;
+    }
+    return properties.get(key);
   }
 
 }

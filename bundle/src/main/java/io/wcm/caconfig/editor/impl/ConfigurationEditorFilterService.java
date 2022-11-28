@@ -38,6 +38,7 @@ import io.wcm.sling.commons.caservice.ContextAwareServiceResolver;
 
 /**
  * Aggregates configuration filters via Context-Aware services.
+ * This service is only available if the bundle io.wcm.sling.commons is present in the system.
  */
 @Component(service = ConfigurationEditorFilterService.class)
 public class ConfigurationEditorFilterService {

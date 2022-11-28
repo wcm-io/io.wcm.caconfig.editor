@@ -19,8 +19,6 @@
  */
 package io.wcm.caconfig.editor;
 
-import java.util.Collection;
-
 import org.apache.sling.caconfig.spi.metadata.ConfigurationMetadata;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -39,11 +37,12 @@ import io.wcm.sling.commons.caservice.ContextAwareService;
 public interface ConfigurationCategoryProvider extends ContextAwareService {
 
   /**
-   * Gets list of all used configuration categories with their metadata.
-   * @return Category list.
+   * Get metadata for a given configuration name.
+   * @param category Category name
+   * @return Metadata or null if category is not known
    */
-  @NotNull
-  Collection<ConfigurationCategory> getAllCategories();
+  @Nullable
+  ConfigurationCategory getCategoryMetadata(@NotNull String category);
 
   /**
    * This method is called for configurations that are in use and do not have a category name assigned.

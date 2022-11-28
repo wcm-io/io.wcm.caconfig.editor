@@ -22,6 +22,9 @@ package io.wcm.caconfig.editor.impl.data.confignames;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import io.wcm.caconfig.editor.ConfigurationCategory;
 import io.wcm.caconfig.editor.impl.ConfigNamesServlet;
 
 /**
@@ -32,7 +35,7 @@ public class ConfigNameItem {
   private String configName;
   private String label;
   private String description;
-  private String category;
+  private ConfigurationCategory configurationCategory;
   private Boolean collection;
   private Boolean exists;
   private Boolean inherited;
@@ -63,12 +66,25 @@ public class ConfigNameItem {
     this.description = description;
   }
 
+  /**
+   * @return Category name
+   */
   public String getCategory() {
-    return this.category;
+    if (configurationCategory != null) {
+      return configurationCategory.getCategory();
+    }
+    else {
+      return null;
+    }
   }
 
-  public void setCategory(String category) {
-    this.category = category;
+  @JsonIgnore
+  public ConfigurationCategory getConfigurationCategory() {
+    return this.configurationCategory;
+  }
+
+  public void setConfigurationCategory(ConfigurationCategory configurationCategory) {
+    this.configurationCategory = configurationCategory;
   }
 
   public boolean isCollection() {
