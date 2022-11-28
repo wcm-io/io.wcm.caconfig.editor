@@ -19,7 +19,6 @@
  */
 package io.wcm.caconfig.editor.impl.data.confignames;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.jetbrains.annotations.NotNull;
@@ -49,7 +48,7 @@ public class ConfigCategoryItem {
   }
 
   public @NotNull String getLabel() {
-    return StringUtils.defaultString(this.label, this.category);
+    return this.label;
   }
 
   @Override

@@ -19,9 +19,12 @@
  */
 package io.wcm.caconfig.editor;
 
+import org.osgi.annotation.versioning.ProviderType;
+
 /**
  * Properties that can be used for configuration property definitions to customize the edit widget within the editor.
  */
+@ProviderType
 public final class EditorProperties {
 
   private EditorProperties() {
