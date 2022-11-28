@@ -17,8 +17,8 @@
 
   <div class="category-filter" ng-if="overview.state.hasConfigCategories">
     <label for="categoryFilter">{{i18n('categoryFilter.label')}}</label>
-    <coral-select id="categoryFilter">
-      <coral-select-item value="''" bo-text="i18n('categoryFilter.all')"></coral-select-item>
+    <coral-select id="caconfig-configurationOverviewFilter">
+      <coral-select-item value="" bo-text="i18n('categoryFilter.all')"></coral-select-item>
       <coral-select-item ng-repeat="category in overview.state.configCategories" bo-value="category.category" bo-text="category.label"></coral-select-item>
     </coral-select>
   </div>
@@ -32,7 +32,7 @@
   </p>
 
   <table class="coral-Table coral-Table--hover"
-         bo-if="(overview.state.configNames | filter:{exists:true}).length" ng-cloak>
+         ng-if="(overview.state.configNames | filter:configNamesFilter(categoryFilter)).length" ng-cloak>
     <thead>
       <tr class="coral-Table-row">
         <th class="coral-Table-headerCell" style="width:1%"></th>
@@ -44,7 +44,7 @@
     </thead>
     <tbody>
       <tr class="coral-Table-row"
-          ng-repeat="config in overview.state.configNames | filter:{exists:true}"
+          ng-repeat="config in overview.state.configNames | filter:configNamesFilter(categoryFilter)"
           ng-click="go(config.configName)" ng-cloak>
         <td class="coral-Table-cell">
           <coral-icon bo-attr bo-attr-icon="config.collection ? 'pages' : 'page'"></coral-icon>
