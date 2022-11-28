@@ -23,6 +23,12 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.15.0" date="not released">
+      <action type="update" dev="sseifert">
+        Update (optional) dependency to io.wcm.sling.commons to 1.6.0 to make use of ContextAwareServiceCollectionResolver.
+      </action>
+    </release>
+
     <release version="1.14.0" date="2022-11-16">
       <action type="add" dev="gweng">
         Textarea widget: Allow to specfify the number of rows to display via rows attribute.
