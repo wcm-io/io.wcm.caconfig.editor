@@ -48,14 +48,14 @@ public final class ConfigurationCategory implements Comparable<ConfigurationCate
   }
 
   /**
-   * @return Category label (translatable via i18n). Falls back to category name if not defined.
+   * @return Category label. Falls back to category name if not defined.
    */
   public @NotNull String getLabel() {
     return StringUtils.defaultString(this.label, this.category);
   }
 
   /**
-   * @param value Category label (translatable via i18n)
+   * @param value Category label
    * @return this
    */
   public ConfigurationCategory label(@Nullable String value) {
