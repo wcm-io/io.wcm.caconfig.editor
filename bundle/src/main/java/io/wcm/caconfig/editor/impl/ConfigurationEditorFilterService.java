@@ -26,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.FieldOption;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
@@ -48,12 +49,17 @@ public class ConfigurationEditorFilterService {
   private Collection<ServiceReference<ConfigurationEditorFilter>> filters;
 
   @Reference
-  private ContextAwareServiceResolver contextAwareServiceResolver;
-  private ContextAwareServiceCollectionResolver<ConfigurationEditorFilter, Void> contextAwareServiceCollectionResolver;
+  private ContextAwareServiceResolver serviceResolver;
+  private ContextAwareServiceCollectionResolver<ConfigurationEditorFilter, Void> serviceCollectionResolver;
 
   @Activate
   private void activate() {
-    this.contextAwareServiceCollectionResolver = contextAwareServiceResolver.getCollectionResolver(this.filters);
+    this.serviceCollectionResolver = serviceResolver.getCollectionResolver(this.filters);
+  }
+
+  @Deactivate
+  private void deactivate() {
+    this.serviceCollectionResolver.close();
   }
 
   /**
@@ -63,7 +69,7 @@ public class ConfigurationEditorFilterService {
    * @return if true, the configuration is offered in the "add configuration" dialog
    */
   public boolean allowAdd(@NotNull Resource contextResource, @NotNull String configName) {
-    return contextAwareServiceCollectionResolver.resolveAll(contextResource)
+    return serviceCollectionResolver.resolveAll(contextResource)
         .filter(filter -> !filter.allowAdd(configName))
         .count() == 0;
   }
