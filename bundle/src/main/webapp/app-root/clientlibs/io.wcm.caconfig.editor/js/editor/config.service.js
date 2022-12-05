@@ -52,6 +52,16 @@
         function success(response) {
           state.contextPath = response.data.contextPath;
           state.configNames = response.data.configNames;
+          state.configCategories = response.data.configCategories;
+          state.hasConfigCategories = response.data.configCategories && response.data.configCategories.length > 0;
+
+          // add category labels to config names
+          if (state.hasConfigCategories) {
+            state.configNames.forEach(configName => {
+              configName.categoryLabel = state.configCategories.find(item => item.category==configName.category)?.label
+            });
+          }
+
           configCacheService.plantConfigCache(response.data.configNames);
         },
         function error(response) {

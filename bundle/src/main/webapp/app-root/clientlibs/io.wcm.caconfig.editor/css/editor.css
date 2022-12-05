@@ -217,3 +217,11 @@ span.caconfig-tagbrowser {
   bottom: 0;
   background: rgba(0, 0, 0, 0.3);
 }
+
+.category-filter {
+  display: inline-block;
+  margin-left: 1rem;
+}
+.category-filter label {
+  margin-right: 0.25rem;
+}

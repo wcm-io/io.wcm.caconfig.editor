@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2021 wcm.io
+ * Copyright (C) 2022 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,44 +19,36 @@
  */
 package io.wcm.caconfig.editor.impl.data.confignames;
 
-import java.util.Collection;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import io.wcm.caconfig.editor.impl.ConfigNamesServlet;
 
 /**
  * JSON model for responses of {@link ConfigNamesServlet}.
  */
-public class ConfigNamesResponse {
+public class ConfigCategoryItem {
 
-  private String contextPath;
-  private Collection<ConfigNameItem> configNames;
-  private Collection<ConfigCategoryItem> configCategories;
+  private final String category;
+  private final String label;
 
-  public String getContextPath() {
-    return this.contextPath;
+  /**
+   * @param category Category
+   * @param label Category Label
+   */
+  public ConfigCategoryItem(@NotNull String category, @Nullable String label) {
+    this.category = category;
+    this.label = label;
   }
 
-  public void setContextPath(String contextPath) {
-    this.contextPath = contextPath;
+  public @NotNull String getCategory() {
+    return this.category;
   }
 
-  public Collection<ConfigNameItem> getConfigNames() {
-    return this.configNames;
-  }
-
-  public void setConfigNames(Collection<ConfigNameItem> configNames) {
-    this.configNames = configNames;
-  }
-
-  public Collection<ConfigCategoryItem> getConfigCategories() {
-    return this.configCategories;
-  }
-
-  public void setConfigCategories(Collection<ConfigCategoryItem> configCategories) {
-    this.configCategories = configCategories;
+  public @NotNull String getLabel() {
+    return this.label;
   }
 
   @Override

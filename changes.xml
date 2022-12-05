@@ -24,6 +24,9 @@
   <body>
 
     <release version="1.15.0" date="not released">
+      <action type="add" dev="sseifert">
+        Allow to define categories of context-aware configurations and filter by category.
+      </action>
       <action type="update" dev="sseifert">
         Update (optional) dependency to io.wcm.sling.commons to 1.6.0 to make use of ContextAwareServiceCollectionResolver.
       </action>
