@@ -25,7 +25,13 @@
       "toTop": "Nach oben"
     },
 
+    "categoryFilter": {
+      "label": "Kategorie",
+      "all": "(alle)"
+    },
+
     "config": {
+      "category": "Kategorie",
       "description": "Beschreibung",
       "edit": "Klicken Sie hier, um die Konfiguration zu bearbeiten.",
       "inherited": "Vererbt",

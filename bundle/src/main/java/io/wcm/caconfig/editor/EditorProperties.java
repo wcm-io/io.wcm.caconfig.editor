@@ -19,14 +19,23 @@
  */
 package io.wcm.caconfig.editor;
 
+import org.osgi.annotation.versioning.ProviderType;
+
 /**
  * Properties that can be used for configuration property definitions to customize the edit widget within the editor.
  */
+@ProviderType
 public final class EditorProperties {
 
   private EditorProperties() {
     // constants only
   }
+
+  /**
+   * Property name for defining a category for configurations. The editor allows to filter by category.
+   * This property has to be applied to a configuration definition, not to a property definition.
+   */
+  public static final String PROPERTY_CATEGORY = "category";
 
   /**
    * Property name for defining the widget type. Values should be one of the WIDGET_TYPE_* properties.

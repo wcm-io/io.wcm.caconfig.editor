@@ -19,22 +19,48 @@
  */
 package io.wcm.caconfig.editor.impl;
 
+import java.util.Collection;
+
 import org.apache.sling.api.resource.Resource;
 import org.jetbrains.annotations.NotNull;
+import org.osgi.framework.ServiceReference;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.FieldOption;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
+import org.osgi.service.component.annotations.ReferencePolicy;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 import io.wcm.caconfig.editor.ConfigurationEditorFilter;
+import io.wcm.sling.commons.caservice.ContextAwareServiceCollectionResolver;
 import io.wcm.sling.commons.caservice.ContextAwareServiceResolver;
 
 /**
  * Aggregates configuration filters via Context-Aware services.
+ * This service is only available if the bundle io.wcm.sling.commons is present in the system.
  */
 @Component(service = ConfigurationEditorFilterService.class)
 public class ConfigurationEditorFilterService {
 
+  @Reference(cardinality = ReferenceCardinality.MULTIPLE, fieldOption = FieldOption.UPDATE,
+      policy = ReferencePolicy.DYNAMIC, policyOption = ReferencePolicyOption.GREEDY)
+  private Collection<ServiceReference<ConfigurationEditorFilter>> filters;
+
   @Reference
   private ContextAwareServiceResolver serviceResolver;
+  private ContextAwareServiceCollectionResolver<ConfigurationEditorFilter, Void> serviceCollectionResolver;
+
+  @Activate
+  private void activate() {
+    this.serviceCollectionResolver = serviceResolver.getCollectionResolver(this.filters);
+  }
+
+  @Deactivate
+  private void deactivate() {
+    this.serviceCollectionResolver.close();
+  }
 
   /**
    * Allow to add configurations with this name in the configuration editor.
@@ -43,7 +69,7 @@ public class ConfigurationEditorFilterService {
    * @return if true, the configuration is offered in the "add configuration" dialog
    */
   public boolean allowAdd(@NotNull Resource contextResource, @NotNull String configName) {
-    return serviceResolver.resolveAll(ConfigurationEditorFilter.class, contextResource).getServices()
+    return serviceCollectionResolver.resolveAll(contextResource)
         .filter(filter -> !filter.allowAdd(configName))
         .count() == 0;
   }

@@ -17,15 +17,17 @@
  * limitations under the License.
  * #L%
  */
-(function (angular) {
+(function (angular, Coral, $) {
   "use strict";
+
+  var STORAGE_OVERVIEW_CATEGORYFILTER = "caconfig-overview-categoryFilter";
 
   angular.module("io.wcm.caconfig.editor")
     .controller("OverviewController", OverviewController);
 
-  OverviewController.$inject = ["$rootScope", "configService", "modalService", "publishService"];
+  OverviewController.$inject = ["$document", "$window", "$rootScope", "$timeout", "configService", "modalService", "publishService"];
 
-  function OverviewController($rootScope, configService, modalService, publishService) {
+  function OverviewController($document, $window, $rootScope, $timeout, configService, modalService, publishService) {
     var that = this;
 
     $rootScope.title = $rootScope.i18n("title");
@@ -33,6 +35,28 @@
     configService.loadConfigNames()
       .then(function() {
         that.ovReady = true;
+
+        // get last selected category filter
+        var lastCategoryFilter = $window.localStorage.getItem(STORAGE_OVERVIEW_CATEGORYFILTER);
+        if (!that.state.configCategories.find(item => item.category == lastCategoryFilter)) {
+          lastCategoryFilter = undefined;
+        }
+        $rootScope.categoryFilter = lastCategoryFilter;
+
+        // ugly block of code to register event of coral-select and propagate it's value to AngularJS change
+        // the coral-select widget itself lives outside AngularJS' controls
+        $timeout(function () {
+          var select = $document.find("#caconfig-configurationOverviewFilter").get(0);
+          if (select) {
+            Coral.commons.ready(select, function(component) {
+              $(component).on('change', function() {
+                $rootScope.categoryFilter = component.value;
+                $window.localStorage.setItem(STORAGE_OVERVIEW_CATEGORYFILTER, component.value);
+                $rootScope.$apply();
+              });
+            });
+          }
+        });
       });
 
     that.hasNonExistingConfig = function () {
@@ -62,5 +86,20 @@
     that.managePublication = function () {
       publishService.managePublication();
     };
+
+    // custom filter for category listing.
+    // hide configurations that do not exist, and those not matching the current category filter
+    $rootScope.configNamesFilter = function(categoryFilter) {
+      return function(configName) {
+        if (configName.exists != true) {
+          return false;
+        }
+        if (categoryFilter) {
+          return configName.category == categoryFilter;
+        }
+        return true; 
+      }
+    };
+
   }
-}(angular));
+}(angular, Coral, Granite.$));

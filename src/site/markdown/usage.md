@@ -186,6 +186,22 @@ public class ConfigurationEditorFilterImpl implements ConfigurationEditorFilter 
 The control which context-aware configurations are available on which content subtree in the system set the appropriate service properties or bundle header names as described in [Context-Aware Services][wcmio-caservice].
 
 
+### Configuration Categories
+
+You can assign a category to context-aware configurations to get a better overview if you have lots of them in your system. Once at least once category is assigned, the editor will display the category name, and a filter dropdown to filter the list by category.
+
+Example for assigning a category:
+
+```java
+@Configuration(label = "My Configuration",
+    property = { EditorProperties.PROPERTY_CATEGORY + "=category1" })
+public @interface MyConfig {
+  ...
+```
+
+By implementing an OSGi service for [ConfigurationCategoryProvider][caconfig-configuration-category-provider] you can provide labels for the category names. It's also possible to assign categories programmatically with this service, or apply a default category to configuration definitions which do not have a category assigned.
+
+
 ### Disable Editor on Publish
 
 You should disable the configuration editor on publish by applying an OSGi configuration like this:
@@ -208,3 +224,4 @@ You should disable the configuration editor on publish by applying an OSGi confi
 [wcmio-caservice]: https://wcm.io/sling/commons/context-aware-services.html
 [configurationeditorfilter-interface]: bundle/apidocs/io/wcm/caconfig/editor/ConfigurationEditorFilter.html
 [caconfig-dropdown-options-provider]: bundle/apidocs/io/wcm/caconfig/editor/DropdownOptionsProvider.html
+[caconfig-configuration-category-provider]: bundle/apidocs/io/wcm/caconfig/editor/ConfigurationCategoryProvider.html

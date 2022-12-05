@@ -53,6 +53,14 @@ See [Deploy and configure Context-Aware Configuration in AEM][deploy-configure-c
 |1.0.x - 1.4.x                              |AEM 6.1+
 
 
+### Dependencies
+
+There are is an **optional** dependency to *wcm.io Sling Commons* which you have to deploy if you want to use the filtering and decorating categories feature (see [Usage][usage]).
+
+|---|---|---|
+| [wcm.io Sling Commons](https://repo1.maven.org/maven2/io/wcm/io.wcm.sling.commons/) | [![Maven Central](https://img.shields.io/maven-central/v/io.wcm/io.wcm.sling.commons)](https://repo1.maven.org/maven2/io/wcm/io.wcm.sling.commons/) |
+
+
 ### GitHub Repository
 
 Sources: https://github.com/wcm-io/io.wcm.caconfig.editor

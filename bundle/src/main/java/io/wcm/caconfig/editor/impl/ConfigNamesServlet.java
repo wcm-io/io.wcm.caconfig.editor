@@ -24,8 +24,10 @@ import static io.wcm.caconfig.editor.impl.JsonMapper.OBJECT_MAPPER;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -42,12 +44,15 @@ import org.apache.sling.caconfig.resource.ConfigurationResourceResolver;
 import org.apache.sling.caconfig.spi.metadata.ConfigurationMetadata;
 import org.apache.sling.servlets.annotations.SlingServletResourceTypes;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.component.annotations.ReferencePolicyOption;
 
+import io.wcm.caconfig.editor.ConfigurationCategory;
+import io.wcm.caconfig.editor.impl.data.confignames.ConfigCategoryItem;
 import io.wcm.caconfig.editor.impl.data.confignames.ConfigNameItem;
 import io.wcm.caconfig.editor.impl.data.confignames.ConfigNamesResponse;
 
@@ -77,6 +82,9 @@ public class ConfigNamesServlet extends SlingSafeMethodsServlet {
   @Reference(policy = ReferencePolicy.STATIC, cardinality = ReferenceCardinality.OPTIONAL,
       policyOption = ReferencePolicyOption.GREEDY)
   private ConfigurationEditorFilterService configurationEditorFilterService;
+  @Reference(policy = ReferencePolicy.STATIC, cardinality = ReferenceCardinality.OPTIONAL,
+      policyOption = ReferencePolicyOption.GREEDY)
+  private ConfigurationCategoryProviderService configurationCategoryProviderService;
 
   @Override
   protected void doGet(@NotNull SlingHttpServletRequest request, @NotNull SlingHttpServletResponse response) throws ServletException, IOException {
@@ -89,6 +97,7 @@ public class ConfigNamesServlet extends SlingSafeMethodsServlet {
     ConfigNamesResponse result = new ConfigNamesResponse();
     result.setContextPath(getContextPath(contextResource));
     result.setConfigNames(getConfigNames(contextResource));
+    result.setConfigCategories(getCategories(result.getConfigNames()));
 
     response.setContentType("application/json;charset=" + StandardCharsets.UTF_8.name());
     response.getWriter().write(OBJECT_MAPPER.writeValueAsString(result));
@@ -117,6 +126,7 @@ public class ConfigNamesServlet extends SlingSafeMethodsServlet {
         item.setConfigName(configName);
         item.setLabel(metadata.getLabel());
         item.setDescription(metadata.getDescription());
+        item.setConfigurationCategory(getConfigurationCategory(contextResource, metadata));
         item.setCollection(metadata.isCollection());
 
         ConfigurationState state = getConfigurationState(contextResource, configName, metadata.isCollection());
@@ -129,6 +139,24 @@ public class ConfigNamesServlet extends SlingSafeMethodsServlet {
       }
     }
     return sortedResult;
+  }
+
+  private @Nullable ConfigurationCategory getConfigurationCategory(Resource contextResource, ConfigurationMetadata metadata) {
+    if (this.configurationCategoryProviderService == null) {
+      return ConfigurationCategoryProviderService.getAssignedCategory(metadata);
+    }
+    return this.configurationCategoryProviderService.getCategory(contextResource, metadata);
+  }
+
+  @SuppressWarnings("null")
+  private Collection<ConfigCategoryItem> getCategories(Collection<ConfigNameItem> configNames) {
+    return configNames.stream()
+        .map(ConfigNameItem::getConfigurationCategory)
+        .filter(Objects::nonNull)
+        .distinct()
+        .sorted()
+        .map(category -> new ConfigCategoryItem(category.getCategory(), category.getLabel()))
+        .collect(Collectors.toList());
   }
 
   private boolean allowAdd(Resource contextResource, String configName) {
