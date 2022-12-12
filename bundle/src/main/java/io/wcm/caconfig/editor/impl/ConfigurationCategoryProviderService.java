@@ -21,9 +21,11 @@ package io.wcm.caconfig.editor.impl;
 
 import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_CATEGORY;
 
-import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
+import java.util.SortedSet;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
@@ -54,7 +56,8 @@ public class ConfigurationCategoryProviderService {
 
   @Reference(cardinality = ReferenceCardinality.MULTIPLE, fieldOption = FieldOption.UPDATE,
       policy = ReferencePolicy.DYNAMIC, policyOption = ReferencePolicyOption.GREEDY)
-  private Collection<ServiceReference<ConfigurationCategoryProvider>> filters;
+  private SortedSet<ServiceReference<ConfigurationCategoryProvider>> filters = new ConcurrentSkipListSet<>(
+      Collections.reverseOrder());
 
   @Reference
   private ContextAwareServiceResolver serviceResolver;
