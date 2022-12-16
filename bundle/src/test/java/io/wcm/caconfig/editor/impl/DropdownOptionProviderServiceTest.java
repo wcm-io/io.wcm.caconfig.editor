@@ -23,6 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.sling.api.resource.Resource;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,9 +32,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 
 import io.wcm.caconfig.editor.DropdownOptionItem;
 import io.wcm.caconfig.editor.DropdownOptionProvider;
@@ -57,11 +56,11 @@ class DropdownOptionProviderServiceTest {
   @BeforeEach
   @SuppressWarnings("null")
   void setUp() throws Exception {
-    when(provider1.getDropdownOptions(resource)).thenReturn(ImmutableList.of(
+    when(provider1.getDropdownOptions(resource)).thenReturn(List.of(
         new DropdownOptionItem("v1", "desc1"),
         new DropdownOptionItem("v2", "desc2")));
     context.registerService(DropdownOptionProvider.class, provider1, DropdownOptionProvider.PROPERTY_SELECTOR, "provider1");
-    when(provider2.getDropdownOptions(resource)).thenReturn(ImmutableList.of(
+    when(provider2.getDropdownOptions(resource)).thenReturn(List.of(
         new DropdownOptionItem("v3", "desc3")));
     context.registerService(DropdownOptionProvider.class, provider2, DropdownOptionProvider.PROPERTY_SELECTOR, "provider2");
 
@@ -70,16 +69,16 @@ class DropdownOptionProviderServiceTest {
 
   @Test
   void testProvider1() {
-    assertEquals(ImmutableList.of(
-        ImmutableMap.of("value", "v1", "description", "desc1"),
-        ImmutableMap.of("value", "v2", "description", "desc2")),
+    assertEquals(List.of(
+        Map.of("value", "v1", "description", "desc1"),
+        Map.of("value", "v2", "description", "desc2")),
         underTest.getDropdownOptions("provider1", resource));
   }
 
   @Test
   void testProvider2() {
-    assertEquals(ImmutableList.of(
-        ImmutableMap.of("value", "v3", "description", "desc3")),
+    assertEquals(List.of(
+        Map.of("value", "v3", "description", "desc3")),
         underTest.getDropdownOptions("provider2", resource));
   }
 

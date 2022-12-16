@@ -27,6 +27,11 @@ import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.sling.caconfig.management.ConfigurationCollectionData;
@@ -46,10 +51,6 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.mockito.stubbing.Answer;
 import org.skyscreamer.jsonassert.JSONAssert;
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 
 import io.wcm.caconfig.editor.DropdownOptionItem;
 import io.wcm.caconfig.editor.DropdownOptionProvider;
@@ -125,8 +126,8 @@ class ConfigDataServletTest {
     ConfigurationData configDataNew = buildConfigData("new", 0);
     ConfigurationCollectionData configCollectionData = mock(ConfigurationCollectionData.class);
     when(configCollectionData.getConfigName()).thenReturn("name1");
-    when(configCollectionData.getItems()).thenReturn(ImmutableList.of(configData1, configData2));
-    when(configCollectionData.getProperties()).thenReturn(ImmutableMap.<String, Object>of("colProp1", true));
+    when(configCollectionData.getItems()).thenReturn(List.of(configData1, configData2));
+    when(configCollectionData.getProperties()).thenReturn(Map.<String, Object>of("colProp1", true));
     when(configManager.getConfigurationCollection(context.currentResource(), "name1")).thenReturn(configCollectionData);
     when(configManager.newCollectionItem(context.currentResource(), "name1")).thenReturn(configDataNew);
 
@@ -147,7 +148,7 @@ class ConfigDataServletTest {
   void testNested() throws Exception {
     ConfigurationData configData = mock(ConfigurationData.class);
     when(configData.getConfigName()).thenReturn("nestedConfig");
-    when(configData.getPropertyNames()).thenReturn(ImmutableSet.of("param1", "subConfig", "subConfigList"));
+    when(configData.getPropertyNames()).thenReturn(new TreeSet<>(Set.of("param1", "subConfig", "subConfigList")));
 
     ValueInfo param1 = mock(ValueInfo.class);
     when(param1.getName()).thenReturn("param1");
@@ -160,7 +161,7 @@ class ConfigDataServletTest {
     when(subConfig.getPropertyMetadata()).thenReturn(new PropertyMetadata<>("subConfig", ConfigurationMetadata.class)
         .label("subConfig-label")
         .description("subConfig-desc")
-        .configurationMetadata(new ConfigurationMetadata("subConfig", ImmutableList.<PropertyMetadata<?>>of(), false)));
+        .configurationMetadata(new ConfigurationMetadata("subConfig", List.<PropertyMetadata<?>>of(), false)));
     when(configData.getValueInfo("subConfig")).thenReturn(subConfig);
 
     ValueInfo subConfigList = mock(ValueInfo.class);
@@ -173,7 +174,7 @@ class ConfigDataServletTest {
     when(subConfigList.getPropertyMetadata()).thenReturn(new PropertyMetadata<>("subConfigList", ConfigurationMetadata[].class)
         .label("subConfigList-label")
         .description("subConfigList-desc")
-        .configurationMetadata(new ConfigurationMetadata("subConfigList", ImmutableList.<PropertyMetadata<?>>of(), true)));
+        .configurationMetadata(new ConfigurationMetadata("subConfigList", List.<PropertyMetadata<?>>of(), true)));
     when(configData.getValueInfo("subConfigList")).thenReturn(subConfigList);
 
 
@@ -289,7 +290,7 @@ class ConfigDataServletTest {
     if (index > 0) {
       when(configData.getCollectionItemName()).thenReturn("item" + index);
     }
-    when(configData.getPropertyNames()).thenReturn(ImmutableSet.of("param1", "param2", "param3"));
+    when(configData.getPropertyNames()).thenReturn(new TreeSet<>(Set.of("param1", "param2", "param3")));
 
     ValueInfo param1 = buildValueInfo("param1", new String[] {
         "v1"
@@ -311,12 +312,12 @@ class ConfigDataServletTest {
   private ConfigurationData buildConfigDataWithDropdown(String configName) {
     ConfigurationData configData = mock(ConfigurationData.class);
     when(configData.getConfigName()).thenReturn(configName);
-    when(configData.getPropertyNames()).thenReturn(ImmutableSet.of("param1", "param2"));
+    when(configData.getPropertyNames()).thenReturn(new TreeSet<>(Set.of("param1", "param2")));
 
     ValueInfo param1 = buildValueInfo("param1", "option1", "option1", null);
     when(param1.getPropertyMetadata()).thenReturn(
         new PropertyMetadata<>("param1", String.class)
-            .properties(ImmutableMap.of(
+            .properties(Map.of(
                 EditorProperties.PROPERTY_WIDGET_TYPE, EditorProperties.WIDGET_TYPE_DROPDOWN,
                 EditorProperties.PROPERTY_DROPDOWN_OPTIONS, "["
                     + "{'value':'option1','description':'First option'},"
@@ -328,7 +329,7 @@ class ConfigDataServletTest {
     ValueInfo param2 = buildValueInfo("param2", 5, 5, 0);
     when(param2.getPropertyMetadata()).thenReturn(
         new PropertyMetadata<>("param2", 0)
-            .properties(ImmutableMap.of(
+            .properties(Map.of(
                 EditorProperties.PROPERTY_WIDGET_TYPE, EditorProperties.WIDGET_TYPE_DROPDOWN,
                 EditorProperties.PROPERTY_DROPDOWN_OPTIONS, "["
                     + "{'value':1,'description':'Number One'},"
@@ -343,12 +344,12 @@ class ConfigDataServletTest {
   private ConfigurationData buildConfigDataWithDropdownDynamic(String configName) {
     ConfigurationData configData = mock(ConfigurationData.class);
     when(configData.getConfigName()).thenReturn(configName);
-    when(configData.getPropertyNames()).thenReturn(ImmutableSet.of("param1"));
+    when(configData.getPropertyNames()).thenReturn(Set.of("param1"));
 
     ValueInfo param1 = buildValueInfo("param1", "option1", "option1", null);
     when(param1.getPropertyMetadata()).thenReturn(
         new PropertyMetadata<>("param1", String.class)
-            .properties(ImmutableMap.of(
+            .properties(Map.of(
                 EditorProperties.PROPERTY_WIDGET_TYPE, EditorProperties.WIDGET_TYPE_DROPDOWN,
                 EditorProperties.PROPERTY_DROPDOWN_OPTIONS_PROVIDER, "provider1")));
     when(configData.getValueInfo("param1")).thenReturn(param1);
@@ -357,7 +358,7 @@ class ConfigDataServletTest {
     context.registerService(DropdownOptionProvider.class, provider,
         DropdownOptionProvider.PROPERTY_SELECTOR, "provider1");
 
-    when(provider.getDropdownOptions(context.currentResource())).thenReturn(ImmutableList.of(
+    when(provider.getDropdownOptions(context.currentResource())).thenReturn(List.of(
         new DropdownOptionItem("option1", "First option"),
         new DropdownOptionItem("option2", "Second option"),
         new DropdownOptionItem("option3", "Third option")));
@@ -369,12 +370,12 @@ class ConfigDataServletTest {
   private ConfigurationData buildConfigDataWithPathBrowserRootPathDynamic(String configName) {
     ConfigurationData configData = mock(ConfigurationData.class);
     when(configData.getConfigName()).thenReturn(configName);
-    when(configData.getPropertyNames()).thenReturn(ImmutableSet.of("param1"));
+    when(configData.getPropertyNames()).thenReturn(Set.of("param1"));
 
     ValueInfo param1 = buildValueInfo("param1", "option1", "option1", null);
     when(param1.getPropertyMetadata()).thenReturn(
         new PropertyMetadata<>("param1", String.class)
-            .properties(ImmutableMap.of(
+            .properties(Map.of(
                 EditorProperties.PROPERTY_WIDGET_TYPE, EditorProperties.WIDGET_TYPE_PATHBROWSER,
                 EditorProperties.PROPERTY_PATHBROWSER_ROOT_PATH_PROVIDER, "provider1")));
     when(configData.getValueInfo("param1")).thenReturn(param1);
@@ -391,12 +392,12 @@ class ConfigDataServletTest {
   private ConfigurationData buildConfigDataWithTagBrowserRootPathDynamic(String configName) {
     ConfigurationData configData = mock(ConfigurationData.class);
     when(configData.getConfigName()).thenReturn(configName);
-    when(configData.getPropertyNames()).thenReturn(ImmutableSet.of("param1"));
+    when(configData.getPropertyNames()).thenReturn(Set.of("param1"));
 
     ValueInfo param1 = buildValueInfo("param1", "option1", "option1", null);
     when(param1.getPropertyMetadata()).thenReturn(
             new PropertyMetadata<>("param1", String.class)
-                    .properties(ImmutableMap.of(
+            .properties(Map.of(
                             EditorProperties.PROPERTY_WIDGET_TYPE, EditorProperties.WIDGET_TYPE_TAGBROWSER,
                             EditorProperties.PROPERTY_TAGBROWSER_ROOT_PATH_PROVIDER, "provider1")));
     when(configData.getValueInfo("param1")).thenReturn(param1);
@@ -422,7 +423,7 @@ class ConfigDataServletTest {
       when(valueInfo.getPropertyMetadata()).thenReturn(new PropertyMetadata<>(name, defaultValue)
           .label(name + "-label")
           .description(name + "-desc")
-          .properties(ImmutableMap.of("custom", name + "-custom")));
+          .properties(Map.of("custom", name + "-custom")));
     }
     return valueInfo;
   }
