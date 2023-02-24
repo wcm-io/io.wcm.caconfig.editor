@@ -25,21 +25,31 @@
   <parent>
     <groupId>io.wcm</groupId>
     <artifactId>io.wcm.parent_toplevel</artifactId>
-    <version>2.1.0</version>
+    <version>2.2.0</version>
     <relativePath />
   </parent>
 
   <groupId>io.wcm</groupId>
   <artifactId>io.wcm.caconfig.editor.parent</artifactId>
-  <version>1.15.2</version>
+  <version>1.15.4</version>
   <packaging>pom</packaging>
 
   <name>Context-Aware Configuration Editor</name>
   <description>Context-Aware Configuration Editor Template for AEM.</description>
-  
+
+  <ciManagement>
+    <system>GitHub Actions</system>
+    <url>https://github.com/wcm-io/io.wcm.caconfig.editor/actions</url>
+  </ciManagement>
+
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/wcm-io/io.wcm.caconfig.editor/issues/</url>
+  </issueManagement>
+
   <properties>
     <!-- Enable reproducible builds -->
-    <project.build.outputTimestamp>2022-12-15T11:40:34Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2023-02-24T14:52:49Z</project.build.outputTimestamp>
   </properties>
 
   <build>

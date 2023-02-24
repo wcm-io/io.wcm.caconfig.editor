@@ -24,6 +24,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
@@ -41,10 +46,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.skyscreamer.jsonassert.JSONAssert;
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSortedSet;
 
 import io.wcm.caconfig.editor.ConfigurationCategory;
 import io.wcm.caconfig.editor.ConfigurationCategoryProvider;
@@ -71,23 +72,23 @@ class ConfigNamesServletTest {
   void setUp() {
     context.currentResource(context.create().resource("/content/test"));
 
-    ConfigurationMetadata metadata1 = new ConfigurationMetadata("name1", ImmutableList.<PropertyMetadata<?>>of(), false)
+    ConfigurationMetadata metadata1 = new ConfigurationMetadata("name1", List.<PropertyMetadata<?>>of(), false)
         .label("B-label1")
         .description("desc1")
-        .properties(ImmutableMap.of(PROPERTY_CATEGORY, "category1"));
-    ConfigurationMetadata metadata2 = new ConfigurationMetadata("name2", ImmutableList.<PropertyMetadata<?>>of(), true)
+        .properties(Map.of(PROPERTY_CATEGORY, "category1"));
+    ConfigurationMetadata metadata2 = new ConfigurationMetadata("name2", List.<PropertyMetadata<?>>of(), true)
         .label("A-label2");
-    ConfigurationMetadata metadata3 = new ConfigurationMetadata("name3", ImmutableList.<PropertyMetadata<?>>of(), false)
+    ConfigurationMetadata metadata3 = new ConfigurationMetadata("name3", List.<PropertyMetadata<?>>of(), false)
         .label("C-label3");
 
-    when(configManager.getConfigurationNames()).thenReturn(ImmutableSortedSet.of("name1", "name2", "name3"));
+    when(configManager.getConfigurationNames()).thenReturn(new TreeSet<>(Set.of("name1", "name2", "name3")));
     when(configManager.getConfigurationMetadata("name1")).thenReturn(metadata1);
     when(configManager.getConfigurationMetadata("name2")).thenReturn(metadata2);
     when(configManager.getConfigurationMetadata("name3")).thenReturn(metadata3);
 
     when(configManager.getConfiguration(context.currentResource(), "name1")).thenReturn(configData);
     ConfigurationCollectionData configCollectionData = mock(ConfigurationCollectionData.class);
-    when(configCollectionData.getItems()).thenReturn(ImmutableList.of(configData));
+    when(configCollectionData.getItems()).thenReturn(List.of(configData));
     when(configManager.getConfigurationCollection(context.currentResource(), "name2")).thenReturn(configCollectionData);
 
     when(configurationResourceResolver.getContextPath(context.currentResource())).thenReturn("/context/path");

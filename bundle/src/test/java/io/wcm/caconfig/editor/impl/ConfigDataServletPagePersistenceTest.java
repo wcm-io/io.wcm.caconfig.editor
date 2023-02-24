@@ -19,8 +19,28 @@
  */
 package io.wcm.caconfig.editor.impl;
 
+import static io.wcm.caconfig.editor.impl.NameConstants.RP_COLLECTION;
+import static io.wcm.caconfig.editor.impl.NameConstants.RP_CONFIGNAME;
+import static io.wcm.caconfig.extensions.persistence.testcontext.PersistenceTestUtils.writeConfiguration;
+import static io.wcm.caconfig.extensions.persistence.testcontext.PersistenceTestUtils.writeConfigurationCollection;
+import static org.apache.sling.api.resource.ResourceResolver.PROPERTY_RESOURCE_TYPE;
+import static org.apache.sling.testing.mock.caconfig.ContextPlugins.CACONFIG;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.sling.testing.mock.caconfig.MockContextAwareConfig;
+import org.apache.sling.testing.mock.osgi.MockOsgi;
+import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.skyscreamer.jsonassert.JSONAssert;
+
 import com.day.cq.wcm.api.Page;
-import com.google.common.collect.ImmutableList;
+
 import io.wcm.caconfig.extensions.persistence.example.ListConfig;
 import io.wcm.caconfig.extensions.persistence.example.ListNestedConfig;
 import io.wcm.caconfig.extensions.persistence.example.NestedConfig;
@@ -32,22 +52,6 @@ import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.AemContextBuilder;
 import io.wcm.testing.mock.aem.junit5.AemContextCallback;
 import io.wcm.testing.mock.aem.junit5.AemContextExtension;
-import javax.servlet.http.HttpServletResponse;
-import org.apache.sling.testing.mock.caconfig.MockContextAwareConfig;
-import org.apache.sling.testing.mock.osgi.MockOsgi;
-import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.skyscreamer.jsonassert.JSONAssert;
-
-import static io.wcm.caconfig.editor.impl.NameConstants.RP_COLLECTION;
-import static io.wcm.caconfig.editor.impl.NameConstants.RP_CONFIGNAME;
-import static io.wcm.caconfig.extensions.persistence.testcontext.PersistenceTestUtils.writeConfiguration;
-import static io.wcm.caconfig.extensions.persistence.testcontext.PersistenceTestUtils.writeConfigurationCollection;
-import static org.apache.sling.api.resource.ResourceResolver.PROPERTY_RESOURCE_TYPE;
-import static org.apache.sling.testing.mock.caconfig.ContextPlugins.CACONFIG;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(AemContextExtension.class)
 class ConfigDataServletPagePersistenceTest {
@@ -121,7 +125,7 @@ class ConfigDataServletPagePersistenceTest {
     MockContextAwareConfig.registerAnnotationClasses(context, ListConfig.class);
 
     // write config
-    writeConfigurationCollection(context, contentPage.getPath(), ListConfig.class.getName(), ImmutableList.of(
+    writeConfigurationCollection(context, contentPage.getPath(), ListConfig.class.getName(), List.of(
         ImmutableValueMap.of("stringParam", "value1", "intParam", 123)),
         ImmutableValueMap.of("sling:configCollectionInherit", true));
 
@@ -154,9 +158,9 @@ class ConfigDataServletPagePersistenceTest {
     MockContextAwareConfig.registerAnnotationClasses(context, ListNestedConfig.class);
 
     // write config
-    writeConfigurationCollection(context, contentPage.getPath(), ListNestedConfig.class.getName(), ImmutableList.of(
+    writeConfigurationCollection(context, contentPage.getPath(), ListNestedConfig.class.getName(), List.of(
         ImmutableValueMap.of("stringParam", "value1", "intParam", 123)));
-    writeConfigurationCollection(context, contentPage.getPath(), ListNestedConfig.class.getName() + "/item0/jcr:content/subListConfig", ImmutableList.of(
+    writeConfigurationCollection(context, contentPage.getPath(), ListNestedConfig.class.getName() + "/item0/jcr:content/subListConfig", List.of(
         ImmutableValueMap.of("stringParam", "value11")));
 
     context.request().setParameterMap(ImmutableValueMap.of(
@@ -201,7 +205,7 @@ class ConfigDataServletPagePersistenceTest {
     writeConfiguration(context, contentPage.getPath(), NestedConfig.class.getName() + "/jcr:content/subConfig",
         "stringParam", "value2",
         "intParam", 234);
-    writeConfigurationCollection(context, contentPage.getPath(), NestedConfig.class.getName() + "/jcr:content/subListConfig", ImmutableList.of(
+    writeConfigurationCollection(context, contentPage.getPath(), NestedConfig.class.getName() + "/jcr:content/subListConfig", List.of(
         ImmutableValueMap.of("stringParam", "value3", "intParam", 345)));
 
     context.request().setParameterMap(ImmutableValueMap.of(
@@ -259,7 +263,7 @@ class ConfigDataServletPagePersistenceTest {
     MockContextAwareConfig.registerAnnotationClasses(context, FooterConfig.class);
 
     // create menu item
-    writeConfigurationCollection(context, contentPage.getPath(), FooterConfig.class.getName() + "/jcr:content/menu", ImmutableList.of(
+    writeConfigurationCollection(context, contentPage.getPath(), FooterConfig.class.getName() + "/jcr:content/menu", List.of(
         ImmutableValueMap.of()));
 
     context.request().setParameterMap(ImmutableValueMap.of(

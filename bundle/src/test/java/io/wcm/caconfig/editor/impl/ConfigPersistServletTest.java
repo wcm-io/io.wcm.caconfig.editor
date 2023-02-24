@@ -34,6 +34,7 @@ import static org.mockito.Mockito.when;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -50,8 +51,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-
-import com.google.common.collect.ImmutableList;
 
 import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.AemContextExtension;
@@ -77,25 +76,25 @@ class ConfigPersistServletTest {
     context.registerInjectActivateService(new EditorConfig());
     underTest = context.registerInjectActivateService(new ConfigPersistServlet());
 
-    ConfigurationMetadata configMetadata = new ConfigurationMetadata(CONFIG_NAME, ImmutableList.<PropertyMetadata<?>>of(
+    ConfigurationMetadata configMetadata = new ConfigurationMetadata(CONFIG_NAME, List.<PropertyMetadata<?>>of(
         new PropertyMetadata<>("stringProp", "value1"),
         new PropertyMetadata<>("intProp", Integer.class),
         new PropertyMetadata<>("longProp", Long.class),
         new PropertyMetadata<>("doubleProp", Double.class),
         new PropertyMetadata<>("boolProp", Boolean.class),
         new PropertyMetadata<>("nestedConfig", ConfigurationMetadata.class)
-        .configurationMetadata(new ConfigurationMetadata("nestedConfig", ImmutableList.<PropertyMetadata<?>>of(), false))),
+            .configurationMetadata(new ConfigurationMetadata("nestedConfig", List.<PropertyMetadata<?>>of(), false))),
         false);
     when(configManager.getConfigurationMetadata(CONFIG_NAME)).thenReturn(configMetadata);
 
-    ConfigurationMetadata configColMetadata = new ConfigurationMetadata(CONFIG_COL_NAME, ImmutableList.<PropertyMetadata<?>>of(
+    ConfigurationMetadata configColMetadata = new ConfigurationMetadata(CONFIG_COL_NAME, List.<PropertyMetadata<?>>of(
         new PropertyMetadata<>("stringProp", String[].class),
         new PropertyMetadata<>("intProp", Integer[].class),
         new PropertyMetadata<>("longProp", Long[].class),
         new PropertyMetadata<>("doubleProp", Double[].class),
         new PropertyMetadata<>("boolProp", Boolean[].class),
         new PropertyMetadata<>("nestedConfig", ConfigurationMetadata[].class)
-        .configurationMetadata(new ConfigurationMetadata("nestedConfig", ImmutableList.<PropertyMetadata<?>>of(), false))),
+            .configurationMetadata(new ConfigurationMetadata("nestedConfig", List.<PropertyMetadata<?>>of(), false))),
         true);
     when(configManager.getConfigurationMetadata(CONFIG_COL_NAME)).thenReturn(configColMetadata);
   }

@@ -25,13 +25,13 @@
   <parent>
     <groupId>io.wcm</groupId>
     <artifactId>io.wcm.caconfig.editor.parent</artifactId>
-    <version>1.15.2</version>
+    <version>1.15.4</version>
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
   <groupId>io.wcm</groupId>
   <artifactId>io.wcm.caconfig.editor</artifactId>
-  <version>1.15.2</version>
+  <version>1.15.4</version>
   <packaging>jar</packaging>
 
   <name>Context-Aware Configuration Editor</name>
@@ -42,7 +42,7 @@
     <site.url.module.prefix>caconfig/editor/bundle</site.url.module.prefix>
 
     <!-- Enable reproducible builds -->
-    <project.build.outputTimestamp>2022-12-15T11:40:34Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2023-02-24T14:52:49Z</project.build.outputTimestamp>
   </properties>
 
   <dependencies>
@@ -178,6 +178,11 @@
           <bnd>
             Sling-Initial-Content: \
               SLING-INF/app-root;overwrite:=true;ignoreImportProviders:=xml;path:=/apps/wcm-io/caconfig/editor
+
+            <!-- register non-standard JCR namespaces for conversion with cp2fm into enhanced DocView files -->
+            Sling-Namespaces: \
+              cq=http://www.day.com/jcr/cq/1.0,\
+              sling=http://sling.apache.org/jcr/sling/1.0
 
             <!-- Make compatible with different AEM versions -->
             Import-Package: \
