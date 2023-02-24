@@ -27,7 +27,7 @@
       <action type="update" dev="sseifert">
         Switch to Java 11 as minimum version.
       </action>
-      <action type="fix" dev="kwin">
+      <action type="fix" dev="kwin" issue="10">
         Sling-Initial-Content: Register non-standard JCR namespaces for conversion with cp2fm into enhanced DocView files.
       </action>
     </release>

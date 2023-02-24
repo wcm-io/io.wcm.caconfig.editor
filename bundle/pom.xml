@@ -176,12 +176,13 @@
         <artifactId>bnd-maven-plugin</artifactId>
         <configuration>
           <bnd>
+            Sling-Initial-Content: \
+              SLING-INF/app-root;overwrite:=true;ignoreImportProviders:=xml;path:=/apps/wcm-io/caconfig/editor
+
             <!-- register non-standard JCR namespaces for conversion with cp2fm into enhanced DocView files -->
             Sling-Namespaces: \
               cq=http://www.day.com/jcr/cq/1.0,\
               sling=http://sling.apache.org/jcr/sling/1.0
-            Sling-Initial-Content: \
-              SLING-INF/app-root;overwrite:=true;ignoreImportProviders:=xml;path:=/apps/wcm-io/caconfig/editor
 
             <!-- Make compatible with different AEM versions -->
             Import-Package: \

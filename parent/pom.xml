@@ -36,7 +36,17 @@
 
   <name>Context-Aware Configuration Editor</name>
   <description>Context-Aware Configuration Editor Template for AEM.</description>
-  
+
+  <ciManagement>
+    <system>GitHub Actions</system>
+    <url>https://github.com/wcm-io/io.wcm.caconfig.editor/actions</url>
+  </ciManagement>
+
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/wcm-io/io.wcm.caconfig.editor/issues/</url>
+  </issueManagement>
+
   <properties>
     <!-- Enable reproducible builds -->
     <project.build.outputTimestamp>2022-12-15T11:42:01Z</project.build.outputTimestamp>
