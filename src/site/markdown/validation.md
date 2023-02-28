@@ -29,6 +29,12 @@ The validator referenced via the `validation` property can be:
 
 The `validationMessage` is displayed to the user when the validation detects an invalid value. It can be a text, or an i18n key looked up in the AEM i18n dictionaries.
 
+Validation support is implemented for the following widget types:
+
+* `textfield`
+* `textarea`
+* `pathbrowser`
+
 
 ### Validating with Granite UI foundation validators
 
