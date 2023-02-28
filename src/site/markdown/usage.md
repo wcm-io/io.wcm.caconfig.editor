@@ -201,6 +201,8 @@ public @interface MyConfig {
 
 By implementing an OSGi service for [ConfigurationCategoryProvider][caconfig-configuration-category-provider] you can provide labels for the category names. It's also possible to assign categories programmatically with this service, or apply a default category to configuration definitions which do not have a category assigned.
 
+_To use this, you need to deploy the optional dependency `io.wcm.sling.commons`._
+
 
 ### Disable Editor on Publish
 
