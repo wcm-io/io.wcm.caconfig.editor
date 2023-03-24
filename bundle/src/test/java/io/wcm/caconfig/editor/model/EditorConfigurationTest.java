@@ -19,13 +19,15 @@
  */
 package io.wcm.caconfig.editor.model;
 
-import io.wcm.caconfig.editor.impl.ConfigDataServlet;
-import io.wcm.caconfig.editor.impl.ConfigNamesServlet;
-import io.wcm.caconfig.editor.impl.ConfigPersistServlet;
-import io.wcm.caconfig.editor.impl.EditorConfig;
-import io.wcm.sling.commons.adapter.AdaptTo;
-import io.wcm.testing.mock.aem.junit5.AemContext;
-import io.wcm.testing.mock.aem.junit5.AemContextExtension;
+import static io.wcm.caconfig.editor.model.EditorConfiguration.PATH_PATHFIELD_STANDARD;
+import static io.wcm.caconfig.editor.model.EditorConfiguration.PATH_PATHFIELD_WCMIO;
+import static io.wcm.caconfig.editor.model.EditorConfiguration.PATH_TAGFIELD_CQ;
+import static io.wcm.caconfig.editor.model.EditorConfiguration.RT_WCMIO_PATHFIELD;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
+
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.caconfig.resource.ConfigurationResourceResolver;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,13 +36,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static io.wcm.caconfig.editor.model.EditorConfiguration.PATH_PATHFIELD_STANDARD;
-import static io.wcm.caconfig.editor.model.EditorConfiguration.PATH_PATHFIELD_WCMIO;
-import static io.wcm.caconfig.editor.model.EditorConfiguration.PATH_TAGFIELD_CQ;
-import static io.wcm.caconfig.editor.model.EditorConfiguration.RT_WCMIO_PATHFIELD;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
+import io.wcm.caconfig.editor.impl.ConfigDataServlet;
+import io.wcm.caconfig.editor.impl.ConfigNamesServlet;
+import io.wcm.caconfig.editor.impl.ConfigPersistServlet;
+import io.wcm.caconfig.editor.impl.EditorConfig;
+import io.wcm.sling.commons.adapter.AdaptTo;
+import io.wcm.testing.mock.aem.junit5.AemContext;
+import io.wcm.testing.mock.aem.junit5.AemContextExtension;
 
 @ExtendWith(AemContextExtension.class)
 @ExtendWith(MockitoExtension.class)
@@ -63,7 +65,6 @@ class EditorConfigurationTest {
     context.currentResource(contentResource);
 
     when(configResourceResolver.getContextPath(contentResource)).thenReturn(SAMPLE_PATH);
-
   }
 
   @Test
@@ -79,6 +80,7 @@ class EditorConfigurationTest {
     assertEquals(PATH_TAGFIELD_CQ, underTest.getTagfieldContentPath());
     assertEquals(DEFAULT_LANGUAGE, underTest.getLanguage());
     assertTrue(underTest.isEnabled());
+    assertFalse(underTest.isCanReplicate());
   }
 
   @Test
@@ -95,6 +97,7 @@ class EditorConfigurationTest {
     assertEquals(PATH_TAGFIELD_CQ, underTest.getTagfieldContentPath());
     assertEquals(DEFAULT_LANGUAGE, underTest.getLanguage());
     assertTrue(underTest.isEnabled());
+    assertFalse(underTest.isCanReplicate());
   }
 
   @Test
@@ -112,6 +115,7 @@ class EditorConfigurationTest {
     assertEquals(SERVLET_CONTEXT_PATH + PATH_TAGFIELD_CQ, underTest.getTagfieldContentPath());
     assertEquals(DEFAULT_LANGUAGE, underTest.getLanguage());
     assertTrue(underTest.isEnabled());
+    assertFalse(underTest.isCanReplicate());
   }
 
   @Test
