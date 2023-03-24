@@ -59,6 +59,7 @@
               managePublicationUrl: managePublicationUrl,
               currentPagePath: currentPagePath
             });
+            publishServiceProvider.setCanReplicate(${editorConfig.canReplicate @ context='uri'});
 
             pathbrowserServiceProvider.setUrls({
               pickerSrc: pathfieldPickerSrc,
