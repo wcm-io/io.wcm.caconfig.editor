@@ -6,6 +6,8 @@ By default, the Context-Aware Configuration Editor does not apply any validation
 
 It is possible to define a validation for text-based input fields validating against predefined or custom rules.
 
+_To use this, you need to deploy the optional dependency `io.wcm.sling.commons`._
+
 
 ### Configuring validation
 
@@ -26,6 +28,12 @@ The validator referenced via the `validation` property can be:
 * A custom validator provided by the AEM project to synchronous or asynchronous validation
 
 The `validationMessage` is displayed to the user when the validation detects an invalid value. It can be a text, or an i18n key looked up in the AEM i18n dictionaries.
+
+Validation support is implemented for the following widget types:
+
+* `textfield`
+* `textarea`
+* `pathbrowser`
 
 
 ### Validating with Granite UI foundation validators

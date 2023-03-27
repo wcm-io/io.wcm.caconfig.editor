@@ -20,6 +20,10 @@
 package io.wcm.caconfig.editor.model;
 
 import javax.annotation.PostConstruct;
+import javax.jcr.RepositoryException;
+import javax.jcr.Session;
+import javax.jcr.security.AccessControlManager;
+import javax.jcr.security.Privilege;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -30,7 +34,10 @@ import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import org.osgi.annotation.versioning.ProviderType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.day.cq.replication.Replicator;
 import com.day.cq.wcm.api.components.ComponentManager;
 
 import io.wcm.caconfig.editor.impl.ConfigDataServlet;
@@ -48,8 +55,9 @@ public class EditorConfiguration {
   static final String RT_WCMIO_PATHFIELD = "wcm-io/wcm/ui/granite/components/form/pathfield";
   static final String PATH_PATHFIELD_STANDARD = "/mnt/overlay/granite/ui/content/coral/foundation/form/pathfield";
   static final String PATH_PATHFIELD_WCMIO = "/mnt/overlay/wcm-io/wcm/ui/granite/content/form/pathfield";
-
   static final String PATH_TAGFIELD_CQ = "/mnt/overlay/cq/gui/content/coral/common/form/tagfield";
+
+  private static final Logger log = LoggerFactory.getLogger(EditorConfiguration.class);
 
   @SlingObject
   private Resource currentResource;
@@ -69,6 +77,7 @@ public class EditorConfiguration {
   private String tagfieldContentPath;
   private String language;
   private boolean enabled;
+  private boolean canReplicate;
 
   @PostConstruct
   private void activate() {
@@ -84,6 +93,7 @@ public class EditorConfiguration {
     this.tagfieldContentPath = buildTagfieldContentPath();
     this.language = request.getLocale().getLanguage();
     this.enabled = editorConfig.isEnabled();
+    this.canReplicate = hasPermission(Replicator.REPLICATE_PRIVILEGE);
   }
 
   private String buildServletPath(String selector) {
@@ -103,6 +113,21 @@ public class EditorConfiguration {
     else {
       return servletContextPathPrefix + PATH_PATHFIELD_STANDARD;
     }
+  }
+
+  private boolean hasPermission(String privilegeName) {
+    Session session = request.getResourceResolver().adaptTo(Session.class);
+    if (session != null) {
+      try {
+        AccessControlManager accessControlManager = session.getAccessControlManager();
+        Privilege privilege = accessControlManager.privilegeFromName(privilegeName);
+        return accessControlManager.hasPrivileges(currentResource.getPath(), new Privilege[] { privilege });
+      }
+      catch (RepositoryException ex) {
+        log.warn("Failed to check permission for {}", currentResource.getPath(), ex);
+      }
+    }
+    return false;
   }
 
   private String buildTagfieldContentPath() {
@@ -143,6 +168,10 @@ public class EditorConfiguration {
 
   public boolean isEnabled() {
     return this.enabled;
+  }
+
+  public boolean isCanReplicate() {
+    return this.canReplicate;
   }
 
 }

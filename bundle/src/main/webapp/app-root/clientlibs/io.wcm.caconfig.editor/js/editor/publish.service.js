@@ -29,9 +29,10 @@
 
   function PublishServiceProvider() {
     var publishUrls = {};
+    var isCanReplicate = false;
     var DOCUMENT_REFERRER_KEY = "document.referrer";
 
-    function PublishService($http, $httpParamSerializer, uiService, configService, modalService, restUrls) {
+    function PublishService($http, $httpParamSerializer, uiService, modalService, restUrls, canReplicate) {
       var that = this;
 
       var publish = function (path) {
@@ -91,7 +92,7 @@
         })
           .then(
             function success(response) {
-              if (response.data && response.data.assets && response.data.assets.length === 0) {
+              if (canReplicate && response.data && response.data.assets && response.data.assets.length === 0) {
                 // Publish directly as there is no asset
                 publish(path);
               }
@@ -116,9 +117,13 @@
       publishUrls = restUrlsPublish;
     };
 
-    this.$get = ["$http", "$httpParamSerializer", "uiService", "configService", "modalService",
-      function ($http, $httpParamSerializer, uiService, configService, modalService) {
-        return new PublishService($http, $httpParamSerializer, uiService, configService, modalService, publishUrls);
+    this.setCanReplicate = function(canReplicate) {
+      isCanReplicate = canReplicate
+    }
+
+    this.$get = ["$http", "$httpParamSerializer", "uiService", "modalService",
+      function ($http, $httpParamSerializer, uiService, modalService) {
+        return new PublishService($http, $httpParamSerializer, uiService, modalService, publishUrls, isCanReplicate);
       }
     ];
   }
