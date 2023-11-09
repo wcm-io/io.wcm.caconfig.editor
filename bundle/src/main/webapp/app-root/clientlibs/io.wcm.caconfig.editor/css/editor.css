@@ -222,6 +222,10 @@ span.caconfig-tagbrowser {
   display: inline-block;
   margin-left: 1rem;
 }
+.category-filter-inner {
+  display: flex;
+  align-items: center;
+}
 .category-filter label {
-  margin-right: 0.25rem;
+  margin-right: 0.5rem;
 }
