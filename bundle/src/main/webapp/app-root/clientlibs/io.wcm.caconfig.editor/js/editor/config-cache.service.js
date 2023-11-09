@@ -45,6 +45,7 @@
      * @return {Object|null}
      */
     that.getConfigNameObject = function(configName) {
+      console.log(`getConfigNameObject: configName=${configName}`)
       var config = configCache[configName];
 
       if (angular.isObject(config) && angular.isObject(config.configNameObject)) {
@@ -60,6 +61,7 @@
      * @return {String}
      */
     that.getPropertyType = function(configName, propertyName) {
+      console.log(`getPropertyType: configName=${configName}, propertyName=${propertyName}`)
       return configCache[configName].propertyTypes[propertyName] || "";
     };
 
@@ -68,6 +70,7 @@
      * @return {Object|null}
      */
     that.getPropertyTypes = function(configName) {
+      console.log(`getPropertyTypes: configName=${configName}`)
       return configCache[configName].propertyTypes || null;
     };
 
@@ -123,6 +126,7 @@
     }
 
     that.plantConfigCache = function (data) {
+      console.log(`plantConfigCache: data=${data}`)
       configCache = configCache || getStoredConfigCache() || {};
       angular.forEach(data, function (config) {
         var configName = config.configName;
@@ -140,6 +144,7 @@
      * @param  {String=} parentName
      */
     that.updateConfigCache = function (configs, parentName) {
+      console.log(`updateConfigCache: configs=${JSON.stringify(configs).substring(0,100)}..., parentName=${parentName ?? ''}`)
       var configData,
         i;
 
@@ -152,6 +157,7 @@
     };
 
     that.removeConfigFromCache = function (configName) {
+      console.log(`removeConfigFromCache: configName=${configName}`)
       nullifyChildren(configName);
       cleanUpCache();
       setStoredConfigCache();
@@ -181,6 +187,7 @@
     }
 
     function addConfigToCache(configData, parentName) {
+      console.log(`addConfigToCache: configData=${JSON.stringify(configData).substring(0,100)}..., parentName=${parentName ?? ''}`)
       var isNested = false;
       var isNestedCollection = false;
       var isCollectionItem = false;
@@ -382,6 +389,7 @@
     }
 
     that.removeStoredConfigCache = function () {
+      console.log(`removeStoredConfigCache`)
       $window.sessionStorage.removeItem(STORED_CONFIG_CACHE);
     };
 
