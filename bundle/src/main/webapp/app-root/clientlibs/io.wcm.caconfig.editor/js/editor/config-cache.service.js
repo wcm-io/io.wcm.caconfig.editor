@@ -25,7 +25,7 @@
   /**
    * Config Cache service
    *
-   * Storing Config Data information in memory / in local storage.
+   * Storing Config Data information in memory / in session storage.
    */
   angular.module("io.wcm.caconfig.editor")
     .service("configCacheService", ConfigCacheService);
