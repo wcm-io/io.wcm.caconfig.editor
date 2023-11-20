@@ -24,6 +24,9 @@
   <body>
 
     <release version="1.15.8" date="not released">
+      <action type="fix" dev="sseifert" issue="23">
+        Fix opening/returning from publication wizards in AEMaaCS with Unified Shell.
+      </action>
       <action type="fix" dev="sseifert" issue="20">
         Fix display of selected category on AEM 6.5.
       </action>
