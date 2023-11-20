@@ -66,11 +66,11 @@
 
       that.managePublication = function() {
         uiService.showLoading();
-        location.href = Granite.HTTP.externalize(restUrls.managePublicationUrl + "?item=" + restUrls.currentPagePath);
+        location.href = restUrls.managePublicationUrl + "?item=" + restUrls.currentPagePath;
       }
 
       var navigateToQuickPublishWizard = function(path) {
-        location.href = Granite.HTTP.externalize(restUrls.quickPublishUrl + "?item=" + path + "&editmode");
+        location.href = restUrls.quickPublishUrl + "?item=" + path + "&editmode";
       };
 
       that.quickPublish = function() {
