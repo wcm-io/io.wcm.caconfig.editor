@@ -10,6 +10,7 @@
     <meta charset="UTF-8">
     <title ng-bind="title"></title>
     <meta data-sly-call="${clientLib.css @ categories='io.wcm.caconfig.editor'}" data-sly-unwrap></meta>
+    <sly data-sly-resource="${@ resourceType='unifiedshell/components/unifiedshell'}"></sly>
   </head>
   <body class="coral--light" ng-cloak>
     <coral-shell-header class="coral--dark granite-shell-header" role="region" aria-label="Header Bar">

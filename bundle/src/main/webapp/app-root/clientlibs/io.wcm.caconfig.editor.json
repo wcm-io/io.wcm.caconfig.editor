@@ -6,7 +6,6 @@
   "dependencies": [
     "coralui3",
     "granite.ui.coral.foundation",
-    "aem.unifiedshell",
     "io.wcm.caconfig.editor.angularjs",
     "io.wcm.caconfig.editor.validation"
   ]
