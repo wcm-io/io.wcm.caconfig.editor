@@ -44,6 +44,7 @@ import io.wcm.caconfig.editor.impl.ConfigDataServlet;
 import io.wcm.caconfig.editor.impl.ConfigNamesServlet;
 import io.wcm.caconfig.editor.impl.ConfigPersistServlet;
 import io.wcm.caconfig.editor.impl.EditorConfig;
+import io.wcm.caconfig.editor.impl.UnifiedShellDetector;
 
 /**
  * Provides editor configuration options
@@ -53,6 +54,8 @@ import io.wcm.caconfig.editor.impl.EditorConfig;
 public class EditorConfiguration {
 
   static final String RT_WCMIO_PATHFIELD = "wcm-io/wcm/ui/granite/components/form/pathfield";
+  static final String RT_UNIFIED_SHELL = "unifiedshell/components/unifiedshell";
+
   static final String PATH_PATHFIELD_STANDARD = "/mnt/overlay/granite/ui/content/coral/foundation/form/pathfield";
   static final String PATH_PATHFIELD_WCMIO = "/mnt/overlay/wcm-io/wcm/ui/granite/content/form/pathfield";
   static final String PATH_TAGFIELD_CQ = "/mnt/overlay/cq/gui/content/coral/common/form/tagfield";
@@ -67,6 +70,8 @@ public class EditorConfiguration {
   private ConfigurationResourceResolver configResourceResolver;
   @OSGiService
   private EditorConfig editorConfig;
+  @OSGiService
+  private UnifiedShellDetector unifiedShellDetector;
 
   private String servletContextPathPrefix;
   private String configNamesUrl;
@@ -78,6 +83,7 @@ public class EditorConfiguration {
   private String language;
   private boolean enabled;
   private boolean canReplicate;
+  private boolean unifiedShellAvailable;
 
   @PostConstruct
   private void activate() {
@@ -94,6 +100,7 @@ public class EditorConfiguration {
     this.language = request.getLocale().getLanguage();
     this.enabled = editorConfig.isEnabled();
     this.canReplicate = hasPermission(Replicator.REPLICATE_PRIVILEGE);
+    this.unifiedShellAvailable = unifiedShellDetector.isAvailable();
   }
 
   private String buildServletPath(String selector) {
@@ -172,6 +179,10 @@ public class EditorConfiguration {
 
   public boolean isCanReplicate() {
     return this.canReplicate;
+  }
+
+  public boolean isUnifiedShellAvailable() {
+    return this.unifiedShellAvailable;
   }
 
 }

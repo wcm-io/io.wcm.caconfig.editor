@@ -40,6 +40,7 @@ import io.wcm.caconfig.editor.impl.ConfigDataServlet;
 import io.wcm.caconfig.editor.impl.ConfigNamesServlet;
 import io.wcm.caconfig.editor.impl.ConfigPersistServlet;
 import io.wcm.caconfig.editor.impl.EditorConfig;
+import io.wcm.caconfig.editor.impl.UnifiedShellDetector;
 import io.wcm.sling.commons.adapter.AdaptTo;
 import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.AemContextExtension;
@@ -58,7 +59,8 @@ class EditorConfigurationTest {
 
   @BeforeEach
   void setUp() {
-    context.registerInjectActivateService(new EditorConfig());
+    context.registerInjectActivateService(EditorConfig.class);
+    context.registerInjectActivateService(UnifiedShellDetector.class);
     context.registerService(ConfigurationResourceResolver.class, configResourceResolver);
 
     Resource contentResource = context.create().resource(SAMPLE_PATH);
@@ -81,6 +83,7 @@ class EditorConfigurationTest {
     assertEquals(DEFAULT_LANGUAGE, underTest.getLanguage());
     assertTrue(underTest.isEnabled());
     assertFalse(underTest.isCanReplicate());
+    assertFalse(underTest.isUnifiedShellAvailable());
   }
 
   @Test
