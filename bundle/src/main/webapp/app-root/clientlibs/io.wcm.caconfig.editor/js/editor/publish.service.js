@@ -66,7 +66,7 @@
 
       var externalizeForShell = function(path) {
         if (window.UNIFIED_SHELL && UNIFIED_SHELL.ENABLED) {
-          return window.UNIFIED_SHELL.getUnifiedShellURL(Granite.HTTP.externalize(path));
+          return window.UNIFIED_SHELL.getUnifiedShellURL(path);
         }
         return Granite.HTTP.externalize(path);
       }
