@@ -54,8 +54,6 @@ import io.wcm.caconfig.editor.impl.UnifiedShellDetector;
 public class EditorConfiguration {
 
   static final String RT_WCMIO_PATHFIELD = "wcm-io/wcm/ui/granite/components/form/pathfield";
-  static final String RT_UNIFIED_SHELL = "unifiedshell/components/unifiedshell";
-
   static final String PATH_PATHFIELD_STANDARD = "/mnt/overlay/granite/ui/content/coral/foundation/form/pathfield";
   static final String PATH_PATHFIELD_WCMIO = "/mnt/overlay/wcm-io/wcm/ui/granite/content/form/pathfield";
   static final String PATH_TAGFIELD_CQ = "/mnt/overlay/cq/gui/content/coral/common/form/tagfield";
