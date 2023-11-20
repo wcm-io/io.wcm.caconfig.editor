@@ -64,13 +64,20 @@
           );
       };
 
+      var externalizeForShell = function(path) {
+        if (window.UNIFIED_SHELL && UNIFIED_SHELL.ENABLED) {
+          return window.UNIFIED_SHELL.getUnifiedShellURL(Granite.HTTP.externalize(path));
+        }
+        return Granite.HTTP.externalize(path);
+      }
+
       that.managePublication = function() {
         uiService.showLoading();
-        location.href = Granite.HTTP.externalize(restUrls.managePublicationUrl + "?item=" + restUrls.currentPagePath);
+        location.href = externalizeForShell(restUrls.managePublicationUrl + "?item=" + restUrls.currentPagePath);
       }
 
       var navigateToQuickPublishWizard = function(path) {
-        location.href = Granite.HTTP.externalize(restUrls.quickPublishUrl + "?item=" + path + "&editmode");
+        location.href = externalizeForShell(restUrls.quickPublishUrl + "?item=" + path + "&editmode");
       };
 
       that.quickPublish = function() {
