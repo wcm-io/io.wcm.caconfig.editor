@@ -44,6 +44,7 @@ import io.wcm.caconfig.editor.impl.ConfigDataServlet;
 import io.wcm.caconfig.editor.impl.ConfigNamesServlet;
 import io.wcm.caconfig.editor.impl.ConfigPersistServlet;
 import io.wcm.caconfig.editor.impl.EditorConfig;
+import io.wcm.caconfig.editor.impl.UnifiedShellDetector;
 
 /**
  * Provides editor configuration options
@@ -67,6 +68,8 @@ public class EditorConfiguration {
   private ConfigurationResourceResolver configResourceResolver;
   @OSGiService
   private EditorConfig editorConfig;
+  @OSGiService
+  private UnifiedShellDetector unifiedShellDetector;
 
   private String servletContextPathPrefix;
   private String configNamesUrl;
@@ -78,6 +81,7 @@ public class EditorConfiguration {
   private String language;
   private boolean enabled;
   private boolean canReplicate;
+  private boolean unifiedShellAvailable;
 
   @PostConstruct
   private void activate() {
@@ -94,6 +98,7 @@ public class EditorConfiguration {
     this.language = request.getLocale().getLanguage();
     this.enabled = editorConfig.isEnabled();
     this.canReplicate = hasPermission(Replicator.REPLICATE_PRIVILEGE);
+    this.unifiedShellAvailable = unifiedShellDetector.isAvailable();
   }
 
   private String buildServletPath(String selector) {
@@ -172,6 +177,10 @@ public class EditorConfiguration {
 
   public boolean isCanReplicate() {
     return this.canReplicate;
+  }
+
+  public boolean isUnifiedShellAvailable() {
+    return this.unifiedShellAvailable;
   }
 
 }

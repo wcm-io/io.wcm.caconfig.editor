@@ -60,7 +60,10 @@
             state.configCategories.unshift({category:'',label:$rootScope.i18n("categoryFilter.all")});
             // add category labels to config names
             state.configNames.forEach(configName => {
-              configName.categoryLabel = state.configCategories.find(item => item.category==configName.category)?.label
+              const categoryItem = state.configCategories.find(item => item.category==configName.category)
+              if (categoryItem) {
+                configName.categoryLabel = categoryItem.label
+              }
             });
           }
 
