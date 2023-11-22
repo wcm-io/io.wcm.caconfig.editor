@@ -30,6 +30,13 @@
   function OverviewController($document, $window, $rootScope, $timeout, configService, modalService, publishService) {
     var that = this;
 
+    function validateSelectedCategory(category) {
+      if (!that.state.configCategories.find(item => item.category == category)) {
+        return '';
+      }
+      return category;
+    }
+
     $rootScope.title = $rootScope.i18n("title");
     that.state = configService.getState();
     configService.loadConfigNames()
@@ -37,11 +44,7 @@
         that.ovReady = true;
 
         // get last selected category filter
-        var lastCategoryFilter = $window.localStorage.getItem(STORAGE_OVERVIEW_CATEGORYFILTER);
-        if (!that.state.configCategories.find(item => item.category == lastCategoryFilter)) {
-          lastCategoryFilter = undefined;
-        }
-        $rootScope.categoryFilter = lastCategoryFilter;
+        $rootScope.categoryFilter = validateSelectedCategory($window.localStorage.getItem(STORAGE_OVERVIEW_CATEGORYFILTER));
 
         // ugly block of code to register event of coral-select and propagate it's value to AngularJS change
         // the coral-select widget itself lives outside AngularJS' controls
@@ -50,8 +53,10 @@
           if (select) {
             Coral.commons.ready(select, function(component) {
               $(component).on('change', function() {
-                $rootScope.categoryFilter = component.value;
-                $window.localStorage.setItem(STORAGE_OVERVIEW_CATEGORYFILTER, component.value);
+                var selectedCategory = validateSelectedCategory(component.value);
+                $rootScope.categoryFilter = selectedCategory;
+                console.log('new categoryFilter: [' + selectedCategory + ']');
+                $window.localStorage.setItem(STORAGE_OVERVIEW_CATEGORYFILTER, selectedCategory);
                 $rootScope.$apply();
               });
             });
@@ -94,7 +99,7 @@
         if (configName.exists != true) {
           return false;
         }
-        if (categoryFilter) {
+        if (categoryFilter && categoryFilter != '') {
           return configName.category == categoryFilter;
         }
         return true; 

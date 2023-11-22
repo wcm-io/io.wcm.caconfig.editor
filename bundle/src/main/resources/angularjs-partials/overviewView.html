@@ -16,12 +16,13 @@
           bo-text="i18n('button.managePublication')"></button>
 
   <div class="category-filter" ng-if="overview.state.hasConfigCategories">
-    <label for="categoryFilter">{{i18n('categoryFilter.label')}}</label>
-    <coral-select id="caconfig-configurationOverviewFilter">
-      <coral-select-item value="" bo-text="i18n('categoryFilter.all')"></coral-select-item>
-      <coral-select-item ng-repeat="category in overview.state.configCategories" bo-value="category.category" bo-text="category.label"
-          bo-attr bo-attr-selected="{{categoryFilter==category.category}}"></coral-select-item>
-    </coral-select>
+    <div class="category-filter-inner">
+      <label for="categoryFilter">{{i18n('categoryFilter.label')}}</label>
+      <coral-select id="caconfig-configurationOverviewFilter">
+        <coral-select-item ng-repeat="category in overview.state.configCategories" bo-value="category.category" bo-text="category.label"
+            bo-attr bo-attr-selected="{{categoryFilter==category.category}}"></coral-select-item>
+      </coral-select>
+    </div>
   </div>
 
   <p class="caconfig-contextPath"

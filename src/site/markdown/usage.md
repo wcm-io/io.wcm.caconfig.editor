@@ -13,18 +13,16 @@ See [Apache Sling Context-Aware Configuration documentation][sling-caconfig] for
 
 ### Installation
 
-In most cases you will deploy the configuration editor bundle `io.wcm.caconfig.editor` together with your application. In this case you should define your own template definition for it which controls where editor config pages can created (see next section).
+In production environments (including AEMaaCS), you should _only_ deploy configuration editor bundle `io.wcm.caconfig.editor` together with your application. In this case you should define your own template definition for it which controls where editor config pages can created (see next section).
 
-Alternatively you can deploy it using an AEM package which contains the config editor bundle together with a template definition which allows all paths below `/content`.
+For testing purpose an AEM package (ZIP) is provided which contains the config editor bundle together with a template definition which allows all paths below `/content`. This package is only for convenience installations on local AEM instances, it is not compatible with AEMaaCS. **Deploy only the bundle (JAR) on AEMaaCS.**
 
 |---|---|---|
 | [wcm.io Context-Aware Configuration Editor Bundle (JAR)](https://repo1.maven.org/maven2/io/wcm/io.wcm.caconfig.editor/) | [![Maven Central](https://img.shields.io/maven-central/v/io.wcm/io.wcm.caconfig.editor)](https://repo1.maven.org/maven2/io/wcm/io.wcm.caconfig.editor/) |
 | [wcm.io Context-Aware Configuration Editor AEM Package with Template Definition (ZIP)](https://repo1.maven.org/maven2/io/wcm/io.wcm.caconfig.editor.package/) | [![Maven Central](https://img.shields.io/maven-central/v/io.wcm/io.wcm.caconfig.editor.package)](https://repo1.maven.org/maven2/io/wcm/io.wcm.caconfig.editor.package/) |
 
 
-When you are using AEM 6.1 or 6.2 you have to additionally deploy the Apache Sling Context-Aware Configuration bundles (API, SPI, Impl) to AEM. In AEM 6.3 you have to update the Apache Sling Context-Aware Configuration SPI and Impl version to the latest version if you want to use Editor version 1.1 and upwards. See [Deploy and configure Context-Aware Configuration in AEM][deploy-configure-caconfig-in-aem] for details.
-
-In most cases the default persistence implementation provided by Apache Sling or AEM 6.3/6.4 is not enough for the needs of AEM applications. [wcm.io Context-Aware Configuration Extensions][wcmio-caconfig-extensions] provide additional implementations and features.
+In most cases the default persistence implementation provided by AEM out-of-the-box is not enough for the needs of AEM applications. [wcm.io Context-Aware Configuration Extensions][wcmio-caconfig-extensions] provide additional implementations and features.
 
 
 ### Defining the editor template
