@@ -25,13 +25,13 @@
   <parent>
     <groupId>io.wcm</groupId>
     <artifactId>io.wcm.caconfig.editor.parent</artifactId>
-    <version>1.15.8</version>
+    <version>1.15.9-SNAPSHOT</version>
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
   <groupId>io.wcm</groupId>
   <artifactId>io.wcm.caconfig.editor.package</artifactId>
-  <version>1.15.8</version>
+  <version>1.15.9-SNAPSHOT</version>
   <packaging>content-package</packaging>
   <url>${site.url}/caconfig/editor/</url>
 
@@ -40,7 +40,7 @@
     <contentPackage.group>wcm-io</contentPackage.group>
 
     <!-- Enable reproducible builds -->
-    <project.build.outputTimestamp>2023-11-22T14:18:24Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2023-11-22T14:19:57Z</project.build.outputTimestamp>
   </properties>
 
   <dependencies>
@@ -49,7 +49,7 @@
       <groupId>io.wcm</groupId>
       <artifactId>io.wcm.caconfig.editor</artifactId>
       <scope>compile</scope>
-      <version>1.15.8</version>
+      <version>1.15.9-SNAPSHOT</version>
     </dependency>
 
   </dependencies>
