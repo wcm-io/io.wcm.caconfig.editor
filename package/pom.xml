@@ -33,6 +33,7 @@
   <artifactId>io.wcm.caconfig.editor.package</artifactId>
   <version>1.15.9-SNAPSHOT</version>
   <packaging>content-package</packaging>
+  <name>Context-Aware Configuration Editor (Package)</name>
   <url>${site.url}/caconfig/editor/</url>
 
   <properties>
