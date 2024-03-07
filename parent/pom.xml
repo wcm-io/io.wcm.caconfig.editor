@@ -52,6 +52,14 @@
     <project.build.outputTimestamp>2023-11-22T14:19:57Z</project.build.outputTimestamp>
   </properties>
 
+  <!-- dedicated repo necessary for nodejs-maven-plugin, https://wcm.io/tooling/maven/plugins/nodejs-maven-plugin/ -->
+  <repositories>
+    <repository>
+      <id>maven-nodejs-proxy</id>
+      <url>https://maven-nodejs-proxy.pvtool.org</url>
+    </repository>
+  </repositories>
+
   <build>
     <plugins>
 
