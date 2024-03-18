@@ -21,8 +21,5 @@
     "grunt-eslint": "24.0.0",
     "grunt-html2js": "0.8.0",
     "load-grunt-tasks": "5.1.0"
-  },
-  "engines": {
-    "node": "16.15.0"
   }
 }

@@ -209,30 +209,41 @@
 
       <!-- Nodejs Maven Plugin to run the templates compilation and tests -->
       <plugin>
-        <groupId>io.wcm.maven.plugins</groupId>
-        <artifactId>nodejs-maven-plugin</artifactId>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
         <executions>
           <execution>
-            <phase>generate-sources</phase>
-            <goals><goal>run</goal></goals>
+            <id>install node and npm</id>
+            <goals>
+              <goal>install-node-and-npm</goal>
+            </goals>
+            <phase>process-resources</phase>
+            <configuration>
+              <nodeVersion>v20.11.1</nodeVersion>
+              <npmVersion>10.2.4</npmVersion>
+            </configuration>
+          </execution>
+          <execution>
+            <id>npm install</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <phase>process-resources</phase>
+            <configuration>
+              <arguments>install</arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>grunt build</id>
+            <goals>
+              <goal>grunt</goal>
+            </goals>
+            <phase>process-resources</phase>
+            <configuration>
+              <arguments>build</arguments>
+            </configuration>
           </execution>
         </executions>
-        <configuration>
-          <nodeJsVersion>16.15.0</nodeJsVersion>
-          <tasks>
-            <npmInstallTask>
-              <workingDirectory>${project.basedir}</workingDirectory>
-            </npmInstallTask>
-            <nodeJsTask>
-              <workingDirectory>${project.basedir}</workingDirectory>
-              <moduleName>grunt-cli</moduleName>
-              <executableName>grunt</executableName>
-              <arguments>
-                <argument>build</argument>
-              </arguments>
-            </nodeJsTask>
-          </tasks>
-        </configuration>
       </plugin>
 
       <plugin>
