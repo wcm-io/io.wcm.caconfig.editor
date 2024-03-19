@@ -34,7 +34,7 @@
   <version>1.15.9-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>Context-Aware Configuration Editor</name>
+  <name>Context-Aware Configuration Editor Root</name>
   <description>Context-Aware Configuration Editor Template for AEM.</description>
   <url>${site.url}/${site.url.module.prefix}/</url>
 
