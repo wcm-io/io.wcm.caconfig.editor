@@ -36,6 +36,7 @@ public class ConfigItem {
   private Boolean overridden;
   private Boolean inherited;
   private String configSourcePath;
+  private Boolean readOnly;
   private Collection<PropertyItem> properties;
 
   public String getConfigName() {
@@ -76,6 +77,14 @@ public class ConfigItem {
 
   public void setConfigSourcePath(String configSourcePath) {
     this.configSourcePath = configSourcePath;
+  }
+
+  public Boolean getReadOnly() {
+    return this.readOnly;
+  }
+
+  public void setReadOnly(Boolean readOnly) {
+    this.readOnly = readOnly;
   }
 
   public Collection<PropertyItem> getProperties() {

@@ -40,8 +40,14 @@ import java.util.Optional;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
+import javax.jcr.RepositoryException;
+import javax.jcr.Session;
+import javax.jcr.security.AccessControlManager;
+import javax.jcr.security.Privilege;
+
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.caconfig.management.ConfigurationCollectionData;
 import org.apache.sling.caconfig.management.ConfigurationData;
@@ -74,16 +80,33 @@ class ConfigDataResponseGenerator {
   private final PathBrowserRootPathProviderService pathBrowserRootPathProviderService;
   private final TagBrowserRootPathProviderService tagBrowserRootPathProviderService;
 
+  private AccessControlManager accessControlManager;
+  private Privilege jcrWritePrivilege;
+
   private static Logger log = LoggerFactory.getLogger(ConfigDataResponseGenerator.class);
 
-  ConfigDataResponseGenerator(ConfigurationManager configManager, ConfigurationPersistenceStrategyMultiplexer configurationPersistenceStrategy,
-      DropdownOptionProviderService dropdownOptionProviderService, PathBrowserRootPathProviderService pathBrowserRootPathProviderService,
-      TagBrowserRootPathProviderService tagBrowserRootPathProviderService) {
+  ConfigDataResponseGenerator(@NotNull SlingHttpServletRequest request,
+      @NotNull ConfigurationManager configManager,
+      @NotNull ConfigurationPersistenceStrategyMultiplexer configurationPersistenceStrategy,
+      @NotNull DropdownOptionProviderService dropdownOptionProviderService,
+      @NotNull PathBrowserRootPathProviderService pathBrowserRootPathProviderService,
+      @NotNull TagBrowserRootPathProviderService tagBrowserRootPathProviderService) {
     this.configManager = configManager;
     this.configurationPersistenceStrategy = configurationPersistenceStrategy;
     this.dropdownOptionProviderService = dropdownOptionProviderService;
     this.pathBrowserRootPathProviderService = pathBrowserRootPathProviderService;
     this.tagBrowserRootPathProviderService = tagBrowserRootPathProviderService;
+
+    Session session = request.getResourceResolver().adaptTo(Session.class);
+    if (session != null) {
+      try {
+        this.accessControlManager = session.getAccessControlManager();
+        this.jcrWritePrivilege = accessControlManager.privilegeFromName(Privilege.JCR_WRITE);
+      }
+      catch (RepositoryException ex) {
+        log.warn("Unable to prepare JCR AccessControlManager.", ex);
+      }
+    }
   }
 
   Object getConfiguration(@NotNull Resource contextResource, String configName, boolean collection) {
@@ -113,6 +136,7 @@ class ConfigDataResponseGenerator {
     ConfigCollectionItem result = new ConfigCollectionItem();
     result.setConfigName(configCollection.getConfigName());
     result.setConfigSourcePath(configCollection.getResourcePath());
+    result.setReadOnly(isReadOnly(configCollection.getResourcePath()));
 
     if (!configCollection.getProperties().isEmpty()) {
       Map<String, Object> properties = new TreeMap<>();
@@ -133,6 +157,7 @@ class ConfigDataResponseGenerator {
     return result;
   }
 
+  @SuppressWarnings("java:S3776")
   private ConfigItem fromConfig(@NotNull Resource contextResource, ConfigurationData config, Boolean inherited, String fullConfigName) {
     ConfigItem result = new ConfigItem();
 
@@ -141,6 +166,7 @@ class ConfigDataResponseGenerator {
     result.setOverridden(config.isOverridden());
     result.setInherited(inherited);
     result.setConfigSourcePath(config.getResourcePath());
+    result.setReadOnly(isReadOnly(config.getResourcePath()));
 
     List<PropertyItem> props = new ArrayList<>();
     for (String propertyName : config.getPropertyNames()) {
@@ -231,7 +257,7 @@ class ConfigDataResponseGenerator {
    * @param contextResource Context resource
    * @return JSON object or null
    */
-  @SuppressWarnings("PMD.ReturnEmptyCollectionRatherThanNull")
+  @SuppressWarnings({ "PMD.ReturnEmptyCollectionRatherThanNull", "java:S3776" })
   private @Nullable Map<String, Object> toJsonWithValueConversion(@Nullable Map<String, String> properties,
       @NotNull Resource contextResource) {
     if (properties == null || properties.isEmpty()) {
@@ -318,5 +344,18 @@ class ConfigDataResponseGenerator {
     return value;
   }
 
+  private @Nullable Boolean isReadOnly(String resourcePath) {
+    if (accessControlManager != null && jcrWritePrivilege != null) {
+      try {
+        if (!accessControlManager.hasPrivileges(resourcePath, new Privilege[] { jcrWritePrivilege })) {
+          return true;
+        }
+      }
+      catch (RepositoryException ex) {
+        log.warn("Unable to check JCR write privilege for resource: {}", resourcePath, ex);
+      }
+    }
+    return null;
+  }
 
 }
