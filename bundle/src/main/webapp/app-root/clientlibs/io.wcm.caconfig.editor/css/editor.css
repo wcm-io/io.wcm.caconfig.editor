@@ -233,11 +233,13 @@ span.caconfig-tagbrowser {
 .caconfig-help-inline-popup button {
   padding: 0;
   min-height: 0;
-  margin-top: 8px;
 }
 .coral-Table-headerCell .caconfig-help-inline-popup {
   text-transform: none;
   font-size: 14px;
   font-weight: normal;
   letter-spacing: 0;
+}
+.coral-Table-headerCell .caconfig-help-inline-popup button {
+  margin-top: 8px;
 }
