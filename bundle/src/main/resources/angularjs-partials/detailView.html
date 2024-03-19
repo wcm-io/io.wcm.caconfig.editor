@@ -59,7 +59,7 @@
   <p bo-text="detail.current.description"></p>
 
   <p class="caconfig-collectionInheritance coral-Well"
-     bo-if="detail.current.isCollection">
+     bo-if="detail.current.isCollection && !detail.current.readOnly">
     <label class="coral-Checkbox">
       <input class="coral-Checkbox-input" type="checkbox"
              ng-model="detail.current.collectionProperties['sling:configCollectionInherit']">
@@ -68,7 +68,7 @@
     </label>
   </p>
 
-  <p bo-if="detail.current.isCollection">
+  <p bo-if="detail.current.isCollection && !detail.current.readOnly">
     <button is="coral-button" variant="primary"
             ng-click="detail.addCollectionItem()"
             bo-if="i18n('button.addItem')"
@@ -116,7 +116,7 @@
      ng-cloak>
   </div>
 
-  <p bo-if="detail.current.isCollection"
+  <p bo-if="detail.current.isCollection && !detail.current.readOnly"
      ng-show="detail.current.configs.length && detail.allConfigsVisible">
 
     <button is="coral-button" variant="primary"

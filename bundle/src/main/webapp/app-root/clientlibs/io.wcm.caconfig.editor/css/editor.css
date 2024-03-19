@@ -159,10 +159,18 @@ span.caconfig-tagbrowser {
 
 .caconfig-is-new-item .caconfig-if-not-new-item,
 .caconfig-not-new-item .caconfig-if-new-item,
-.caconfig-config-overridden .caconfig-if-config-not-overridden,
-.caconfig-config-not-overridden .caconfig-if-config-overridden,
 .caconfig-config-inherited .caconfig-if-config-not-inherited,
-.caconfig-config-not-inherited .caconfig-if-config-inherited {
+.caconfig-config-not-inherited .caconfig-if-config-inherited,
+.caconfig-config-readonly .caconfig-if-config-not-readonly,
+.caconfig-config-not-readonly .caconfig-if-config-readonly {
+  display: none;
+}
+
+.caconfig-config-overridden .caconfig-if-config-not-overridden-and-not-readonly,
+.caconfig-config-readonly .caconfig-if-config-not-overridden-and-not-readonly {
+  display: none;
+}
+.caconfig-config-not-overridden.caconfig-config-not-readonly .caconfig-if-config-overridden-or-readonly {
   display: none;
 }
 
