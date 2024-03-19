@@ -34,7 +34,7 @@
   <version>1.15.9-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>Context-Aware Configuration Editor (Bundle)</name>
+  <name>Context-Aware Configuration Editor</name>
   <description>Context-Aware Configuration Editor Template for AEM.</description>
   <url>${site.url}/caconfig/editor/</url>
 
