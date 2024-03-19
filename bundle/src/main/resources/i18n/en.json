@@ -45,7 +45,8 @@
         "collection": "Enable collection inheritance",
         "collectionItem": "This configuration is inherited via collection inheritance.",
         "config": "This configuration is inherited.",
-        "property": "Enable property inheritance"
+        "property": "Enable property inheritance",
+        "propertyDescription": "If enabled, properties that are not set here explicitly are inherited from configurations further up in the inheritance tree."
       },
 
       "tooltip": {
