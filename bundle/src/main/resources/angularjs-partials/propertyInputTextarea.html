@@ -2,7 +2,7 @@
   <div class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-not-inherited">
     <textarea is="coral-textarea"
               ng-model="property.value" ng-trim="false"
-              ng-required="{{property.metadata.properties.required && !property.overridden && !property.inherited}}"
+              ng-required="{{property.metadata.properties.required && !property.overridden && !property.readOnly && !property.inherited}}"
               caconfig-validation="{{validation}}"
               ng-attr-rows="{{textareaRows}}"
               name="textArea"></textarea>

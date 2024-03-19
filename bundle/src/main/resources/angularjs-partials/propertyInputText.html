@@ -3,7 +3,7 @@
     <input is="coral-textfield"
            ng-model="property.value" ng-trim="false"
            ng-pattern="pattern"
-           ng-required="{{property.metadata.properties.required && !property.overridden && !property.inherited}}"
+           ng-required="{{property.metadata.properties.required && !property.overridden && !property.readOnly && !property.inherited}}"
            caconfig-validation="{{validation}}"
            name="textField"/>
     <div class="coral-Form-errorlabel" bindonce="i18n('validation.required')" ng-show="inputTextForm.textField.$error.required" bo-text="i18n('validation.required')"></div>

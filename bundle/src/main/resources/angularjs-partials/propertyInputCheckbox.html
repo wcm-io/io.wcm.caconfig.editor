@@ -4,7 +4,7 @@
       <label>
         <input class="coral-Checkbox-input coral3-Checkbox-input" type="checkbox"
                ng-model="property.value"
-               ng-required="{{property.metadata.properties.required && !property.overridden && !property.inherited}}"
+               ng-required="{{property.metadata.properties.required && !property.overridden && !property.readOnly && !property.inherited}}"
                name="checkbox"/>
         <span class="coral-Checkbox-checkmark coral3-Checkbox-checkmark"></span>
       </label>
