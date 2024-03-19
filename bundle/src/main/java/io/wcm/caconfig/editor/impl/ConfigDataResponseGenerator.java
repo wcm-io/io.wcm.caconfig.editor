@@ -226,6 +226,7 @@ class ConfigDataResponseGenerator {
         prop.setIsDefault(item.isDefault());
         prop.setInherited(item.isInherited());
         prop.setOverridden(item.isOverridden());
+        prop.setReadOnly(result.getReadOnly());
 
         if (itemMetadata != null) {
           PropertyItemMetadata metadata = new PropertyItemMetadata();

@@ -111,13 +111,13 @@ class ConfigDataServletPagePersistenceAccessManagerTest {
         + "'overridden':false,'inherited':false,'readOnly':false,"
         + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.SimpleConfig/jcr:content',"
         + "'properties':["
-        + "{'name':'boolParam','default':false,'inherited':false,'overridden':false,'metadata':{'type':'Boolean'}},"
+        + "{'name':'boolParam','default':false,'inherited':false,'overridden':false,'readOnly':false,'metadata':{'type':'Boolean'}},"
         + "{'name':'intParam','value':123,'effectiveValue':123,"
         + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.SimpleConfig/jcr:content',"
-        + "'default':false,'inherited':false,'overridden':false,'metadata':{'type':'Integer','defaultValue':5}},"
+        + "'default':false,'inherited':false,'overridden':false,'readOnly':false,'metadata':{'type':'Integer','defaultValue':5}},"
         + "{'name':'stringParam','value':'value1','effectiveValue':'value1',"
         + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.SimpleConfig/jcr:content',"
-        + "'default':false,'inherited':false,'overridden':false,'metadata':{'type':'String'}}]}";
+        + "'default':false,'inherited':false,'overridden':false,'readOnly':false,'metadata':{'type':'String'}}]}";
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
   }
 
@@ -147,10 +147,10 @@ class ConfigDataServletPagePersistenceAccessManagerTest {
         + "'properties':["
         + "{'name':'intParam','value':123,'effectiveValue':123,"
         + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.ListConfig/item0/jcr:content',"
-        + "'default':false,'inherited':false,'overridden':false,'metadata':{'type':'Integer'}},"
+        + "'default':false,'inherited':false,'overridden':false,'readOnly':false,'metadata':{'type':'Integer'}},"
         + "{'name':'stringParam','value':'value1','effectiveValue':'value1',"
         + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.ListConfig/item0/jcr:content',"
-        + "'default':false,'inherited':false,'overridden':false,'metadata':{'type':'String'}}]}],"
+        + "'default':false,'inherited':false,'overridden':false,'readOnly':false,'metadata':{'type':'String'}}]}],"
         + "'newItem':{'configName':'io.wcm.caconfig.extensions.persistence.example.ListConfig','overridden':false,'properties':["
         + "{'name':'intParam','default':false,'inherited':false,'overridden':false,'metadata':{'type':'Integer'}},"
         + "{'name':'stringParam','default':false,'inherited':false,'overridden':false,'metadata':{'type':'String'}}]}}";
