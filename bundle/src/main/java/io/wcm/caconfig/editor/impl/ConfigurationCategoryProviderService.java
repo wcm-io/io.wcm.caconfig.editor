@@ -97,6 +97,7 @@ public class ConfigurationCategoryProviderService {
    * If none is set, check if a {@link ConfigurationCategoryProvider} provides a configuration name.
    * Returns null if no category found.
    */
+  @SuppressWarnings("null")
   private @Nullable String getCategoryName(@NotNull Resource contextResource, @NotNull ConfigurationMetadata configurationMetadata) {
     String category = getPropertiesString(configurationMetadata.getProperties(), PROPERTY_CATEGORY);
 
