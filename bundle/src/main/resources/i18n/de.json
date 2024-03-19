@@ -45,7 +45,8 @@
         "collection": "Listen-Vererbung aktivieren",
         "collectionItem": "Diese Konfiguration wird über Listen-Vererbung vererbt.",
         "config": "Diese Konfiguration wird vererbt.",
-        "property": "Eigenschafts-Vererbung aktivieren"
+        "property": "Eigenschafts-Vererbung aktivieren",
+        "propertyDescription": "Wenn aktiviert werden Eigenschaften die hier nicht explizit gesetzt sind von Konfigurations aus höheren Vererbungs-Ebenen übernommen."
       },
 
       "tooltip": {
