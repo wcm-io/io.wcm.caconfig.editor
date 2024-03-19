@@ -54,7 +54,8 @@
       return {
         configs: setDefaultValues(configs),
         newItem: newItem !== null ? setDefaultValues([newItem])[0] : null,
-        collectionProperties: collectionProperties
+        collectionProperties: collectionProperties,
+        configSourcePath: configData.configSourcePath
       };
     };
 

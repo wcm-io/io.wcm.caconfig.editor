@@ -36,6 +36,8 @@
   <p class="caconfig-contextPath"
      bo-if="detail.current.contextPath">
      <span bo-text="i18n('contextPath')"></span>: <code bo-text="detail.current.contextPath"></code>
+     <caconfig-help-inline-popup bo-if="detail.current.configSourcePath"
+         content="i18n('configSourcePath') + ' ' + detail.current.configSourcePath"></caconfig-help-inline-popup>
   </p>
   <p class="caconfig-contextPath"
      bo-if="!detail.current.contextPath" bo-text="i18n('noContextPath')">
