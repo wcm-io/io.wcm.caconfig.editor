@@ -24,6 +24,9 @@
   <body>
 
     <release version="1.15.10" date="not released">
+      <action type="add" dev="sseifert">
+        Check permissions of configuration persistence path and render configuration as read-only if current user does not have write permissions.
+      </action>
       <action type="update" dev="sseifert">
         Switch to AEM 6.5.17 as minimum version.
       </action>
