@@ -35,6 +35,7 @@ public class ConfigItem {
   private String collectionItemName;
   private Boolean overridden;
   private Boolean inherited;
+  private String configSourcePath;
   private Collection<PropertyItem> properties;
 
   public String getConfigName() {
@@ -67,6 +68,14 @@ public class ConfigItem {
 
   public void setInherited(Boolean inherited) {
     this.inherited = inherited;
+  }
+
+  public String getConfigSourcePath() {
+    return this.configSourcePath;
+  }
+
+  public void setConfigSourcePath(String configSourcePath) {
+    this.configSourcePath = configSourcePath;
   }
 
   public Collection<PropertyItem> getProperties() {

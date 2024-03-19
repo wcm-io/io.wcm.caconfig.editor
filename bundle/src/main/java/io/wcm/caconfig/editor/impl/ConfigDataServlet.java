@@ -169,6 +169,7 @@ public class ConfigDataServlet extends SlingSafeMethodsServlet {
       ConfigurationCollectionData configCollection, ConfigurationData newItem, String fullConfigName) {
     ConfigCollectionItem result = new ConfigCollectionItem();
     result.setConfigName(configCollection.getConfigName());
+    result.setConfigSourcePath(configCollection.getResourcePath());
 
     if (!configCollection.getProperties().isEmpty()) {
       Map<String, Object> properties = new TreeMap<>();
@@ -196,6 +197,7 @@ public class ConfigDataServlet extends SlingSafeMethodsServlet {
     result.setCollectionItemName(config.getCollectionItemName());
     result.setOverridden(config.isOverridden());
     result.setInherited(inherited);
+    result.setConfigSourcePath(config.getResourcePath());
 
     List<PropertyItem> props = new ArrayList<>();
     for (String propertyName : config.getPropertyNames()) {

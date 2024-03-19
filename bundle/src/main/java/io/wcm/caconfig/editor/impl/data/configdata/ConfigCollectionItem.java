@@ -33,6 +33,7 @@ import io.wcm.caconfig.editor.impl.ConfigDataServlet;
 public class ConfigCollectionItem {
 
   private String configName;
+  private String configSourcePath;
   private Map<String, Object> properties;
   private Collection<ConfigItem> items;
   private ConfigItem newItem;
@@ -43,6 +44,14 @@ public class ConfigCollectionItem {
 
   public void setConfigName(String configName) {
     this.configName = configName;
+  }
+
+  public String getConfigSourcePath() {
+    return this.configSourcePath;
+  }
+
+  public void setConfigSourcePath(String configSourcePath) {
+    this.configSourcePath = configSourcePath;
   }
 
   public Map<String, Object> getProperties() {
