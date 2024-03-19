@@ -344,12 +344,10 @@ class ConfigDataResponseGenerator {
     return value;
   }
 
-  private @Nullable Boolean isReadOnly(String resourcePath) {
-    if (accessControlManager != null && jcrWritePrivilege != null) {
+  private @Nullable Boolean isReadOnly(@Nullable String resourcePath) {
+    if (accessControlManager != null && jcrWritePrivilege != null && resourcePath != null) {
       try {
-        if (!accessControlManager.hasPrivileges(resourcePath, new Privilege[] { jcrWritePrivilege })) {
-          return true;
-        }
+        return !accessControlManager.hasPrivileges(resourcePath, new Privilege[] { jcrWritePrivilege });
       }
       catch (RepositoryException ex) {
         log.warn("Unable to check JCR write privilege for resource: {}", resourcePath, ex);

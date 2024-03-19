@@ -28,6 +28,7 @@ import static org.apache.sling.testing.mock.caconfig.ContextPlugins.CACONFIG;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -47,7 +48,6 @@ import io.wcm.caconfig.extensions.persistence.example.NestedConfig;
 import io.wcm.caconfig.extensions.persistence.example.SimpleConfig;
 import io.wcm.caconfig.extensions.persistence.example.wcon60.FooterConfig;
 import io.wcm.caconfig.extensions.persistence.impl.PagePersistenceStrategy;
-import io.wcm.sling.commons.resource.ImmutableValueMap;
 import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.AemContextBuilder;
 import io.wcm.testing.mock.aem.junit5.AemContextCallback;
@@ -88,7 +88,7 @@ class ConfigDataServletPagePersistenceTest {
     context.registerInjectActivateService(PagePersistenceStrategy.class, "enabled", true);
 
     // create sample content page with config reference
-    contentPage = context.create().page("/content/mypage", null,
+    contentPage = context.create().page("/content/mypage", "/apps/app1/templates/template1",
         "sling:configRef", "/conf/myconf");
     context.currentPage(contentPage);
   }
@@ -102,7 +102,7 @@ class ConfigDataServletPagePersistenceTest {
         "stringParam", "value1",
         "intParam", 123);
 
-    context.request().setParameterMap(ImmutableValueMap.of(
+    context.request().setParameterMap(Map.of(
         RP_CONFIGNAME, SimpleConfig.class.getName()));
     underTest.doGet(context.request(), context.response());
 
@@ -128,10 +128,10 @@ class ConfigDataServletPagePersistenceTest {
 
     // write config
     writeConfigurationCollection(context, contentPage.getPath(), ListConfig.class.getName(), List.of(
-        ImmutableValueMap.of("stringParam", "value1", "intParam", 123)),
-        ImmutableValueMap.of("sling:configCollectionInherit", true));
+        Map.of("stringParam", "value1", "intParam", 123)),
+        Map.of("sling:configCollectionInherit", true));
 
-    context.request().setParameterMap(ImmutableValueMap.of(
+    context.request().setParameterMap(Map.of(
         RP_CONFIGNAME, ListConfig.class.getName(),
         RP_COLLECTION, true));
     underTest.doGet(context.request(), context.response());
@@ -164,11 +164,11 @@ class ConfigDataServletPagePersistenceTest {
 
     // write config
     writeConfigurationCollection(context, contentPage.getPath(), ListNestedConfig.class.getName(), List.of(
-        ImmutableValueMap.of("stringParam", "value1", "intParam", 123)));
+        Map.of("stringParam", "value1", "intParam", 123)));
     writeConfigurationCollection(context, contentPage.getPath(), ListNestedConfig.class.getName() + "/item0/jcr:content/subListConfig", List.of(
-        ImmutableValueMap.of("stringParam", "value11")));
+        Map.of("stringParam", "value11")));
 
-    context.request().setParameterMap(ImmutableValueMap.of(
+    context.request().setParameterMap(Map.of(
         RP_CONFIGNAME, ListNestedConfig.class.getName(),
         RP_COLLECTION, true));
     underTest.doGet(context.request(), context.response());
@@ -217,9 +217,9 @@ class ConfigDataServletPagePersistenceTest {
         "stringParam", "value2",
         "intParam", 234);
     writeConfigurationCollection(context, contentPage.getPath(), NestedConfig.class.getName() + "/jcr:content/subListConfig", List.of(
-        ImmutableValueMap.of("stringParam", "value3", "intParam", 345)));
+        Map.of("stringParam", "value3", "intParam", 345)));
 
-    context.request().setParameterMap(ImmutableValueMap.of(
+    context.request().setParameterMap(Map.of(
         RP_CONFIGNAME, NestedConfig.class.getName()));
     underTest.doGet(context.request(), context.response());
 
@@ -262,7 +262,7 @@ class ConfigDataServletPagePersistenceTest {
   void testDeeplyNestedConfig_WCON60_FooterConfig() throws Exception {
     MockContextAwareConfig.registerAnnotationClasses(context, FooterConfig.class);
 
-    context.request().setParameterMap(ImmutableValueMap.of(
+    context.request().setParameterMap(Map.of(
         RP_CONFIGNAME, FooterConfig.class.getName()));
     underTest.doGet(context.request(), context.response());
 
@@ -281,9 +281,9 @@ class ConfigDataServletPagePersistenceTest {
 
     // create menu item
     writeConfigurationCollection(context, contentPage.getPath(), FooterConfig.class.getName() + "/jcr:content/menu", List.of(
-        ImmutableValueMap.of()));
+        Map.of()));
 
-    context.request().setParameterMap(ImmutableValueMap.of(
+    context.request().setParameterMap(Map.of(
         RP_CONFIGNAME, FooterConfig.class.getName() + "/jcr:content/menu",
         RP_COLLECTION, true));
     underTest.doGet(context.request(), context.response());
