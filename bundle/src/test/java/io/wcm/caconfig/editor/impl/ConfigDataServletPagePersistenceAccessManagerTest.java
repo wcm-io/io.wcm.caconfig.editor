@@ -32,6 +32,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.sling.caconfig.impl.override.OsgiConfigurationOverrideProvider;
 import org.apache.sling.testing.mock.caconfig.MockContextAwareConfig;
 import org.apache.sling.testing.mock.osgi.MockOsgi;
 import org.apache.sling.testing.mock.sling.ResourceResolverType;
@@ -118,6 +119,32 @@ class ConfigDataServletPagePersistenceAccessManagerTest {
         + "{'name':'stringParam','value':'value1','effectiveValue':'value1',"
         + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.SimpleConfig/jcr:content',"
         + "'default':false,'inherited':false,'overridden':false,'readOnly':false,'metadata':{'type':'String'}}]}";
+    JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
+  }
+
+  @Test
+  void testSimpleConfig_Overridden() throws Exception {
+    MockContextAwareConfig.registerAnnotationClasses(context, SimpleConfig.class);
+
+    // override config
+    context.registerInjectActivateService(OsgiConfigurationOverrideProvider.class,
+        "enabled", true,
+        "overrides", SimpleConfig.class.getName() + "={\"stringParam\":\"value1\",\"intParam\":123}");
+
+    context.request().setParameterMap(Map.of(
+        RP_CONFIGNAME, SimpleConfig.class.getName()));
+    underTest.doGet(context.request(), context.response());
+
+    assertEquals(HttpServletResponse.SC_OK, context.response().getStatus());
+
+    String expectedJson = "{'configName':'io.wcm.caconfig.extensions.persistence.example.SimpleConfig',"
+        + "'overridden':true,'inherited':false,'readOnly':true,"
+        + "'properties':["
+        + "{'name':'boolParam','default':false,'inherited':false,'overridden':true,'readOnly':true,'metadata':{'type':'Boolean'}},"
+        + "{'name':'intParam','effectiveValue':123,"
+        + "'default':false,'inherited':false,'overridden':true,'readOnly':true,'metadata':{'type':'Integer','defaultValue':5}},"
+        + "{'name':'stringParam','effectiveValue':'value1',"
+        + "'default':false,'inherited':false,'overridden':true,'readOnly':true,'metadata':{'type':'String'}}]}";
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
   }
 

@@ -136,7 +136,7 @@ class ConfigDataResponseGenerator {
     ConfigCollectionItem result = new ConfigCollectionItem();
     result.setConfigName(configCollection.getConfigName());
     result.setConfigSourcePath(configCollection.getResourcePath());
-    result.setReadOnly(isReadOnly(configCollection.getResourcePath()));
+    result.setReadOnly(isReadOnly(configCollection.getResourcePath(), false));
 
     if (!configCollection.getProperties().isEmpty()) {
       Map<String, Object> properties = new TreeMap<>();
@@ -166,7 +166,7 @@ class ConfigDataResponseGenerator {
     result.setOverridden(config.isOverridden());
     result.setInherited(inherited);
     result.setConfigSourcePath(config.getResourcePath());
-    result.setReadOnly(isReadOnly(config.getResourcePath()));
+    result.setReadOnly(isReadOnly(config.getResourcePath(), config.isOverridden()));
 
     List<PropertyItem> props = new ArrayList<>();
     for (String propertyName : config.getPropertyNames()) {
@@ -345,10 +345,15 @@ class ConfigDataResponseGenerator {
     return value;
   }
 
-  private @Nullable Boolean isReadOnly(@Nullable String resourcePath) {
-    if (accessControlManager != null && jcrWritePrivilege != null && resourcePath != null) {
+  private @Nullable Boolean isReadOnly(@Nullable String resourcePath, boolean isOverridden) {
+    if (accessControlManager != null && jcrWritePrivilege != null) {
       try {
-        return !accessControlManager.hasPrivileges(resourcePath, new Privilege[] { jcrWritePrivilege });
+        if (isOverridden) {
+          return true;
+        }
+        else if (resourcePath != null) {
+          return !accessControlManager.hasPrivileges(resourcePath, new Privilege[] { jcrWritePrivilege });
+        }
       }
       catch (RepositoryException ex) {
         log.warn("Unable to check JCR write privilege for resource: {}", resourcePath, ex);
