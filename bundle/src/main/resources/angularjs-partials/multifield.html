@@ -1,5 +1,5 @@
 <div bindonce>
-  <div class="caconfig-multifield caconfig-multifield--empty caconfig-if-property-not-overridden-and-not-inherited"
+  <div class="caconfig-multifield caconfig-multifield--empty caconfig-if-property-not-overridden-and-not-inherited-and-not-readonly"
       ng-if="!(values.length)">
     <label class="coral-Checkbox"
            bo-if="type==='checkbox'">
@@ -24,7 +24,7 @@
      </div>
   </div>
 
-  <div class="caconfig-multifield caconfig-if-property-overridden-or-inherited"
+  <div class="caconfig-multifield caconfig-if-property-overridden-or-inherited-or-readonly"
        ng-repeat="effectiveValue in effectiveValues">
     <label class="coral-Checkbox"
            bo-if="type==='checkbox'">
@@ -47,7 +47,7 @@
     </div>
   </div>
 
-  <div class="caconfig-multifield caconfig-if-config-inherited caconfig-if-property-not-overridden-and-not-inherited"
+  <div class="caconfig-multifield caconfig-if-config-inherited caconfig-if-property-not-overridden-and-not-inherited-and-not-readonly"
        ng-repeat="value in values">
     <label class="coral-Checkbox"
            bo-if="type==='checkbox'">
@@ -70,13 +70,13 @@
     </div>
   </div>
 
-  <div class="caconfig-multifield caconfig-if-config-not-inherited caconfig-if-property-not-overridden-and-not-inherited"
+  <div class="caconfig-multifield caconfig-if-config-not-inherited caconfig-if-property-not-overridden-and-not-inherited-and-not-readonly"
        ng-repeat="value in values" ng-form="inputMultifieldForm">
     <label class="coral-Checkbox" style="margin-right:10px;"
            bo-if="type==='checkbox'">
       <input class="coral-Checkbox-input" type="checkbox"
              ng-model="value.value"
-             ng-required="{{property.metadata.properties.required && !property.overridden && !property.inherited}}"
+             ng-required="{{property.metadata.properties.required && !property.overridden && !property.inherited && !property.readOnly}}"
              name="inputField"/>
       <span class="coral-Checkbox-checkmark"></span>
     </label>
@@ -86,7 +86,7 @@
              ng-model="value.value"
              ng-trim="false"
              ng-pattern="pattern"
-             ng-required="{{property.metadata.properties.required && !property.overridden && !property.inherited}}"
+             ng-required="{{property.metadata.properties.required && !property.overridden && !property.inherited && !property.readOnly}}"
              caconfig-validation="{{validation}}"
              name="inputField"/>
       <div class="coral-Form-errorlabel" bindonce="i18n('validation.required')" ng-show="inputMultifieldForm.inputField.$error.required" bo-text="i18n('validation.required')"></div>

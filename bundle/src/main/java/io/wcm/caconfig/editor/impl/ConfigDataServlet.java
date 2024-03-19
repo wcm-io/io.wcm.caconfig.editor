@@ -95,7 +95,7 @@ public class ConfigDataServlet extends SlingSafeMethodsServlet {
     // output configuration
     try {
       ConfigDataResponseGenerator generator = new ConfigDataResponseGenerator(
-          configManager, configurationPersistenceStrategy,
+          request, configManager, configurationPersistenceStrategy,
           dropdownOptionProviderService, pathBrowserRootPathProviderService, tagBrowserRootPathProviderService);
       Object result = generator.getConfiguration(request.getResource(), configName, collection);
       if (result == null) {

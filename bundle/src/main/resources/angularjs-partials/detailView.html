@@ -10,6 +10,7 @@
   <button is="coral-button" variant="primary"
           class="caconfig-if-form-valid-and-dirty"
           ng-click="detail.saveConfig()"
+          bo-disabled="detail.current.readOnly"
           bo-if="i18n('button.save') && !!detail.current.contextPath"
           bo-text="i18n('button.save')"
   ></button>
@@ -28,12 +29,15 @@
           bo-title="detail.current.isCollection ? i18n('button.deleteCollection') : i18n('button.deleteConfig')"
           ng-show="detail.current.configs.length"
           bo-if="detail.current.contextPath"
+          bo-disabled="detail.current.readOnly"
           ng-click="detail.removeConfig()"
   ></button>
 
   <p class="caconfig-contextPath"
      bo-if="detail.current.contextPath">
      <span bo-text="i18n('contextPath')"></span>: <code bo-text="detail.current.contextPath"></code>
+     <caconfig-help-inline-popup bo-if="detail.current.configSourcePath"
+         content="i18n('configSourcePath') + ' ' + detail.current.configSourcePath"></caconfig-help-inline-popup>
   </p>
   <p class="caconfig-contextPath"
      bo-if="!detail.current.contextPath" bo-text="i18n('noContextPath')">
@@ -52,7 +56,7 @@
   <p bo-text="detail.current.description"></p>
 
   <p class="caconfig-collectionInheritance coral-Well"
-     bo-if="detail.current.isCollection">
+     bo-if="detail.current.isCollection && !detail.current.readOnly">
     <label class="coral-Checkbox">
       <input class="coral-Checkbox-input" type="checkbox"
              ng-model="detail.current.collectionProperties['sling:configCollectionInherit']">
@@ -61,7 +65,7 @@
     </label>
   </p>
 
-  <p bo-if="detail.current.isCollection">
+  <p bo-if="detail.current.isCollection && !detail.current.readOnly">
     <button is="coral-button" variant="primary"
             ng-click="detail.addCollectionItem()"
             bo-if="i18n('button.addItem')"
@@ -98,6 +102,7 @@
      bo-class="[
        config.inherited ? 'caconfig-config-inherited' : 'caconfig-config-not-inherited',
        config.overridden ? 'caconfig-config-overridden' : 'caconfig-config-not-overridden',
+       config.readOnly ? 'caconfig-config-readonly' : 'caconfig-config-not-readonly',
        config.isNewItem ? 'caconfig-is-new-item' : 'caconfig-not-new-item',
        detail.current.isLargeCollection ?  'caconfig-is-preview' : 'caconfig-not-preview'
      ]"
@@ -108,7 +113,7 @@
      ng-cloak>
   </div>
 
-  <p bo-if="detail.current.isCollection"
+  <p bo-if="detail.current.isCollection && !detail.current.readOnly"
      ng-show="detail.current.configs.length && detail.allConfigsVisible">
 
     <button is="coral-button" variant="primary"

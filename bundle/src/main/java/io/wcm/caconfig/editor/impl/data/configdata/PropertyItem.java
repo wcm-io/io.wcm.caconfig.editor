@@ -38,6 +38,7 @@ public class PropertyItem {
   private Boolean isDefault;
   private Boolean inherited;
   private Boolean overridden;
+  private Boolean readOnly;
   private PropertyItemMetadata metadata;
   private ConfigItem nestedConfig;
   private ConfigCollectionItem nestedConfigCollection;
@@ -97,6 +98,14 @@ public class PropertyItem {
 
   public void setOverridden(Boolean overridden) {
     this.overridden = overridden;
+  }
+
+  public Boolean getReadOnly() {
+    return this.readOnly;
+  }
+
+  public void setReadOnly(Boolean readOnly) {
+    this.readOnly = readOnly;
   }
 
   public PropertyItemMetadata getMetadata() {

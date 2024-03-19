@@ -1,23 +1,23 @@
 <div ng-form="inputCheckboxForm">
-  <div class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-not-inherited">
+  <div class="caconfig-if-property-not-overridden-and-not-inherited-and-not-readonly caconfig-if-config-not-inherited">
     <div class="coral-Checkbox coral3-Checkbox">
       <label>
         <input class="coral-Checkbox-input coral3-Checkbox-input" type="checkbox"
                ng-model="property.value"
-               ng-required="{{property.metadata.properties.required && !property.overridden && !property.inherited}}"
+               ng-required="{{property.metadata.properties.required && !property.overridden && !property.readOnly && !property.inherited}}"
                name="checkbox"/>
         <span class="coral-Checkbox-checkmark coral3-Checkbox-checkmark"></span>
       </label>
     </div>
     <div class="coral-Form-errorlabel" bindonce="i18n('validation.required')" ng-show="inputCheckboxForm.checkbox.$error.required" bo-text="i18n('validation.required')"></div>
   </div>
-  <label class="coral-Checkbox coral3-Checkbox caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-inherited">
+  <label class="coral-Checkbox coral3-Checkbox caconfig-if-property-not-overridden-and-not-inherited-and-not-readonly caconfig-if-config-inherited">
     <input class="coral-Checkbox-input coral3-Checkbox-input" type="checkbox"
            ng-model="property.value"
            disabled readonly />
     <span class="coral-Checkbox-checkmark coral3-Checkbox-checkmark"></span>
   </label>
-  <label class="coral-Checkbox coral3-Checkbox caconfig-if-property-overridden-or-inherited">
+  <label class="coral-Checkbox coral3-Checkbox caconfig-if-property-overridden-or-inherited-or-readonly">
     <input class="coral-Checkbox-input coral3-Checkbox-input" type="checkbox"
            ng-model="property.effectiveValue"
            disabled readonly />
