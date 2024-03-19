@@ -229,3 +229,9 @@ span.caconfig-tagbrowser {
 .category-filter label {
   margin-right: 0.5rem;
 }
+
+.caconfig-help-inline-popup button {
+  padding: 0;
+  min-height: 0;
+  margin-top: 8px;
+}
