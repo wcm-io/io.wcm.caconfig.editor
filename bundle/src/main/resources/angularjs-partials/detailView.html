@@ -28,14 +28,9 @@
   <button is="coral-button" icon="delete"
           bo-title="detail.current.isCollection ? i18n('button.deleteCollection') : i18n('button.deleteConfig')"
           ng-show="detail.current.configs.length"
-          bo-if="detail.current.contextPath && !detail.current.readOnly"
+          bo-if="detail.current.contextPath"
+          bo-disabled="detail.current.readOnly"
           ng-click="detail.removeConfig()"
-  ></button>
-  <button is="coral-button" icon="delete"
-          bo-title="detail.current.isCollection ? i18n('button.deleteCollection') : i18n('button.deleteConfig')"
-          ng-show="detail.current.configs.length"
-          disabled
-          bo-if="detail.current.contextPath && detail.current.readOnly"
   ></button>
 
   <p class="caconfig-contextPath"
