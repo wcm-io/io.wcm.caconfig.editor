@@ -230,16 +230,14 @@ span.caconfig-tagbrowser {
   margin-right: 0.5rem;
 }
 
-.caconfig-property-inheritance .caconfig-description-popup {
-  display: inline;
+.caconfig-help-inline-popup button {
+  padding: 0;
+  min-height: 0;
+  margin-top: 8px;
+}
+.coral-Table-headerCell .caconfig-help-inline-popup {
   text-transform: none;
   font-size: 14px;
   font-weight: normal;
   letter-spacing: 0;
-}
-.caconfig-property-inheritance .caconfig-description-popup button {
-  padding: 0;
-  min-height: 0;
-  height: 20px;
-  margin-top: 8px;
 }
