@@ -175,12 +175,13 @@ span.caconfig-tagbrowser {
   display: none;
 }
 
-.caconfig-property-not-overridden.caconfig-property-not-inherited .caconfig-if-property-overridden-or-inherited {
+.caconfig-property-not-overridden.caconfig-property-not-inherited.caconfig-property-not-readonly .caconfig-if-property-overridden-or-inherited-or-readonly {
   display: none;
 }
 
-.caconfig-property-overridden .caconfig-if-property-not-overridden-and-not-inherited,
-.caconfig-property-inherited .caconfig-if-property-not-overridden-and-not-inherited {
+.caconfig-property-overridden .caconfig-if-property-not-overridden-and-not-inherited-and-not-readonly,
+.caconfig-property-inherited .caconfig-if-property-not-overridden-and-not-inherited-and-not-readonly,
+.caconfig-property-readonly .caconfig-if-property-not-overridden-and-not-inherited-and-not-readonly {
   display: none;
 }
 

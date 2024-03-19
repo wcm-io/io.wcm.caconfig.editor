@@ -1,5 +1,5 @@
 <div bindonce>
-  <div class="caconfig-multifield caconfig-multifield--empty caconfig-if-property-not-overridden-and-not-inherited"
+  <div class="caconfig-multifield caconfig-multifield--empty caconfig-if-property-not-overridden-and-not-inherited-and-not-readonly"
       ng-if="!(values.length)">
     <label class="coral-Checkbox"
            bo-if="type==='checkbox'">
@@ -24,7 +24,7 @@
      </div>
   </div>
 
-  <div class="caconfig-multifield caconfig-if-property-overridden-or-inherited"
+  <div class="caconfig-multifield caconfig-if-property-overridden-or-inherited-or-readonly"
        ng-repeat="effectiveValue in effectiveValues">
     <label class="coral-Checkbox"
            bo-if="type==='checkbox'">
@@ -47,7 +47,7 @@
     </div>
   </div>
 
-  <div class="caconfig-multifield caconfig-if-config-inherited caconfig-if-property-not-overridden-and-not-inherited"
+  <div class="caconfig-multifield caconfig-if-config-inherited caconfig-if-property-not-overridden-and-not-inherited-and-not-readonly"
        ng-repeat="value in values">
     <label class="coral-Checkbox"
            bo-if="type==='checkbox'">
@@ -70,7 +70,7 @@
     </div>
   </div>
 
-  <div class="caconfig-multifield caconfig-if-config-not-inherited caconfig-if-property-not-overridden-and-not-inherited"
+  <div class="caconfig-multifield caconfig-if-config-not-inherited caconfig-if-property-not-overridden-and-not-inherited-and-not-readonly"
        ng-repeat="value in values" ng-form="inputMultifieldForm">
     <label class="coral-Checkbox" style="margin-right:10px;"
            bo-if="type==='checkbox'">
