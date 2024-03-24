@@ -152,11 +152,12 @@
     };
 
     that.toBottom = function() {
-      $document.find("html, body").animate({scrollTop: document.body.scrollHeight});
+      var $content = $document.find('coral-shell-content');
+      $content.animate({scrollTop: $content[0].scrollHeight});
     };
 
     that.toTop = function() {
-      $document.find("html, body").animate({scrollTop: 0});
+      $document.find('coral-shell-content').animate({scrollTop: 0});
     };
 
     /**
