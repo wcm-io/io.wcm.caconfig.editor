@@ -242,6 +242,8 @@ span.caconfig-tagbrowser {
 .caconfig-help-inline-popup button {
   padding: 0;
   min-height: 0;
+  min-width: 0;
+  line-height: 1rem;
 }
 
 .coral-Table-headerCell .caconfig-help-inline-popup {
