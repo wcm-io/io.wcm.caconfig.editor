@@ -75,6 +75,7 @@
       current.configNameObject = data.configNameObject;
       current.collectionProperties = data.collectionProperties;
       current.propertyTypes = data.propertyTypes;
+      current.configSourcePath = data.configSourcePath;
     };
 
     /**

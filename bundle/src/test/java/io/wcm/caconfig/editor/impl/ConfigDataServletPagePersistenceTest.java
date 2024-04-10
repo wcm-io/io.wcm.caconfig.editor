@@ -28,6 +28,7 @@ import static org.apache.sling.testing.mock.caconfig.ContextPlugins.CACONFIG;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -47,7 +48,6 @@ import io.wcm.caconfig.extensions.persistence.example.NestedConfig;
 import io.wcm.caconfig.extensions.persistence.example.SimpleConfig;
 import io.wcm.caconfig.extensions.persistence.example.wcon60.FooterConfig;
 import io.wcm.caconfig.extensions.persistence.impl.PagePersistenceStrategy;
-import io.wcm.sling.commons.resource.ImmutableValueMap;
 import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.AemContextBuilder;
 import io.wcm.testing.mock.aem.junit5.AemContextCallback;
@@ -88,7 +88,7 @@ class ConfigDataServletPagePersistenceTest {
     context.registerInjectActivateService(PagePersistenceStrategy.class, "enabled", true);
 
     // create sample content page with config reference
-    contentPage = context.create().page("/content/mypage", null,
+    contentPage = context.create().page("/content/mypage", "/apps/app1/templates/template1",
         "sling:configRef", "/conf/myconf");
     context.currentPage(contentPage);
   }
@@ -102,14 +102,16 @@ class ConfigDataServletPagePersistenceTest {
         "stringParam", "value1",
         "intParam", 123);
 
-    context.request().setParameterMap(ImmutableValueMap.of(
+    context.request().setParameterMap(Map.of(
         RP_CONFIGNAME, SimpleConfig.class.getName()));
     underTest.doGet(context.request(), context.response());
 
     assertEquals(HttpServletResponse.SC_OK, context.response().getStatus());
 
     String expectedJson = "{'configName':'io.wcm.caconfig.extensions.persistence.example.SimpleConfig',"
-        + "'overridden':false,'inherited':false,'properties':["
+        + "'overridden':false,'inherited':false,"
+        + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.SimpleConfig/jcr:content',"
+        + "'properties':["
         + "{'name':'boolParam','default':false,'inherited':false,'overridden':false,'metadata':{'type':'Boolean'}},"
         + "{'name':'intParam','value':123,'effectiveValue':123,"
         + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.SimpleConfig/jcr:content',"
@@ -126,10 +128,10 @@ class ConfigDataServletPagePersistenceTest {
 
     // write config
     writeConfigurationCollection(context, contentPage.getPath(), ListConfig.class.getName(), List.of(
-        ImmutableValueMap.of("stringParam", "value1", "intParam", 123)),
-        ImmutableValueMap.of("sling:configCollectionInherit", true));
+        Map.of("stringParam", "value1", "intParam", 123)),
+        Map.of("sling:configCollectionInherit", true));
 
-    context.request().setParameterMap(ImmutableValueMap.of(
+    context.request().setParameterMap(Map.of(
         RP_CONFIGNAME, ListConfig.class.getName(),
         RP_COLLECTION, true));
     underTest.doGet(context.request(), context.response());
@@ -137,10 +139,13 @@ class ConfigDataServletPagePersistenceTest {
     assertEquals(HttpServletResponse.SC_OK, context.response().getStatus());
 
     String expectedJson = "{'configName':'io.wcm.caconfig.extensions.persistence.example.ListConfig',"
+        + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.ListConfig',"
         + "'properties':{'sling:configCollectionInherit':true},"
         + "'items':["
         + "{'configName':'io.wcm.caconfig.extensions.persistence.example.ListConfig','collectionItemName':'item0',"
-        + "'overridden':false,'inherited':false,'properties':["
+        + "'overridden':false,'inherited':false,"
+        + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.ListConfig/item0/jcr:content',"
+        + "'properties':["
         + "{'name':'intParam','value':123,'effectiveValue':123,"
         + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.ListConfig/item0/jcr:content',"
         + "'default':false,'inherited':false,'overridden':false,'metadata':{'type':'Integer'}},"
@@ -159,20 +164,24 @@ class ConfigDataServletPagePersistenceTest {
 
     // write config
     writeConfigurationCollection(context, contentPage.getPath(), ListNestedConfig.class.getName(), List.of(
-        ImmutableValueMap.of("stringParam", "value1", "intParam", 123)));
+        Map.of("stringParam", "value1", "intParam", 123)));
     writeConfigurationCollection(context, contentPage.getPath(), ListNestedConfig.class.getName() + "/item0/jcr:content/subListConfig", List.of(
-        ImmutableValueMap.of("stringParam", "value11")));
+        Map.of("stringParam", "value11")));
 
-    context.request().setParameterMap(ImmutableValueMap.of(
+    context.request().setParameterMap(Map.of(
         RP_CONFIGNAME, ListNestedConfig.class.getName(),
         RP_COLLECTION, true));
     underTest.doGet(context.request(), context.response());
 
     assertEquals(HttpServletResponse.SC_OK, context.response().getStatus());
 
-    String expectedJson = "{'configName':'io.wcm.caconfig.extensions.persistence.example.ListNestedConfig','items':["
+    String expectedJson = "{'configName':'io.wcm.caconfig.extensions.persistence.example.ListNestedConfig',"
+        + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.ListNestedConfig',"
+        + "'items':["
         + "{'configName':'io.wcm.caconfig.extensions.persistence.example.ListNestedConfig','collectionItemName':'item0',"
-        + "'overridden':false,'inherited':false,'properties':["
+        + "'overridden':false,'inherited':false,"
+        + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.ListNestedConfig/item0/jcr:content',"
+        + "'properties':["
         + "{'name':'intParam','value':123,'effectiveValue':123,"
         + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.ListNestedConfig/item0/jcr:content',"
         + "'default':false,'inherited':false,'overridden':false,'metadata':{'type':'Integer'}},"
@@ -182,7 +191,9 @@ class ConfigDataServletPagePersistenceTest {
         + "{'name':'subListConfig','metadata':{},"
         + "'nestedConfigCollection':{'configName':'io.wcm.caconfig.extensions.persistence.example.ListNestedConfig/item0/jcr:content/subListConfig','items':["
         + "{'configName':'io.wcm.caconfig.extensions.persistence.example.ListNestedConfig/item0/jcr:content/subListConfig','collectionItemName':'item0',"
-        + "'overridden':false,'inherited':false,'properties':["
+        + "'overridden':false,'inherited':false,"
+        + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.ListNestedConfig/item0/jcr:content/subListConfig/item0',"
+        + "'properties':["
         + "{'name':'intParam','default':false,'inherited':false,'overridden':false,'metadata':{'type':'Integer'}},"
         + "{'name':'stringParam','value':'value11','effectiveValue':'value11',"
         + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.ListNestedConfig/item0/jcr:content/subListConfig/item0',"
@@ -206,22 +217,26 @@ class ConfigDataServletPagePersistenceTest {
         "stringParam", "value2",
         "intParam", 234);
     writeConfigurationCollection(context, contentPage.getPath(), NestedConfig.class.getName() + "/jcr:content/subListConfig", List.of(
-        ImmutableValueMap.of("stringParam", "value3", "intParam", 345)));
+        Map.of("stringParam", "value3", "intParam", 345)));
 
-    context.request().setParameterMap(ImmutableValueMap.of(
+    context.request().setParameterMap(Map.of(
         RP_CONFIGNAME, NestedConfig.class.getName()));
     underTest.doGet(context.request(), context.response());
 
     assertEquals(HttpServletResponse.SC_OK, context.response().getStatus());
 
     String expectedJson = "{'configName':'io.wcm.caconfig.extensions.persistence.example.NestedConfig',"
-        + "'overridden':false,'inherited':false,'properties':["
+        + "'overridden':false,'inherited':false,"
+        + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.NestedConfig/jcr:content',"
+        + "'properties':["
         + "{'name':'stringParam','value':'value1','effectiveValue':'value1',"
         + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.NestedConfig/jcr:content',"
         + "'default':false,'inherited':false,'overridden':false,'metadata':{'type':'String'}},"
         + "{'name':'subConfig','metadata':{},"
         + "'nestedConfig':{'configName':'io.wcm.caconfig.extensions.persistence.example.NestedConfig/jcr:content/subConfig',"
-        + "'overridden':false,'properties':[{'name':'boolParam','default':false,'inherited':false,'overridden':false,'metadata':{'type':'Boolean'}},"
+        + "'overridden':false,"
+        + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.NestedConfig/jcr:content/subConfig',"
+        + "'properties':[{'name':'boolParam','default':false,'inherited':false,'overridden':false,'metadata':{'type':'Boolean'}},"
         + "{'name':'intParam','value':234,'effectiveValue':234,"
         + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.NestedConfig/jcr:content/subConfig',"
         + "'default':false,'inherited':false,'overridden':false,'metadata':{'type':'Integer','defaultValue':5}},"
@@ -231,7 +246,9 @@ class ConfigDataServletPagePersistenceTest {
         + "{'name':'subListConfig','metadata':{},"
         + "'nestedConfigCollection':{'configName':'io.wcm.caconfig.extensions.persistence.example.NestedConfig/jcr:content/subListConfig','items':["
         + "{'configName':'io.wcm.caconfig.extensions.persistence.example.NestedConfig/jcr:content/subListConfig','collectionItemName':'item0',"
-        + "'overridden':false,'inherited':false,'properties':["
+        + "'overridden':false,'inherited':false,"
+        + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.NestedConfig/jcr:content/subListConfig/item0',"
+        + "'properties':["
         + "{'name':'intParam','value':345,'effectiveValue':345,"
         + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.NestedConfig/jcr:content/subListConfig/item0',"
         + "'default':false,'inherited':false,'overridden':false,'metadata':{'type':'Integer'}},"
@@ -245,7 +262,7 @@ class ConfigDataServletPagePersistenceTest {
   void testDeeplyNestedConfig_WCON60_FooterConfig() throws Exception {
     MockContextAwareConfig.registerAnnotationClasses(context, FooterConfig.class);
 
-    context.request().setParameterMap(ImmutableValueMap.of(
+    context.request().setParameterMap(Map.of(
         RP_CONFIGNAME, FooterConfig.class.getName()));
     underTest.doGet(context.request(), context.response());
 
@@ -264,9 +281,9 @@ class ConfigDataServletPagePersistenceTest {
 
     // create menu item
     writeConfigurationCollection(context, contentPage.getPath(), FooterConfig.class.getName() + "/jcr:content/menu", List.of(
-        ImmutableValueMap.of()));
+        Map.of()));
 
-    context.request().setParameterMap(ImmutableValueMap.of(
+    context.request().setParameterMap(Map.of(
         RP_CONFIGNAME, FooterConfig.class.getName() + "/jcr:content/menu",
         RP_COLLECTION, true));
     underTest.doGet(context.request(), context.response());
@@ -274,8 +291,10 @@ class ConfigDataServletPagePersistenceTest {
     assertEquals(HttpServletResponse.SC_OK, context.response().getStatus());
 
     String expectedJson = "{'configName':'io.wcm.caconfig.extensions.persistence.example.wcon60.FooterConfig/jcr:content/menu',"
+        + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.wcon60.FooterConfig/jcr:content/menu',"
         + "'items':[{'configName':'io.wcm.caconfig.extensions.persistence.example.wcon60.FooterConfig/jcr:content/menu',"
         + "'collectionItemName':'item0','overridden':false,'inherited':false,"
+        + "'configSourcePath':'/conf/myconf/sling:configs/io.wcm.caconfig.extensions.persistence.example.wcon60.FooterConfig/jcr:content/menu/item0',"
         + "'properties':[{'name':'links','metadata':{},"
         + "'nestedConfigCollection':{'configName':'io.wcm.caconfig.extensions.persistence.example.wcon60.FooterConfig/jcr:content/menu/item0/links','items':[]}}]}],"
         + "'newItem':{'configName':'io.wcm.caconfig.extensions.persistence.example.wcon60.FooterConfig/jcr:content/menu','overridden':false,"

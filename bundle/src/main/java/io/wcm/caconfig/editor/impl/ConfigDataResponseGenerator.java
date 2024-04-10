@@ -40,8 +40,14 @@ import java.util.Optional;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
+import javax.jcr.RepositoryException;
+import javax.jcr.Session;
+import javax.jcr.security.AccessControlManager;
+import javax.jcr.security.Privilege;
+
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.caconfig.management.ConfigurationCollectionData;
 import org.apache.sling.caconfig.management.ConfigurationData;
@@ -74,9 +80,13 @@ class ConfigDataResponseGenerator {
   private final PathBrowserRootPathProviderService pathBrowserRootPathProviderService;
   private final TagBrowserRootPathProviderService tagBrowserRootPathProviderService;
 
+  private AccessControlManager accessControlManager;
+  private Privilege jcrWritePrivilege;
+
   private static Logger log = LoggerFactory.getLogger(ConfigDataResponseGenerator.class);
 
-  ConfigDataResponseGenerator(@NotNull ConfigurationManager configManager,
+  ConfigDataResponseGenerator(@NotNull SlingHttpServletRequest request,
+      @NotNull ConfigurationManager configManager,
       @NotNull ConfigurationPersistenceStrategyMultiplexer configurationPersistenceStrategy,
       @NotNull DropdownOptionProviderService dropdownOptionProviderService,
       @NotNull PathBrowserRootPathProviderService pathBrowserRootPathProviderService,
@@ -86,6 +96,17 @@ class ConfigDataResponseGenerator {
     this.dropdownOptionProviderService = dropdownOptionProviderService;
     this.pathBrowserRootPathProviderService = pathBrowserRootPathProviderService;
     this.tagBrowserRootPathProviderService = tagBrowserRootPathProviderService;
+
+    Session session = request.getResourceResolver().adaptTo(Session.class);
+    if (session != null) {
+      try {
+        this.accessControlManager = session.getAccessControlManager();
+        this.jcrWritePrivilege = accessControlManager.privilegeFromName(Privilege.JCR_WRITE);
+      }
+      catch (RepositoryException ex) {
+        log.warn("Unable to prepare JCR AccessControlManager.", ex);
+      }
+    }
   }
 
   Object getConfiguration(@NotNull Resource contextResource, String configName, boolean collection) {
@@ -114,6 +135,8 @@ class ConfigDataResponseGenerator {
       ConfigurationCollectionData configCollection, ConfigurationData newItem, String fullConfigName) {
     ConfigCollectionItem result = new ConfigCollectionItem();
     result.setConfigName(configCollection.getConfigName());
+    result.setConfigSourcePath(configCollection.getResourcePath());
+    result.setReadOnly(isReadOnly(configCollection.getResourcePath(), false));
 
     if (!configCollection.getProperties().isEmpty()) {
       Map<String, Object> properties = new TreeMap<>();
@@ -142,6 +165,8 @@ class ConfigDataResponseGenerator {
     result.setCollectionItemName(config.getCollectionItemName());
     result.setOverridden(config.isOverridden());
     result.setInherited(inherited);
+    result.setConfigSourcePath(config.getResourcePath());
+    result.setReadOnly(isReadOnly(config.getResourcePath(), config.isOverridden()));
 
     List<PropertyItem> props = new ArrayList<>();
     for (String propertyName : config.getPropertyNames()) {
@@ -201,6 +226,7 @@ class ConfigDataResponseGenerator {
         prop.setIsDefault(item.isDefault());
         prop.setInherited(item.isInherited());
         prop.setOverridden(item.isOverridden());
+        prop.setReadOnly(result.getReadOnly());
 
         if (itemMetadata != null) {
           PropertyItemMetadata metadata = new PropertyItemMetadata();
@@ -317,6 +343,23 @@ class ConfigDataResponseGenerator {
       }
     }
     return value;
+  }
+
+  private @Nullable Boolean isReadOnly(@Nullable String resourcePath, boolean isOverridden) {
+    if (accessControlManager != null && jcrWritePrivilege != null) {
+      try {
+        if (isOverridden) {
+          return true;
+        }
+        else if (resourcePath != null) {
+          return !accessControlManager.hasPrivileges(resourcePath, new Privilege[] { jcrWritePrivilege });
+        }
+      }
+      catch (RepositoryException ex) {
+        log.warn("Unable to check JCR write privilege for resource: {}", resourcePath, ex);
+      }
+    }
+    return null;
   }
 
 }

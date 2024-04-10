@@ -1,6 +1,7 @@
 {
   "io.wcm.caconfig.editor": {
     "contextPath": "Kontext-Pfad",
+    "configSourcePath": "Speichern nach:",
     "deepLinkError": "Deep-Linking zu geschachtelten Konfigurationen wird nur teilweise unterstützt. Bitte navigieren Sie zunächst manuell zur Konfiguration.",
     "noContextPath": "Der Kontext-Pfad konnte nicht ermittelt werden.",
     "title": "Konfiguration bearbeiten",

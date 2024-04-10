@@ -1,6 +1,7 @@
 {
   "io.wcm.caconfig.editor": {
     "contextPath": "Context Path",
+    "configSourcePath": "Persist to:",
     "deepLinkError": "Deep linking to nested configurations is only partially supported. Please first navigate to the configuration manually.",
     "noContextPath": "No context path detected.",
     "title": "Configuration Editor",
