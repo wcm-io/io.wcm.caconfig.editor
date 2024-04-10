@@ -36,6 +36,9 @@
       <action type="update" dev="sseifert">
         Switch to AEM 6.5.17 as minimum version.
       </action>
+      <action type="fix" dev="mpankratiev" issue="32">
+        Fix toTop/toBottom scrolling buttons.
+      </action>
     </release>
 
     <release version="1.15.8" date="2023-11-22">
