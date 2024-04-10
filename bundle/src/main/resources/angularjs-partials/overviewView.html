@@ -60,12 +60,12 @@
              bo-attr
              bo-attr-data-quicktip-content="i18n(config.collection ? 'config.tooltip.overriddenCollection' : 'config.tooltip.overriddenConfig')"
           ></coral-icon>
-          <coral-icon bo-if="!config.overridden && config.inherited" icon="link"
+          <coral-icon bo-if="!config.overridden && !config.readOnly && config.inherited" icon="link"
              data-init="quicktip" data-quicktip-arrow="right" data-quicktip-type="info" role="img" tabindex="0"
              bo-attr
              bo-attr-data-quicktip-content="i18n(config.collection ? 'config.tooltip.inheritedCollection' : 'config.tooltip.inheritedConfig')"
           ></coral-icon>
-          <coral-icon bo-if="!config.overridden && !config.inherited" icon="linkOff"
+          <coral-icon bo-if="!config.overridden && !config.readOnly && !config.inherited" icon="linkOff"
              data-init="quicktip" data-quicktip-arrow="right" data-quicktip-type="info" role="img" tabindex="0"
              bo-attr
              bo-attr-data-quicktip-content="i18n(config.collection ? 'config.tooltip.notInheritedCollection' : 'config.tooltip.notInheritedConfig')"

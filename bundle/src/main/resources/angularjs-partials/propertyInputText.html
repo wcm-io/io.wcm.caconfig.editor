@@ -1,18 +1,18 @@
 <div ng-form="inputTextForm">
-  <div class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-not-inherited">
+  <div class="caconfig-if-property-not-overridden-and-not-inherited-and-not-readonly caconfig-if-config-not-inherited">
     <input is="coral-textfield"
            ng-model="property.value" ng-trim="false"
            ng-pattern="pattern"
-           ng-required="{{property.metadata.properties.required && !property.overridden && !property.inherited}}"
+           ng-required="{{property.metadata.properties.required && !property.overridden && !property.readOnly && !property.inherited}}"
            caconfig-validation="{{validation}}"
            name="textField"/>
     <div class="coral-Form-errorlabel" bindonce="i18n('validation.required')" ng-show="inputTextForm.textField.$error.required" bo-text="i18n('validation.required')"></div>
     <div class="coral-Form-errorlabel" bindonce="validationMessage" ng-show="inputTextForm.textField.$error.caconfigValidation || inputTextForm.textField.$pending.caconfigValidation" bo-text="validationMessage"></div>
   </div>
-  <input is="coral-textfield" class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-inherited"
+  <input is="coral-textfield" class="caconfig-if-property-not-overridden-and-not-inherited-and-not-readonly caconfig-if-config-inherited"
          ng-model="property.value"
          disabled readonly />
-  <input is="coral-textfield" class="caconfig-if-property-overridden-or-inherited"
+  <input is="coral-textfield" class="caconfig-if-property-overridden-or-inherited-or-readonly"
          ng-model="property.effectiveValue"
          disabled readonly />
 </div>

@@ -159,10 +159,18 @@ span.caconfig-tagbrowser {
 
 .caconfig-is-new-item .caconfig-if-not-new-item,
 .caconfig-not-new-item .caconfig-if-new-item,
-.caconfig-config-overridden .caconfig-if-config-not-overridden,
-.caconfig-config-not-overridden .caconfig-if-config-overridden,
 .caconfig-config-inherited .caconfig-if-config-not-inherited,
-.caconfig-config-not-inherited .caconfig-if-config-inherited {
+.caconfig-config-not-inherited .caconfig-if-config-inherited,
+.caconfig-config-readonly .caconfig-if-config-not-readonly,
+.caconfig-config-not-readonly .caconfig-if-config-readonly {
+  display: none;
+}
+
+.caconfig-config-overridden .caconfig-if-config-not-overridden-and-not-readonly,
+.caconfig-config-readonly .caconfig-if-config-not-overridden-and-not-readonly {
+  display: none;
+}
+.caconfig-config-not-overridden.caconfig-config-not-readonly .caconfig-if-config-overridden-or-readonly {
   display: none;
 }
 
@@ -175,12 +183,13 @@ span.caconfig-tagbrowser {
   display: none;
 }
 
-.caconfig-property-not-overridden.caconfig-property-not-inherited .caconfig-if-property-overridden-or-inherited {
+.caconfig-property-not-overridden.caconfig-property-not-inherited.caconfig-property-not-readonly .caconfig-if-property-overridden-or-inherited-or-readonly {
   display: none;
 }
 
-.caconfig-property-overridden .caconfig-if-property-not-overridden-and-not-inherited,
-.caconfig-property-inherited .caconfig-if-property-not-overridden-and-not-inherited {
+.caconfig-property-overridden .caconfig-if-property-not-overridden-and-not-inherited-and-not-readonly,
+.caconfig-property-inherited .caconfig-if-property-not-overridden-and-not-inherited-and-not-readonly,
+.caconfig-property-readonly .caconfig-if-property-not-overridden-and-not-inherited-and-not-readonly {
   display: none;
 }
 
@@ -233,5 +242,16 @@ span.caconfig-tagbrowser {
 .caconfig-help-inline-popup button {
   padding: 0;
   min-height: 0;
+  min-width: 0;
+  line-height: 1rem;
+}
+
+.coral-Table-headerCell .caconfig-help-inline-popup {
+  text-transform: none;
+  font-size: 14px;
+  font-weight: normal;
+  letter-spacing: 0;
+}
+.coral-Table-headerCell .caconfig-help-inline-popup button {
   margin-top: 8px;
 }
