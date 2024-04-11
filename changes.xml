@@ -39,6 +39,9 @@
       <action type="fix" dev="mpankratiev" issue="32">
         Fix toTop/toBottom scrolling buttons.
       </action>
+      <action type="fix" dev="bhuxhorn" issue="36">
+        ConfigNameServlet: Avoid NPE if no label is set in configuration annotation.
+      </action>
     </release>
 
     <release version="1.15.8" date="2023-11-22">

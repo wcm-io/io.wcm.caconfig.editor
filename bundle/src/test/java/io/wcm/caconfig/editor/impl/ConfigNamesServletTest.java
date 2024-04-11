@@ -80,11 +80,13 @@ class ConfigNamesServletTest {
         .label("A-label2");
     ConfigurationMetadata metadata3 = new ConfigurationMetadata("name3", List.<PropertyMetadata<?>>of(), false)
         .label("C-label3");
+    ConfigurationMetadata metadata4 = new ConfigurationMetadata("name4", List.<PropertyMetadata<?>>of(), false);
 
-    when(configManager.getConfigurationNames()).thenReturn(new TreeSet<>(Set.of("name1", "name2", "name3")));
+    when(configManager.getConfigurationNames()).thenReturn(new TreeSet<>(Set.of("name1", "name2", "name3", "name4")));
     when(configManager.getConfigurationMetadata("name1")).thenReturn(metadata1);
     when(configManager.getConfigurationMetadata("name2")).thenReturn(metadata2);
     when(configManager.getConfigurationMetadata("name3")).thenReturn(metadata3);
+    when(configManager.getConfigurationMetadata("name4")).thenReturn(metadata4);
 
     when(configManager.getConfiguration(context.currentResource(), "name1")).thenReturn(configData);
     ConfigurationCollectionData configCollectionData = mock(ConfigurationCollectionData.class);
@@ -106,9 +108,10 @@ class ConfigNamesServletTest {
     assertEquals(HttpServletResponse.SC_OK, context.response().getStatus());
 
     String expectedJson = "{contextPath:'/context/path',configNames:["
-        + "{configName:'name2',label:'A-label2',collection=true,exists:true,inherited:false,overridden:false,allowAdd:true},"
+        + "{configName:'name2',label:'A-label2',collection:true,exists:true,inherited:false,overridden:false,allowAdd:true},"
         + "{configName:'name1',label:'B-label1',description:'desc1',category:'category1',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true},"
-        + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
+        + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true},"
+        + "{configName:'name4',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
         + "],configCategories:[{category:'category1',label:'category1'}]}";
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
   }
@@ -126,9 +129,10 @@ class ConfigNamesServletTest {
     assertEquals(HttpServletResponse.SC_OK, context.response().getStatus());
 
     String expectedJson = "{contextPath:'/context/path',configNames:["
-        + "{configName:'name2',label:'A-label2',collection=true,exists:true,inherited:true,overridden:true,allowAdd:true},"
+        + "{configName:'name2',label:'A-label2',collection:true,exists:true,inherited:true,overridden:true,allowAdd:true},"
         + "{configName:'name1',label:'B-label1',description:'desc1',category:'category1',collection:false,exists:true,inherited:true,overridden:true,allowAdd:true},"
-        + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
+        + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true},"
+        + "{configName:'name4',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
         + "],configCategories:[{category:'category1',label:'category1'}]}";
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
   }
@@ -146,9 +150,10 @@ class ConfigNamesServletTest {
     assertEquals(HttpServletResponse.SC_OK, context.response().getStatus());
 
     String expectedJson = "{contextPath:'/context/path',configNames:["
-        + "{configName:'name2',label:'A-label2',collection=true,exists:true,inherited:false,overridden:true,allowAdd:true},"
+        + "{configName:'name2',label:'A-label2',collection:true,exists:true,inherited:false,overridden:true,allowAdd:true},"
         + "{configName:'name1',label:'B-label1',description:'desc1',category:'category1',collection:false,exists:true,inherited:false,overridden:true,allowAdd:true},"
-        + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
+        + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true},"
+        + "{configName:'name4',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
         + "],configCategories:[{category:'category1',label:'category1'}]}";
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
   }
@@ -170,9 +175,10 @@ class ConfigNamesServletTest {
     assertEquals(HttpServletResponse.SC_OK, context.response().getStatus());
 
     String expectedJson = "{contextPath:'/context/path',configNames:["
-        + "{configName:'name2',label:'A-label2',collection=true,exists:true,inherited:false,overridden:false,allowAdd:true},"
+        + "{configName:'name2',label:'A-label2',collection:true,exists:true,inherited:false,overridden:false,allowAdd:true},"
         + "{configName:'name1',label:'B-label1',description:'desc1',category:'category1',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true},"
-        + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:false}"
+        + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:false},"
+        + "{configName:'name4',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
         + "],configCategories:[{category:'category1',label:'category1'}]}";
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
   }
@@ -188,9 +194,10 @@ class ConfigNamesServletTest {
     assertEquals(HttpServletResponse.SC_OK, context.response().getStatus());
 
     String expectedJson = "{contextPath:'/context/path',configNames:["
-        + "{configName:'name2',label:'A-label2',collection=true,exists:true,inherited:false,overridden:false,allowAdd:true},"
+        + "{configName:'name2',label:'A-label2',collection:true,exists:true,inherited:false,overridden:false,allowAdd:true},"
         + "{configName:'name1',label:'B-label1',description:'desc1',category:'category1',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true},"
         + "{configName:'name3',label:'C-label3',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
+        + ",{configName:'name4',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
         + "],configCategories:[{category:'category1',label:'category1'}]}";
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
   }
@@ -217,9 +224,10 @@ class ConfigNamesServletTest {
     assertEquals(HttpServletResponse.SC_OK, context.response().getStatus());
 
     String expectedJson = "{contextPath:'/context/path',configNames:["
-        + "{configName:'name2',label:'A-label2',category:'defaultCategory',collection=true,exists:true,inherited:false,overridden:false,allowAdd:true},"
+        + "{configName:'name2',label:'A-label2',category:'defaultCategory',collection:true,exists:true,inherited:false,overridden:false,allowAdd:true},"
         + "{configName:'name1',label:'B-label1',description:'desc1',category:'category1',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true},"
-        + "{configName:'name3',label:'C-label3',category:'defaultCategory',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
+        + "{configName:'name3',label:'C-label3',category:'defaultCategory',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true},"
+        + "{configName:'name4',category:'defaultCategory',collection:false,exists:false,inherited:false,overridden:false,allowAdd:true}"
         + "],configCategories:[{category:'category1',label:'Category1!'},{category:'defaultCategory',label:'DefaultCategory!'}]}";
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
   }
