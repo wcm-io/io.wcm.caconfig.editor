@@ -117,7 +117,7 @@ public class ConfigNamesServlet extends SlingSafeMethodsServlet {
           String configName2 = o2.getConfigName();
           return configName1.compareTo(configName2);
         }
-        return label1.compareTo(label2);
+        return StringUtils.compare(label1, label2, false);
     });
     for (String configName : configNames) {
       ConfigurationMetadata metadata = configManager.getConfigurationMetadata(configName);
