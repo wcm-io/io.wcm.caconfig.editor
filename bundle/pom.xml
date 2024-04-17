@@ -25,13 +25,13 @@
   <parent>
     <groupId>io.wcm</groupId>
     <artifactId>io.wcm.caconfig.editor.parent</artifactId>
-    <version>1.15.8</version>
+    <version>1.16.0</version>
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
   <groupId>io.wcm</groupId>
   <artifactId>io.wcm.caconfig.editor</artifactId>
-  <version>1.15.8</version>
+  <version>1.16.0</version>
   <packaging>jar</packaging>
 
   <name>Context-Aware Configuration Editor</name>
@@ -42,10 +42,17 @@
     <site.url.module.prefix>caconfig/editor/bundle</site.url.module.prefix>
 
     <!-- Enable reproducible builds -->
-    <project.build.outputTimestamp>2023-11-22T14:18:24Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2024-04-17T07:55:21Z</project.build.outputTimestamp>
   </properties>
 
   <dependencies>
+
+    <dependency>
+      <groupId>org.apache.sling</groupId>
+      <artifactId>org.apache.sling.testing.sling-mock-oak</artifactId>
+      <version>3.1.10-1.44.0</version>
+      <scope>test</scope>
+    </dependency>
 
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -75,7 +82,7 @@
     <dependency>
       <groupId>org.skyscreamer</groupId>
       <artifactId>jsonassert</artifactId>
-      <version>1.5.0</version>
+      <version>1.5.1</version>
       <scope>test</scope>
     </dependency>
 
@@ -112,13 +119,13 @@
     <dependency>
       <groupId>io.wcm</groupId>
       <artifactId>io.wcm.testing.aem-mock.junit5</artifactId>
-      <version>5.4.2</version>
+      <version>5.5.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.sling</groupId>
       <artifactId>org.apache.sling.testing.caconfig-mock-plugin</artifactId>
-      <version>1.4.0</version>
+      <version>1.5.4</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -209,30 +216,40 @@
 
       <!-- Nodejs Maven Plugin to run the templates compilation and tests -->
       <plugin>
-        <groupId>io.wcm.maven.plugins</groupId>
-        <artifactId>nodejs-maven-plugin</artifactId>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
         <executions>
           <execution>
-            <phase>generate-sources</phase>
-            <goals><goal>run</goal></goals>
+            <id>install node and npm</id>
+            <goals>
+              <goal>install-node-and-npm</goal>
+            </goals>
+            <phase>process-resources</phase>
+            <configuration>
+              <nodeVersion>v20.11.1</nodeVersion>
+            </configuration>
+          </execution>
+          <execution>
+            <id>npm install</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <phase>process-resources</phase>
+            <configuration>
+              <arguments>install</arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>grunt build</id>
+            <goals>
+              <goal>grunt</goal>
+            </goals>
+            <phase>process-resources</phase>
+            <configuration>
+              <arguments>build</arguments>
+            </configuration>
           </execution>
         </executions>
-        <configuration>
-          <nodeJsVersion>16.15.0</nodeJsVersion>
-          <tasks>
-            <npmInstallTask>
-              <workingDirectory>${project.basedir}</workingDirectory>
-            </npmInstallTask>
-            <nodeJsTask>
-              <workingDirectory>${project.basedir}</workingDirectory>
-              <moduleName>grunt-cli</moduleName>
-              <executableName>grunt</executableName>
-              <arguments>
-                <argument>build</argument>
-              </arguments>
-            </nodeJsTask>
-          </tasks>
-        </configuration>
       </plugin>
 
       <plugin>

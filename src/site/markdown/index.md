@@ -32,20 +32,12 @@ See [Usage][usage] for further details, installation instructions and some scree
 There is also a [sample application][sample-app] you can deploy directly in a local AEM 6.1 or 6.2 instance to test the configuration editor.
 
 
-### Supported AEM versions
-
-Context-Aware Configuration is supported in AEM 6.1, 6.2, 6.3 and upwards. AEM 6.0 is not supported.
-
-When you are using AEM 6.1 or 6.2 you have to additionally deploy the Apache Sling Context-Aware Configuration bundles (API, SPI, Impl) to AEM. In AEM 6.3 you have to update the Apache Sling Context-Aware Configuration SPI and Impl bundles to the latest version to use all features.
-
-See [Deploy and configure Context-Aware Configuration in AEM][deploy-configure-caconfig-in-aem] for details.
-
-
 ### AEM Version Support Matrix
 
 |Context-Aware Configuration Editor version |AEM version supported
 |-------------------------------------------|----------------------
-|1.12.x or higher                           |AEM 6.5.7+, AEMaaCS
+|1.15.10 or higher                          |AEM 6.5.17+, AEMaaCS
+|1.12.0 - 1.15.8                            |AEM 6.5.7+, AEMaaCS
 |1.9.x - 1.11.0                             |AEM 6.5+, AEMaaCS
 |1.8.x                                      |AEM 6.4+, AEMaaCS
 |1.7.x                                      |AEM 6.3+
@@ -71,4 +63,3 @@ Sources: https://github.com/wcm-io/io.wcm.caconfig.editor
 [apidocs]: bundle/apidocs/
 [changelog]: changes-report.html
 [sample-app]: https://github.com/wcm-io/wcm-io-caconfig/tree/develop/sample-app
-[deploy-configure-caconfig-in-aem]: https://wcm.io/caconfig/deploy-configure-caconfig-in-aem.html

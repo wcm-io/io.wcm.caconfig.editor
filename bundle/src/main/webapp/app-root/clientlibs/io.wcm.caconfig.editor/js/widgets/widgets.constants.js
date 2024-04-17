@@ -32,6 +32,7 @@
     .constant("templateUrlList", {
       configTable: "configTable.html",
       descriptionPopup: "descriptionPopup.html",
+      helpInlinePopup: "helpInlinePopup.html",
       multifield: "multifield.html",
       pathbrowser: "pathbrowser.html",
       propertyDropdown: "propertyDropdown.html",

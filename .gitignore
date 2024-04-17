@@ -8,6 +8,7 @@ maven-eclipse.xml
 infinitest.filters
 
 node_modules/
+node/
 npm-debug.log
 
 .nodejs

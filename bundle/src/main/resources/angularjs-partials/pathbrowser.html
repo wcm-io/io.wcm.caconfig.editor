@@ -1,6 +1,6 @@
 <div bindonce class="caconfig-pathbrowser" ng-form="inputPathBrowserForm">
 
-  <div class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-not-inherited">
+  <div class="caconfig-if-property-not-overridden-and-not-inherited-and-not-readonly caconfig-if-config-not-inherited">
     <foundation-autocomplete>
       <coral-overlay foundation-autocomplete-suggestion class="foundation-picker-buttonlist"></coral-overlay>
       <coral-taglist foundation-autocomplete-value></coral-taglist>
@@ -8,11 +8,11 @@
     <div class="coral-Form-errorlabel" bindonce="i18n('validation.required')" ng-show="inputPathBrowserForm.pathBrowser.$error.required" bo-text="i18n('validation.required')"></div>
   </div>
 
-  <input is="coral-textfield" class="caconfig-if-property-not-overridden-and-not-inherited caconfig-if-config-inherited"
+  <input is="coral-textfield" class="caconfig-if-property-not-overridden-and-not-inherited-and-not-readonly caconfig-if-config-inherited"
          ng-model="property.value"
          disabled readonly />
 
-  <input is="coral-textfield" class="caconfig-if-property-overridden-or-inherited"
+  <input is="coral-textfield" class="caconfig-if-property-overridden-or-inherited-or-readonly"
          ng-model="property.effectiveValue"
          disabled readonly />
 

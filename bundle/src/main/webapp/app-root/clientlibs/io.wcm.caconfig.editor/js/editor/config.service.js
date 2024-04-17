@@ -119,7 +119,8 @@
               configs: response.data.configs,
               configNameObject: configNameObject,
               collectionProperties: response.data.collectionProperties,
-              propertyTypes: configCacheService.getPropertyTypes(configName)
+              propertyTypes: configCacheService.getPropertyTypes(configName),
+              configSourcePath: response.data.configSourcePath
             };
             currentConfigService.setCurrent(current);
             return current;

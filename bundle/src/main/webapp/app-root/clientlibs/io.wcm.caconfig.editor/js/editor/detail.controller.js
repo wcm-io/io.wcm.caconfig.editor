@@ -152,11 +152,12 @@
     };
 
     that.toBottom = function() {
-      $document.find("html, body").animate({scrollTop: document.body.scrollHeight});
+      var $content = $document.find('coral-shell-content');
+      $content.animate({scrollTop: $content[0].scrollHeight});
     };
 
     that.toTop = function() {
-      $document.find("html, body").animate({scrollTop: 0});
+      $document.find('coral-shell-content').animate({scrollTop: 0});
     };
 
     /**
@@ -177,6 +178,8 @@
             that.current.parent = that.current.breadcrumbs[that.current.breadcrumbs.length - 1];
             that.current.description = currentData.configNameObject.description;
             that.current.contextPath = configService.getState().contextPath;
+            that.current.readOnly = currentData.configs.find(item => item.readOnly) != undefined;
+            that.current.configSourcePath = currentData.configSourcePath;
             $rootScope.title = $rootScope.i18n("title") + ": " + that.current.label;
             $rootScope.configForm = that.configForm;
             that.configLimit = MAX_CONFIGS_PER_PAGE;

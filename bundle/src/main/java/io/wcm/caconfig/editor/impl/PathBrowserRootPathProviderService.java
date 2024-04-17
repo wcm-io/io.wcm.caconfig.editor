@@ -19,7 +19,6 @@
  */
 package io.wcm.caconfig.editor.impl;
 
-import io.wcm.caconfig.editor.PathBrowserRootPathProvider;
 import org.apache.sling.api.resource.Resource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -28,6 +27,8 @@ import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+
+import io.wcm.caconfig.editor.PathBrowserRootPathProvider;
 
 /**
  * Get dynamic rooth paths for path browser.

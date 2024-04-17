@@ -23,6 +23,27 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.16.0" date="2024-04-17">
+      <action type="add" dev="sseifert" issue="31">
+        Check permissions of configuration persistence path and render configuration as read-only if current user does not have write permissions.
+      </action>
+      <action type="add" dev="sseifert" issue="31">
+        Add info button to display actual configuration persist path behind the context path.
+      </action>
+      <action type="add" dev="sseifert" issue="30">
+        Add info button to explain behavior of "Enable Property Inheritance" checkbox.
+      </action>
+      <action type="update" dev="sseifert">
+        Switch to AEM 6.5.17 as minimum version.
+      </action>
+      <action type="fix" dev="mpankratiev" issue="32">
+        Fix toTop/toBottom scrolling buttons.
+      </action>
+      <action type="fix" dev="bhuxhorn" issue="36">
+        ConfigNameServlet: Avoid NPE if no label is set in configuration annotation.
+      </action>
+    </release>
+
     <release version="1.15.8" date="2023-11-22">
       <action type="fix" dev="sseifert" issue="23">
         Fix opening/returning from publication wizards in AEMaaCS with Unified Shell.
