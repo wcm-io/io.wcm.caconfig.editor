@@ -51,7 +51,7 @@ class PathBrowserRootPathProviderServiceTest {
   private PathBrowserRootPathProviderService underTest;
 
   @BeforeEach
-  void setUp() throws Exception {
+  void setUp() {
     when(provider1.getRootPath(resource)).thenReturn("/content/root1");
     context.registerService(PathBrowserRootPathProvider.class, provider1, PathBrowserRootPathProvider.PROPERTY_SELECTOR, "provider1");
     when(provider2.getRootPath(resource)).thenReturn("/content/root2");
