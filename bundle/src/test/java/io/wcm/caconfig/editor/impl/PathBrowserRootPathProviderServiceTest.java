@@ -28,6 +28,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mock.Strictness;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import io.wcm.caconfig.editor.PathBrowserRootPathProvider;
@@ -42,9 +43,9 @@ class PathBrowserRootPathProviderServiceTest {
 
   @Mock
   private Resource resource;
-  @Mock(lenient = true)
+  @Mock(strictness = Strictness.LENIENT)
   private PathBrowserRootPathProvider provider1;
-  @Mock(lenient = true)
+  @Mock(strictness = Strictness.LENIENT)
   private PathBrowserRootPathProvider provider2;
 
   private PathBrowserRootPathProviderService underTest;

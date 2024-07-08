@@ -194,7 +194,7 @@ public class ConfigPersistServlet extends SlingAllMethodsServlet {
         // skip nested configuration and empty properties
         continue;
       }
-      else if (propertyType == null) {
+      if (propertyType == null) {
         JsonNode value = properties.get(propertyName);
         if (value.isArray()) {
           ArrayNode arrayValue = (ArrayNode)value;
