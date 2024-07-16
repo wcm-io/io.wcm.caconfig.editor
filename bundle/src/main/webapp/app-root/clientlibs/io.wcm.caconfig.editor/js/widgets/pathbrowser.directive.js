@@ -84,11 +84,13 @@
 
           // Add change event listener
           $(pathfieldWidget).on("change", function onChange() {
-            scope.property.value = pathfieldWidget.value;
-            if ($rootScope.configForm.$pristine) {
-              $rootScope.configForm.$setDirty();
+            if (scope.property.value != pathfieldWidget.value) {
+              scope.property.value = pathfieldWidget.value;
+              if ($rootScope.configForm.$pristine) {
+                $rootScope.configForm.$setDirty();
+              }
+              scope.$digest();
             }
-            scope.$digest();
           });
         });
       });
