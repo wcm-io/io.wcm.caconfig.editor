@@ -47,6 +47,21 @@
     $rootScope.i18n = function (key) {
       return Granite.I18n.get("io.wcm.caconfig.editor." + key);
     };
+
+    $rootScope.$on('$routeChangeStart', function(event, next, current) {
+      if (isSameRoute(current, next)) {
+        // avoid reload when route is the same as before
+        event.preventDefault();
+      }
+    });
+  }
+
+  function isSameRoute(current, next) {
+    const currentController = current?.$$route?.controller;
+    const currentConfigName = current?.pathParams?.configName;
+    const nextController = next?.$$route?.controller;
+    const nextConfigName = current?.pathParams?.configName;
+    return currentController !== undefined && currentController === nextController && currentConfigName === nextConfigName;
   }
 
 }(angular, Granite));
