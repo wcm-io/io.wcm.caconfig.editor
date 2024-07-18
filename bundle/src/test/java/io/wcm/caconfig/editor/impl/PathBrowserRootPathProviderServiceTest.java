@@ -28,6 +28,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mock.Strictness;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import io.wcm.caconfig.editor.PathBrowserRootPathProvider;
@@ -42,15 +43,15 @@ class PathBrowserRootPathProviderServiceTest {
 
   @Mock
   private Resource resource;
-  @Mock(lenient = true)
+  @Mock(strictness = Strictness.LENIENT)
   private PathBrowserRootPathProvider provider1;
-  @Mock(lenient = true)
+  @Mock(strictness = Strictness.LENIENT)
   private PathBrowserRootPathProvider provider2;
 
   private PathBrowserRootPathProviderService underTest;
 
   @BeforeEach
-  void setUp() throws Exception {
+  void setUp() {
     when(provider1.getRootPath(resource)).thenReturn("/content/root1");
     context.registerService(PathBrowserRootPathProvider.class, provider1, PathBrowserRootPathProvider.PROPERTY_SELECTOR, "provider1");
     when(provider2.getRootPath(resource)).thenReturn("/content/root2");

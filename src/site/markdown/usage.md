@@ -33,7 +33,7 @@ on the needs of the application.
 
 Only the template has to be defined, the page component resource type can be referenced. Example:
 
-```json
+```json-jcr
 {
   "jcr:primaryType": "cq:Template",
   "jcr:title": "Configuration Editor",

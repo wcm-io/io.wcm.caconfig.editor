@@ -31,6 +31,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mock.Strictness;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import io.wcm.caconfig.editor.DropdownOptionItem;
@@ -46,16 +47,16 @@ class DropdownOptionProviderServiceTest {
 
   @Mock
   private Resource resource;
-  @Mock(lenient = true)
+  @Mock(strictness = Strictness.LENIENT)
   private DropdownOptionProvider provider1;
-  @Mock(lenient = true)
+  @Mock(strictness = Strictness.LENIENT)
   private DropdownOptionProvider provider2;
 
   private DropdownOptionProviderService underTest;
 
   @BeforeEach
   @SuppressWarnings("null")
-  void setUp() throws Exception {
+  void setUp() {
     when(provider1.getDropdownOptions(resource)).thenReturn(List.of(
         new DropdownOptionItem("v1", "desc1"),
         new DropdownOptionItem("v2", "desc2")));
