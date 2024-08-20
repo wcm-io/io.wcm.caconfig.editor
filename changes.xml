@@ -24,7 +24,7 @@
   <body>
 
     <release version="1.16.4" date="not released">
-      <action type="fix" dev="sseifert">
+      <action type="fix" dev="sseifert" issue="40">
         Dropdown widget with multiple values: Preserve order of selected items when displaying configuration.
       </action>
     </release>
