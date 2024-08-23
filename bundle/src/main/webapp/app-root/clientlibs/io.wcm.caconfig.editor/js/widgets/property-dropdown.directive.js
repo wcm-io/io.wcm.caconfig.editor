@@ -186,9 +186,16 @@
    */
   function setValue(selectWidget, value) {
     var newValues = angular.isArray(value) ? value.map(String) : [String(value)];
-
+    // de-select all existing items
     selectWidget.items.getAll().forEach(function(item) {
-      item.selected = newValues.indexOf(item.value) > -1;
+      item.selected = false;
+    });
+    // reselect items exactly in the order stored in the data
+    newValues.forEach(value => {
+      var matchingItem = selectWidget.items.getAll().find(item => item.value == value);
+      if (matchingItem) {
+        matchingItem.selected = true;
+      }
     });
   }
 
