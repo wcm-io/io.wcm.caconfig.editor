@@ -11,8 +11,10 @@
   </div>
   <textarea is="coral-textarea" class="caconfig-if-property-not-overridden-and-not-inherited-and-not-readonly caconfig-if-config-inherited"
             ng-model="property.value"
+            ng-attr-rows="{{textareaRows}}"
             disabled readonly></textarea>
   <textarea is="coral-textarea" class="caconfig-if-property-overridden-or-inherited-or-readonly"
             ng-model="property.effectiveValue"
+            ng-attr-rows="{{textareaRows}}"
             disabled readonly></textarea>
 </div>
