@@ -35,11 +35,11 @@
       <span class="coral-Checkbox-checkmark"></span>
     </label>
     <textarea is="coral-textarea"
-           bo-if="type==='textarea'"
-           disabled
-           readonly
-           ng-attr-rows="{{textareaRows}}"
-           ng-model="effectiveValue.value"></textarea>
+              bo-if="type==='textarea'"
+              disabled
+              readonly
+              ng-attr-rows="{{textareaRows}}"
+              ng-model="effectiveValue.value"></textarea>
     <input is="coral-textfield" type="type"
            bo-if="type!=='checkbox' && type!=='textarea'"
            disabled
@@ -64,11 +64,11 @@
       <span class="coral-Checkbox-checkmark"></span>
     </label>
     <textarea is="coral-textarea"
-           bo-if="type==='textarea'"
-           disabled
-           readonly
-           ng-attr-rows="{{textareaRows}}"
-           ng-model="value.value"></textarea>
+              bo-if="type==='textarea'"
+              disabled
+              readonly
+              ng-attr-rows="{{textareaRows}}"
+              ng-model="value.value"></textarea>
     <input is="coral-textfield" type="type"
            bo-if="type!=='checkbox' && type!=='textarea'"
            disabled
@@ -93,14 +93,14 @@
       <span class="coral-Checkbox-checkmark"></span>
     </label>
     <div class="caconfig-textfield-wrapper">
-       <textarea is="coral-textarea"
-             bo-if="type==='textarea'"
-             ng-model="value.value" ng-trim="false"
-             ng-required="{{property.metadata.properties.required && !property.overridden && !property.inherited && !property.readOnly}}"
-             caconfig-validation="{{validation}}"
-             ng-attr-rows="{{textareaRows}}"
-             name="inputField"></textarea>
-       <input is="coral-textfield" type="type"
+      <textarea is="coral-textarea"
+                bo-if="type==='textarea'"
+                ng-model="value.value" ng-trim="false"
+                ng-required="{{property.metadata.properties.required && !property.overridden && !property.inherited && !property.readOnly}}"
+                caconfig-validation="{{validation}}"
+                ng-attr-rows="{{textareaRows}}"
+                name="inputField"></textarea>
+      <input is="coral-textfield" type="type"
              bo-if="type!=='checkbox' && type!=='textarea'"
              ng-model="value.value"
              ng-trim="false"
