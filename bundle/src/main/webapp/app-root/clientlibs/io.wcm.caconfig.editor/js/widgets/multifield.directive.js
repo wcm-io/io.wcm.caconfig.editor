@@ -55,6 +55,12 @@
       scope.validation = props.validation;
       scope.validationMessage = props.validationMessage ? Granite.I18n.get(props.validationMessage) : undefined;
 
+      // special handling for textarea
+      if (props.widgetType === "textarea") {
+        scope.type = "textarea";
+        scope.textareaRows = props.textareaRows;
+      }
+
       setValueArray(scope.property.effectiveValue, scope.effectiveValues);
       setValueArray(scope.property.value, scope.values);
 
