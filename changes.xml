@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert" issue="43">
         Support textarea widget for multifield (array) properties.
       </action>
+      <action type="fix" dev="sseifert" issue="44">
+        Textarea widget: Apply custom number of rows also in readonly/disabled state.
+      </action>
     </release>
 
     <release version="1.16.4" date="2024-08-26">
