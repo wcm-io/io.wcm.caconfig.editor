@@ -95,7 +95,8 @@
     <div class="caconfig-textfield-wrapper">
       <textarea is="coral-textarea"
                 bo-if="type==='textarea'"
-                ng-model="value.value" ng-trim="false"
+                ng-model="value.value"
+                ng-trim="false"
                 ng-required="{{property.metadata.properties.required && !property.overridden && !property.inherited && !property.readOnly}}"
                 caconfig-validation="{{validation}}"
                 ng-attr-rows="{{textareaRows}}"
