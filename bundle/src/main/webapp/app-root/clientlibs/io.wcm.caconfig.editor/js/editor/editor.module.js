@@ -60,7 +60,7 @@
     const currentController = current?.$$route?.controller;
     const currentConfigName = current?.pathParams?.configName;
     const nextController = next?.$$route?.controller;
-    const nextConfigName = current?.pathParams?.configName;
+    const nextConfigName = next?.pathParams?.configName;
     return currentController !== undefined && currentController === nextController && currentConfigName === nextConfigName;
   }
 
