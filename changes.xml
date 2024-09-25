@@ -30,6 +30,9 @@
       <action type="fix" dev="sseifert" issue="44">
         Textarea widget: Apply custom number of rows also in readonly/disabled state.
       </action>
+      <action type="fix" dev="sseifert" issue="45">
+        Fix non-working edit button for nested configurations (Regression from version 1.16.2).
+      </action>
     </release>
 
     <release version="1.16.4" date="2024-08-26">
