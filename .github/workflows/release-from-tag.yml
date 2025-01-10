@@ -15,5 +15,5 @@ jobs:
     - uses: actions/checkout@v4
     - uses: ncipollo/release-action@v1
       with:
-        body: 'Changes: https://wcm.io/caconfig/editor/changes-report.html'
+        body: 'Changes: https://wcm.io/caconfig/editor/changes.html'
         token: ${{ secrets.GITHUB_TOKEN }}
