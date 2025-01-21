@@ -214,14 +214,6 @@
         </configuration>
       </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <configuration>
-          <useBuildFilters>false</useBuildFilters>
-        </configuration>
-      </plugin>
-
       <!-- Nodejs Maven Plugin to run the templates compilation and tests -->
       <plugin>
         <groupId>com.github.eirslett</groupId>
@@ -232,7 +224,7 @@
             <goals>
               <goal>install-node-and-npm</goal>
             </goals>
-            <phase>process-resources</phase>
+            <phase>generate-resources</phase>
             <configuration>
               <nodeVersion>v20.11.1</nodeVersion>
             </configuration>
@@ -242,7 +234,7 @@
             <goals>
               <goal>npm</goal>
             </goals>
-            <phase>process-resources</phase>
+            <phase>generate-resources</phase>
             <configuration>
               <arguments>install</arguments>
             </configuration>
@@ -252,7 +244,7 @@
             <goals>
               <goal>grunt</goal>
             </goals>
-            <phase>process-resources</phase>
+            <phase>generate-resources</phase>
             <configuration>
               <arguments>build</arguments>
             </configuration>
