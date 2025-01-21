@@ -258,24 +258,7 @@
         <artifactId>maven-enforcer-plugin</artifactId>
         <executions>
           <execution>
-            <id>enforce-exist-templates.module.js-src</id>
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <phase>compile</phase>
-            <configuration>
-              <rules>
-                <requireFilesExist>
-                  <files>
-                   <file>src/main/webapp/app-root/clientlibs/io.wcm.caconfig.editor/js/templates.module.js</file>
-                  </files>
-                </requireFilesExist>
-              </rules>
-              <fail>true</fail>
-            </configuration>
-          </execution>
-          <execution>
-            <id>enforce-exist-templates.module.js-classes</id>
+            <id>enforce-exist-templates.module.js</id>
             <goals>
               <goal>enforce</goal>
             </goals>
