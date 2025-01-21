@@ -252,6 +252,31 @@
         </executions>
       </plugin>
 
+      <!-- Ensure generated templates file exist -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-files-exist</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <phase>verify</phase>
+            <configuration>
+              <rules>
+                <requireFilesExist>
+                  <files>
+                   <file>${project.build.outputDirectory}/SLING-INF/app-root/clientlibs/io.wcm.caconfig.editor/js/templates.module.js</file>
+                  </files>
+                </requireFilesExist>
+              </rules>
+              <fail>true</fail>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
       <plugin>
         <groupId>io.wcm.maven.plugins</groupId>
         <artifactId>i18n-maven-plugin</artifactId>
