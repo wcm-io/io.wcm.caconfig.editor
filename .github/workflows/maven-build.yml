@@ -35,3 +35,4 @@ jobs:
           sonar-run-on-java-version: 17
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          maven-additional-args: -X
