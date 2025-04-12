@@ -43,7 +43,7 @@
         </repository>
 
         <repository>
-          <id>central-snapshots</id>
+          <id>sonatype-central-snapshots</id>
           <url>https://central.sonatype.com/repository/maven-snapshots</url>
           <layout>default</layout>
           <releases>
