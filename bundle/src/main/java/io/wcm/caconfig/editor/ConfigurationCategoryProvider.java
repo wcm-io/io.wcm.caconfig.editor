@@ -28,6 +28,7 @@ import io.wcm.sling.commons.caservice.ContextAwareService;
 
 /**
  * Provides metadata for configuration categories used by an application.
+ *
  * <p>
  * Applications can set service properties or bundle headers as defined in {@link ContextAwareService} to apply this
  * configuration only for resources that match the relevant resource paths.

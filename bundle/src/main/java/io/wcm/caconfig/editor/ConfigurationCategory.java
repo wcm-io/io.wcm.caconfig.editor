@@ -34,6 +34,7 @@ public final class ConfigurationCategory implements Comparable<ConfigurationCate
   private String label;
 
   /**
+   * Creates a new configuration category.
    * @param category Category name
    */
   public ConfigurationCategory(@NotNull String category) {
@@ -41,6 +42,7 @@ public final class ConfigurationCategory implements Comparable<ConfigurationCate
   }
 
   /**
+   * Gets the category name.
    * @return Category name
    */
   public @NotNull String getCategory() {
@@ -48,6 +50,7 @@ public final class ConfigurationCategory implements Comparable<ConfigurationCate
   }
 
   /**
+   * Gets the category label.
    * @return Category label. Falls back to category name if not defined.
    */
   public @NotNull String getLabel() {
@@ -55,6 +58,7 @@ public final class ConfigurationCategory implements Comparable<ConfigurationCate
   }
 
   /**
+   * Sets the category label.
    * @param value Category label
    * @return this
    */
