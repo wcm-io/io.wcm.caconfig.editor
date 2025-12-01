@@ -80,6 +80,10 @@
           $input.attr("name", "pathBrowser");
           $input.attr("ng-required", props.required);
           $input.attr("ng-model", "property.value");
+          if (props.validation) {
+            $input.attr("caconfig-validation", props.validation);
+            scope.validationMessage = props.validationMessage ? Granite.I18n.get(props.validationMessage) : undefined;
+          }
           $compile($input[0])(scope);
 
           // Add change event listener
