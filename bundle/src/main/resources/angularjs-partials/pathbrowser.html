@@ -6,6 +6,7 @@
       <coral-taglist foundation-autocomplete-value></coral-taglist>
     </foundation-autocomplete>
     <div class="coral-Form-errorlabel" bindonce="i18n('validation.required')" ng-show="inputPathBrowserForm.pathBrowser.$error.required" bo-text="i18n('validation.required')"></div>
+    <div class="coral-Form-errorlabel" bindonce="validationMessage" ng-show="inputPathBrowserForm.pathBrowser.$error.caconfigValidation || inputPathBrowserForm.pathBrowser.$pending.caconfigValidation" bo-text="validationMessage"></div>
   </div>
 
   <input is="coral-textfield" class="caconfig-if-property-not-overridden-and-not-inherited-and-not-readonly caconfig-if-config-inherited"

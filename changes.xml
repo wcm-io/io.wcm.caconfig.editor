@@ -24,6 +24,12 @@
     xsi:schemaLocation="http://maven.apache.org/changes/2.0.0 https://maven.apache.org/xsd/changes-2.0.0.xsd">
   <body>
 
+    <release version="1.16.8" date="not released">
+      <action type="update" dev="sseifert" issue="66">
+        Enable validation for pathbrowser widget.
+      </action>
+    </release>
+
     <release version="1.16.6" date="2024-09-30">
       <action type="update" dev="sseifert" issue="43">
         Support textarea widget for multifield (array) properties.
