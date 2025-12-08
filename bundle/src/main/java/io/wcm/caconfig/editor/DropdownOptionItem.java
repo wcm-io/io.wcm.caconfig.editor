@@ -32,6 +32,7 @@ public final class DropdownOptionItem {
   private final String description;
 
   /**
+   * Creates a new dropdown option item.
    * @param value Item value
    * @param description Item description
    */
@@ -41,6 +42,7 @@ public final class DropdownOptionItem {
   }
 
   /**
+   * Gets the item value.
    * @return Item value
    */
   public @NotNull String getValue() {
@@ -48,6 +50,7 @@ public final class DropdownOptionItem {
   }
 
   /**
+   * Gets the item description.
    * @return Item description
    */
   public @NotNull String getDescription() {

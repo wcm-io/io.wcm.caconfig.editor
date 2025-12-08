@@ -61,5 +61,5 @@ Sources: https://github.com/wcm-io/io.wcm.caconfig.editor
 [usage]: usage.html
 [validation]: validation.html
 [apidocs]: bundle/apidocs/
-[changelog]: changes-report.html
+[changelog]: changes.html
 [sample-app]: https://github.com/wcm-io/wcm-io-caconfig/tree/develop/sample-app
