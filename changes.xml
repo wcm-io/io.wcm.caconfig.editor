@@ -24,6 +24,12 @@
     xsi:schemaLocation="http://maven.apache.org/changes/2.0.0 https://maven.apache.org/xsd/changes-2.0.0.xsd">
   <body>
 
+    <release version="1.16.10" date="not released">
+      <action type="fix" dev="sseifert" issue="73">
+        Strip comments from JSON Files in Sling-Initial-Content to fix deployment problem in AEM 6.6.2 (AEM 6.5 LTS SP 2).
+      </action>
+    </release>
+
     <release version="1.16.8" date="2025-12-08">
       <action type="update" dev="sseifert" issue="66">
         Enable validation for pathbrowser widget.
