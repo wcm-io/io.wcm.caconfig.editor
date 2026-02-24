@@ -25,13 +25,13 @@
   <parent>
     <groupId>io.wcm</groupId>
     <artifactId>io.wcm.caconfig.editor.parent</artifactId>
-    <version>1.16.8</version>
+    <version>1.16.10</version>
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
   <groupId>io.wcm</groupId>
   <artifactId>io.wcm.caconfig.editor</artifactId>
-  <version>1.16.8</version>
+  <version>1.16.10</version>
   <packaging>jar</packaging>
 
   <name>Context-Aware Configuration Editor</name>
@@ -42,7 +42,7 @@
     <site.url.module.prefix>caconfig/editor/bundle</site.url.module.prefix>
 
     <!-- Enable reproducible builds -->
-    <project.build.outputTimestamp>2025-12-08T07:55:43Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2026-02-24T09:57:02Z</project.build.outputTimestamp>
   </properties>
 
   <dependencies>
@@ -114,7 +114,7 @@
     <dependency>
       <groupId>io.wcm</groupId>
       <artifactId>io.wcm.testing.aem-mock.junit5</artifactId>
-      <version>5.6.12</version>
+      <version>5.7.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
