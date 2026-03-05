@@ -83,7 +83,7 @@ class ConfigPersistServletTest {
         new PropertyMetadata<>("doubleProp", Double.class),
         new PropertyMetadata<>("boolProp", Boolean.class),
         new PropertyMetadata<>("nestedConfig", ConfigurationMetadata.class)
-            .configurationMetadata(new ConfigurationMetadata("nestedConfig", List.<PropertyMetadata<?>>of(), false))),
+          .configurationMetadata(new ConfigurationMetadata("nestedConfig", List.<PropertyMetadata<?>>of(), false))),
         false);
     when(configManager.getConfigurationMetadata(CONFIG_NAME)).thenReturn(configMetadata);
 
@@ -94,7 +94,7 @@ class ConfigPersistServletTest {
         new PropertyMetadata<>("doubleProp", Double[].class),
         new PropertyMetadata<>("boolProp", Boolean[].class),
         new PropertyMetadata<>("nestedConfig", ConfigurationMetadata[].class)
-            .configurationMetadata(new ConfigurationMetadata("nestedConfig", List.<PropertyMetadata<?>>of(), false))),
+          .configurationMetadata(new ConfigurationMetadata("nestedConfig", List.<PropertyMetadata<?>>of(), false))),
         true);
     when(configManager.getConfigurationMetadata(CONFIG_COL_NAME)).thenReturn(configColMetadata);
   }

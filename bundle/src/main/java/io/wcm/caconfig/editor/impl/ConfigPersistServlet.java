@@ -69,8 +69,11 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
     resourceTypes = "/apps/wcm-io/caconfig/editor/components/page/editor",
     selectors = ConfigPersistServlet.SELECTOR,
     extensions = "json",
-    methods = { "POST", "DELETE" })
+    methods = {
+        "POST", "DELETE"
+    })
 public class ConfigPersistServlet extends SlingAllMethodsServlet {
+
   private static final long serialVersionUID = 1L;
 
   /**
@@ -86,7 +89,9 @@ public class ConfigPersistServlet extends SlingAllMethodsServlet {
   private static Logger log = LoggerFactory.getLogger(ConfigPersistServlet.class);
 
   @Override
-  @SuppressWarnings({ "null", "PMD.GuardLogStatement" })
+  @SuppressWarnings({
+      "null", "PMD.GuardLogStatement"
+  })
   protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
     if (!editorConfig.isEnabled()) {
       sendForbiddenWithMessage(response, "Configuration editor is disabled.");
@@ -167,7 +172,7 @@ public class ConfigPersistServlet extends SlingAllMethodsServlet {
     }
 
     return new ConfigurationCollectionPersistData(items)
-        .properties(properties);
+      .properties(properties);
   }
 
   private ConfigurationPersistData parseConfigData(JsonNode item, ConfigurationMetadata configMetadata) {
@@ -240,7 +245,7 @@ public class ConfigPersistServlet extends SlingAllMethodsServlet {
     }
 
     return new ConfigurationPersistData(props)
-        .collectionItemName(collectionItemName);
+      .collectionItemName(collectionItemName);
   }
 
   private Object toSingle(@NotNull JsonNode value, @NotNull Class<?> propertyType) {

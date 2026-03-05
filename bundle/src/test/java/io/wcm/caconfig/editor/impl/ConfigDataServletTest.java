@@ -78,12 +78,14 @@ class ConfigDataServletTest {
   @BeforeEach
   void setUp() {
     when(configurationPersistenceStrategy.getCollectionParentConfigName(anyString(), nullable(String.class))).then(new Answer<String>() {
+
       @Override
       public String answer(InvocationOnMock invocation) {
         return (String)invocation.getArgument(0);
       }
     });
     when(configurationPersistenceStrategy.getConfigName(anyString(), nullable(String.class))).then(new Answer<String>() {
+
       @Override
       public String answer(InvocationOnMock invocation) {
         return (String)invocation.getArgument(0);
@@ -159,9 +161,9 @@ class ConfigDataServletTest {
     ConfigurationData subConfigData = buildConfigData("nestedConfig/subConfig", 0);
     when(subConfig.getValue()).thenReturn(subConfigData);
     when(subConfig.getPropertyMetadata()).thenReturn(new PropertyMetadata<>("subConfig", ConfigurationMetadata.class)
-        .label("subConfig-label")
-        .description("subConfig-desc")
-        .configurationMetadata(new ConfigurationMetadata("subConfig", List.<PropertyMetadata<?>>of(), false)));
+      .label("subConfig-label")
+      .description("subConfig-desc")
+      .configurationMetadata(new ConfigurationMetadata("subConfig", List.<PropertyMetadata<?>>of(), false)));
     when(configData.getValueInfo("subConfig")).thenReturn(subConfig);
 
     ValueInfo subConfigList = mock(ValueInfo.class);
@@ -172,9 +174,9 @@ class ConfigDataServletTest {
     };
     when(subConfigList.getValue()).thenReturn(subConfigListData);
     when(subConfigList.getPropertyMetadata()).thenReturn(new PropertyMetadata<>("subConfigList", ConfigurationMetadata[].class)
-        .label("subConfigList-label")
-        .description("subConfigList-desc")
-        .configurationMetadata(new ConfigurationMetadata("subConfigList", List.<PropertyMetadata<?>>of(), true)));
+      .label("subConfigList-label")
+      .description("subConfigList-desc")
+      .configurationMetadata(new ConfigurationMetadata("subConfigList", List.<PropertyMetadata<?>>of(), true)));
     when(configData.getValueInfo("subConfigList")).thenReturn(subConfigList);
 
 
@@ -276,10 +278,10 @@ class ConfigDataServletTest {
     assertEquals(HttpServletResponse.SC_OK, context.response().getStatus());
 
     String expectedJson = "{configName:'name1',overridden:false,inherited:false,"
-            + "properties:["
-            + "{name:'param1',value:'option1',effectiveValue:'option1',default:false,inherited:true,overridden:false,"
-            + "metadata:{type:'String',properties:{widgetType:'tagbrowser',tagbrowserRootPath:'/content/dynamic-root-path'}}}"
-            + "]}";
+        + "properties:["
+        + "{name:'param1',value:'option1',effectiveValue:'option1',default:false,inherited:true,overridden:false,"
+        + "metadata:{type:'String',properties:{widgetType:'tagbrowser',tagbrowserRootPath:'/content/dynamic-root-path'}}}"
+        + "]}";
     JSONAssert.assertEquals(expectedJson, context.response().getOutputAsString(), true);
   }
 
@@ -317,24 +319,24 @@ class ConfigDataServletTest {
     ValueInfo param1 = buildValueInfo("param1", "option1", "option1", null);
     when(param1.getPropertyMetadata()).thenReturn(
         new PropertyMetadata<>("param1", String.class)
-            .properties(Map.of(
-                EditorProperties.PROPERTY_WIDGET_TYPE, EditorProperties.WIDGET_TYPE_DROPDOWN,
-                EditorProperties.PROPERTY_DROPDOWN_OPTIONS, "["
-                    + "{'value':'option1','description':'First option'},"
-                    + "{'value':'option2','description':'Second option'},"
-                    + "{'value':'option3','description':'Third option'}"
-                    + "]")));
+          .properties(Map.of(
+              EditorProperties.PROPERTY_WIDGET_TYPE, EditorProperties.WIDGET_TYPE_DROPDOWN,
+              EditorProperties.PROPERTY_DROPDOWN_OPTIONS, "["
+                  + "{'value':'option1','description':'First option'},"
+                  + "{'value':'option2','description':'Second option'},"
+                  + "{'value':'option3','description':'Third option'}"
+                  + "]")));
     when(configData.getValueInfo("param1")).thenReturn(param1);
 
     ValueInfo param2 = buildValueInfo("param2", 5, 5, 0);
     when(param2.getPropertyMetadata()).thenReturn(
         new PropertyMetadata<>("param2", 0)
-            .properties(Map.of(
-                EditorProperties.PROPERTY_WIDGET_TYPE, EditorProperties.WIDGET_TYPE_DROPDOWN,
-                EditorProperties.PROPERTY_DROPDOWN_OPTIONS, "["
-                    + "{'value':1,'description':'Number One'},"
-                    + "{'value':2,'description':'Number Two'}"
-                    + "]")));
+          .properties(Map.of(
+              EditorProperties.PROPERTY_WIDGET_TYPE, EditorProperties.WIDGET_TYPE_DROPDOWN,
+              EditorProperties.PROPERTY_DROPDOWN_OPTIONS, "["
+                  + "{'value':1,'description':'Number One'},"
+                  + "{'value':2,'description':'Number Two'}"
+                  + "]")));
     when(configData.getValueInfo("param2")).thenReturn(param2);
 
     return configData;
@@ -349,9 +351,9 @@ class ConfigDataServletTest {
     ValueInfo param1 = buildValueInfo("param1", "option1", "option1", null);
     when(param1.getPropertyMetadata()).thenReturn(
         new PropertyMetadata<>("param1", String.class)
-            .properties(Map.of(
-                EditorProperties.PROPERTY_WIDGET_TYPE, EditorProperties.WIDGET_TYPE_DROPDOWN,
-                EditorProperties.PROPERTY_DROPDOWN_OPTIONS_PROVIDER, "provider1")));
+          .properties(Map.of(
+              EditorProperties.PROPERTY_WIDGET_TYPE, EditorProperties.WIDGET_TYPE_DROPDOWN,
+              EditorProperties.PROPERTY_DROPDOWN_OPTIONS_PROVIDER, "provider1")));
     when(configData.getValueInfo("param1")).thenReturn(param1);
 
     DropdownOptionProvider provider = mock(DropdownOptionProvider.class);
@@ -375,9 +377,9 @@ class ConfigDataServletTest {
     ValueInfo param1 = buildValueInfo("param1", "option1", "option1", null);
     when(param1.getPropertyMetadata()).thenReturn(
         new PropertyMetadata<>("param1", String.class)
-            .properties(Map.of(
-                EditorProperties.PROPERTY_WIDGET_TYPE, EditorProperties.WIDGET_TYPE_PATHBROWSER,
-                EditorProperties.PROPERTY_PATHBROWSER_ROOT_PATH_PROVIDER, "provider1")));
+          .properties(Map.of(
+              EditorProperties.PROPERTY_WIDGET_TYPE, EditorProperties.WIDGET_TYPE_PATHBROWSER,
+              EditorProperties.PROPERTY_PATHBROWSER_ROOT_PATH_PROVIDER, "provider1")));
     when(configData.getValueInfo("param1")).thenReturn(param1);
 
     PathBrowserRootPathProvider provider = mock(PathBrowserRootPathProvider.class);
@@ -396,15 +398,15 @@ class ConfigDataServletTest {
 
     ValueInfo param1 = buildValueInfo("param1", "option1", "option1", null);
     when(param1.getPropertyMetadata()).thenReturn(
-            new PropertyMetadata<>("param1", String.class)
-            .properties(Map.of(
-                            EditorProperties.PROPERTY_WIDGET_TYPE, EditorProperties.WIDGET_TYPE_TAGBROWSER,
-                            EditorProperties.PROPERTY_TAGBROWSER_ROOT_PATH_PROVIDER, "provider1")));
+        new PropertyMetadata<>("param1", String.class)
+          .properties(Map.of(
+              EditorProperties.PROPERTY_WIDGET_TYPE, EditorProperties.WIDGET_TYPE_TAGBROWSER,
+              EditorProperties.PROPERTY_TAGBROWSER_ROOT_PATH_PROVIDER, "provider1")));
     when(configData.getValueInfo("param1")).thenReturn(param1);
 
     TagBrowserRootPathProvider provider = mock(TagBrowserRootPathProvider.class);
     context.registerService(TagBrowserRootPathProvider.class, provider,
-            TagBrowserRootPathProvider.PROPERTY_SELECTOR, "provider1");
+        TagBrowserRootPathProvider.PROPERTY_SELECTOR, "provider1");
     when(provider.getRootPath(context.currentResource())).thenReturn("/content/dynamic-root-path");
 
     return configData;
@@ -421,9 +423,9 @@ class ConfigDataServletTest {
     when(valueInfo.isOverridden()).thenReturn(false);
     if (defaultValue != null) {
       when(valueInfo.getPropertyMetadata()).thenReturn(new PropertyMetadata<>(name, defaultValue)
-          .label(name + "-label")
-          .description(name + "-desc")
-          .properties(Map.of("custom", name + "-custom")));
+        .label(name + "-label")
+        .description(name + "-desc")
+        .properties(Map.of("custom", name + "-custom")));
     }
     return valueInfo;
   }

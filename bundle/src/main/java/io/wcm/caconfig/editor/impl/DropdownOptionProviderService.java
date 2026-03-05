@@ -55,12 +55,14 @@ public class DropdownOptionProviderService {
    * @param contextResource Context resource
    * @return Dropdown items as as Maps
    */
-  @SuppressWarnings({ "null", "java:S112" })
+  @SuppressWarnings({
+      "null", "java:S112"
+  })
   public @NotNull List<Map<String, Object>> getDropdownOptions(@NotNull String selector, @NotNull Resource contextResource) {
     final String filter = "(" + DropdownOptionProvider.PROPERTY_SELECTOR + "=" + selector + ")";
     try {
       ServiceReference<DropdownOptionProvider> ref = bundleContext.getServiceReferences(DropdownOptionProvider.class, filter)
-          .stream().findFirst().orElse(null);
+        .stream().findFirst().orElse(null);
       if (ref != null) {
         DropdownOptionProvider provider = bundleContext.getService(ref);
         try {
@@ -77,14 +79,16 @@ public class DropdownOptionProviderService {
     return Collections.emptyList();
   }
 
-  @SuppressWarnings({ "null", "unchecked", "java:S1488" }) // further simplifying lambda expression leads to compilation failures
+  @SuppressWarnings({
+      "null", "unchecked", "java:S1488"
+  }) // further simplifying lambda expression leads to compilation failures
   private @NotNull List<Map<String, Object>> toMapList(@NotNull List<DropdownOptionItem> items) {
     return items.stream()
-        .map(item -> {
-          Map<String, Object> map = OBJECT_MAPPER.convertValue(item, Map.class);
-          return map;
-        })
-        .collect(Collectors.toList());
+      .map(item -> {
+        Map<String, Object> map = OBJECT_MAPPER.convertValue(item, Map.class);
+        return map;
+      })
+      .collect(Collectors.toList());
   }
 
 }

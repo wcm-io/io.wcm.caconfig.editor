@@ -54,6 +54,7 @@ import org.slf4j.LoggerFactory;
     extensions = "json",
     methods = "GET")
 public class ConfigDataServlet extends SlingSafeMethodsServlet {
+
   private static final long serialVersionUID = 1L;
 
   /**
