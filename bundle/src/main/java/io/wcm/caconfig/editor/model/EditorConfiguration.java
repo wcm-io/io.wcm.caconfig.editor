@@ -126,7 +126,9 @@ public class EditorConfiguration {
       try {
         AccessControlManager accessControlManager = session.getAccessControlManager();
         Privilege privilege = accessControlManager.privilegeFromName(privilegeName);
-        return accessControlManager.hasPrivileges(currentResource.getPath(), new Privilege[] { privilege });
+        return accessControlManager.hasPrivileges(currentResource.getPath(), new Privilege[] {
+            privilege
+        });
       }
       catch (RepositoryException ex) {
         log.warn("Failed to check permission for {}", currentResource.getPath(), ex);

@@ -73,13 +73,13 @@ class ConfigNamesServletTest {
     context.currentResource(context.create().resource("/content/test"));
 
     ConfigurationMetadata metadata1 = new ConfigurationMetadata("name1", List.<PropertyMetadata<?>>of(), false)
-        .label("B-label1")
-        .description("desc1")
-        .properties(Map.of(PROPERTY_CATEGORY, "category1"));
+      .label("B-label1")
+      .description("desc1")
+      .properties(Map.of(PROPERTY_CATEGORY, "category1"));
     ConfigurationMetadata metadata2 = new ConfigurationMetadata("name2", List.<PropertyMetadata<?>>of(), true)
-        .label("A-label2");
+      .label("A-label2");
     ConfigurationMetadata metadata3 = new ConfigurationMetadata("name3", List.<PropertyMetadata<?>>of(), false)
-        .label("C-label3");
+      .label("C-label3");
     ConfigurationMetadata metadata4 = new ConfigurationMetadata("name4", List.<PropertyMetadata<?>>of(), false);
 
     when(configManager.getConfigurationNames()).thenReturn(new TreeSet<>(Set.of("name1", "name2", "name3", "name4")));
@@ -161,6 +161,7 @@ class ConfigNamesServletTest {
   @Test
   void testResponseWithFiltering() throws Exception {
     context.registerService(ConfigurationEditorFilter.class, new ConfigurationEditorFilter() {
+
       @Override
       public boolean allowAdd(@NotNull String configName) {
         return !StringUtils.equals(configName, "name3");
@@ -205,10 +206,12 @@ class ConfigNamesServletTest {
   @Test
   void testResponseWithCategoriesAndConfigurationCategoryProvider() throws Exception {
     context.registerService(ConfigurationCategoryProvider.class, new ConfigurationCategoryProvider() {
+
       @Override
       public @Nullable ConfigurationCategory getCategoryMetadata(@NotNull String category) {
         return new ConfigurationCategory(category).label(StringUtils.capitalize(category) + "!");
       }
+
       @Override
       public @Nullable String getCategory(@NotNull ConfigurationMetadata configurationMetadata) {
         return "defaultCategory";

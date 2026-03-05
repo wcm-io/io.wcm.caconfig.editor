@@ -56,21 +56,28 @@ import io.wcm.testing.mock.aem.junit5.AemContextExtension;
 class ConfigDataServletPagePersistenceAccessManagerTest {
 
   private final AemContext context = new AemContextBuilder()
-      .resourceResolverType(ResourceResolverType.JCR_OAK)
-      .beforeSetUp(new AemContextCallback() {
-        @Override
-        public void execute(@NotNull AemContext ctx) {
-          // also find sling:configRef props in cq:Page/jcr:content nodes
-          MockOsgi.setConfigForPid(ctx.bundleContext(), "org.apache.sling.caconfig.resource.impl.def.DefaultContextPathStrategy",
-              "configRefResourceNames", new String[] { "jcr:content", "." });
-          // AEM-specific configuration management settings
-          MockOsgi.setConfigForPid(ctx.bundleContext(), "org.apache.sling.caconfig.management.impl.ConfigurationManagementSettingsImpl",
-              "ignorePropertyNameRegex", new String[] { "^(jcr|cq):.+", "^" + PROPERTY_RESOURCE_TYPE + "$" },
-              "configCollectionPropertiesResourceNames", new String[] { "jcr:content", "." });
-        }
-      })
-      .plugin(CACONFIG)
-      .build();
+    .resourceResolverType(ResourceResolverType.JCR_OAK)
+    .beforeSetUp(new AemContextCallback() {
+
+      @Override
+      public void execute(@NotNull AemContext ctx) {
+        // also find sling:configRef props in cq:Page/jcr:content nodes
+        MockOsgi.setConfigForPid(ctx.bundleContext(), "org.apache.sling.caconfig.resource.impl.def.DefaultContextPathStrategy",
+            "configRefResourceNames", new String[] {
+                "jcr:content", "."
+        });
+        // AEM-specific configuration management settings
+        MockOsgi.setConfigForPid(ctx.bundleContext(), "org.apache.sling.caconfig.management.impl.ConfigurationManagementSettingsImpl",
+            "ignorePropertyNameRegex", new String[] {
+                "^(jcr|cq):.+", "^" + PROPERTY_RESOURCE_TYPE + "$"
+        },
+            "configCollectionPropertiesResourceNames", new String[] {
+                "jcr:content", "."
+        });
+      }
+    })
+    .plugin(CACONFIG)
+    .build();
 
   private ConfigDataServlet underTest;
 

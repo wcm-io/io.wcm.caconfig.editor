@@ -66,6 +66,7 @@ import io.wcm.caconfig.editor.impl.data.confignames.ConfigNamesResponse;
     extensions = "json",
     methods = "GET")
 public class ConfigNamesServlet extends SlingSafeMethodsServlet {
+
   private static final long serialVersionUID = 1L;
 
   /**
@@ -110,14 +111,14 @@ public class ConfigNamesServlet extends SlingSafeMethodsServlet {
   private Collection<ConfigNameItem> getConfigNames(Resource contextResource) {
     SortedSet<String> configNames = configManager.getConfigurationNames();
     SortedSet<ConfigNameItem> sortedResult = new TreeSet<>((ConfigNameItem o1, ConfigNameItem o2) -> {
-        String label1 = o1.getLabel();
-        String label2 = o2.getLabel();
-        if (StringUtils.equals(label1, label2)) {
-          String configName1 = o1.getConfigName();
-          String configName2 = o2.getConfigName();
-          return configName1.compareTo(configName2);
-        }
-        return StringUtils.compare(label1, label2, false);
+      String label1 = o1.getLabel();
+      String label2 = o2.getLabel();
+      if (StringUtils.equals(label1, label2)) {
+        String configName1 = o1.getConfigName();
+        String configName2 = o2.getConfigName();
+        return configName1.compareTo(configName2);
+      }
+      return StringUtils.compare(label1, label2, false);
     });
     for (String configName : configNames) {
       ConfigurationMetadata metadata = configManager.getConfigurationMetadata(configName);
@@ -151,12 +152,12 @@ public class ConfigNamesServlet extends SlingSafeMethodsServlet {
   @SuppressWarnings("null")
   private Collection<ConfigCategoryItem> getCategories(Collection<ConfigNameItem> configNames) {
     return configNames.stream()
-        .map(ConfigNameItem::getConfigurationCategory)
-        .filter(Objects::nonNull)
-        .distinct()
-        .sorted()
-        .map(category -> new ConfigCategoryItem(category.getCategory(), category.getLabel()))
-        .collect(Collectors.toList());
+      .map(ConfigNameItem::getConfigurationCategory)
+      .filter(Objects::nonNull)
+      .distinct()
+      .sorted()
+      .map(category -> new ConfigCategoryItem(category.getCategory(), category.getLabel()))
+      .collect(Collectors.toList());
   }
 
   private boolean allowAdd(Resource contextResource, String configName) {
@@ -186,6 +187,7 @@ public class ConfigNamesServlet extends SlingSafeMethodsServlet {
   }
 
   private static final class ConfigurationState {
+
     private boolean exists;
     private boolean inherited;
     private boolean overridden;

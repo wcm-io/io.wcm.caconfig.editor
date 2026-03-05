@@ -103,9 +103,9 @@ public class ConfigurationCategoryProviderService {
 
     if (StringUtils.isEmpty(category)) {
       category = serviceCollectionResolver.resolveAll(contextResource)
-          .map(provider -> provider.getCategory(configurationMetadata))
-          .filter(Objects::nonNull)
-          .findFirst().orElse(null);
+        .map(provider -> provider.getCategory(configurationMetadata))
+        .filter(Objects::nonNull)
+        .findFirst().orElse(null);
     }
 
     return category;
@@ -118,10 +118,10 @@ public class ConfigurationCategoryProviderService {
   @SuppressWarnings("null")
   private @NotNull ConfigurationCategory getCategoryMetadata(@NotNull Resource contextResource, @NotNull String category) {
     return serviceCollectionResolver.resolveAll(contextResource)
-        .map(provider -> provider.getCategoryMetadata(category))
-        .filter(Objects::nonNull)
-        .findFirst()
-        .orElse(new ConfigurationCategory(category));
+      .map(provider -> provider.getCategoryMetadata(category))
+      .filter(Objects::nonNull)
+      .findFirst()
+      .orElse(new ConfigurationCategory(category));
   }
 
   /**
