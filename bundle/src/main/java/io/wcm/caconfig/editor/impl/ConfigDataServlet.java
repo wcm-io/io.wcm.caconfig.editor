@@ -78,7 +78,9 @@ public class ConfigDataServlet extends SlingSafeMethodsServlet {
   private static Logger log = LoggerFactory.getLogger(ConfigDataServlet.class);
 
   @Override
-  @SuppressWarnings("PMD.GuardLogStatement")
+  @SuppressWarnings({
+      "PMD.GuardLogStatement", "PMD.AvoidCatchingGenericException"
+  })
   protected void doGet(@NotNull SlingHttpServletRequest request, @NotNull SlingHttpServletResponse response) throws ServletException, IOException {
     if (!editorConfig.isEnabled()) {
       response.sendError(HttpServletResponse.SC_FORBIDDEN);

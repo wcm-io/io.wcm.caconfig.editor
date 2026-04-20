@@ -90,7 +90,7 @@ public class ConfigPersistServlet extends SlingAllMethodsServlet {
 
   @Override
   @SuppressWarnings({
-      "null", "PMD.GuardLogStatement"
+      "null", "PMD.GuardLogStatement", "PMD.AvoidCatchingGenericException"
   })
   protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
     if (!editorConfig.isEnabled()) {
@@ -379,7 +379,9 @@ public class ConfigPersistServlet extends SlingAllMethodsServlet {
   }
 
   @Override
-  @SuppressWarnings("PMD.GuardLogStatement")
+  @SuppressWarnings({
+      "PMD.GuardLogStatement", "PMD.AvoidCatchingGenericException"
+  })
   protected void doDelete(@NotNull SlingHttpServletRequest request, @NotNull SlingHttpServletResponse response) throws ServletException, IOException {
 
     // get parameters
