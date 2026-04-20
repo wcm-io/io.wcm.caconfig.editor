@@ -26,9 +26,9 @@
   angular.module("io.wcm.caconfig.widgets")
     .directive("caconfigPropertyDropdown", propertyDropdown);
 
-  propertyDropdown.$inject = ["$rootScope", "$timeout", "templateUrlList", "inputMap"];
+  propertyDropdown.$inject = ["$rootScope", "$timeout", "templateUrlList", "inputMap", "$compile"];
 
-  function propertyDropdown($rootScope, $timeout, templateList, inputMap) {
+  function propertyDropdown($rootScope, $timeout, templateList, inputMap, $compile) {
     var directive = {
       templateUrl: templateList.propertyDropdown,
       scope: {
@@ -49,12 +49,13 @@
         $dummyTagLists;
       var input = inputMap[scope.property.metadata.type];
       var inputType = input.type;
+      var props = scope.property.metadata.properties;
 
       scope.id = Coral.commons.getUID();
 
       scope.dropdownOptions = [];
-      if (scope.property.metadata.properties && scope.property.metadata.properties.dropdownOptions) {
-        scope.dropdownOptions = scope.property.metadata.properties.dropdownOptions;
+      if (props && props.dropdownOptions) {
+        scope.dropdownOptions = props.dropdownOptions;
       }
 
       // if single-selection add blank option as first option
@@ -140,6 +141,13 @@
               }
             });
           }
+
+          // bind model to select field (dynamically created by Coral UI)
+          var $input = $("select", selectWidget);
+          $input.attr("name", "dropDown");
+          $input.attr("ng-required", props.required);
+          $input.attr("ng-model", "property.value");
+          $compile($input[0])(scope);
 
           // Add change event listen
           selectWidget.on("change", function onChange() {
