@@ -99,7 +99,6 @@ class ConfigPersistServletTest {
     when(configManager.getConfigurationMetadata(CONFIG_COL_NAME)).thenReturn(configColMetadata);
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   void testPersist() throws Exception {
     String jsonData = "{properties:{"
@@ -188,7 +187,6 @@ class ConfigPersistServletTest {
     assertEquals(0, persistData.getValue().getItems().size());
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   void testPersistCollection_One() throws Exception {
     String jsonData = "{properties:{colProp:'value1'},items:[{collectionItemName:'item1',properties:{"
