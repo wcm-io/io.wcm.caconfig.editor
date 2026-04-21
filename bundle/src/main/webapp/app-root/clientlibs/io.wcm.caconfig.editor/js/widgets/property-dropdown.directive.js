@@ -149,14 +149,14 @@
           $input.attr("ng-model", "property.value");
           $compile($input[0])(scope);
 
-          // Add change event listen
+          // Add change event listener
           selectWidget.on("change", function onChange() {
             scope.property.value = getValue(selectWidget, inputType);
 
             if ($rootScope.configForm.$pristine) {
               $rootScope.configForm.$setDirty();
-              scope.$digest();
             }
+            scope.$digest();
           });
         });
       });
