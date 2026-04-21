@@ -39,7 +39,7 @@
 
     function link(scope, element) {
       var prefix = directivePropertyPrefixes.pathbrowser;
-      var props = scope.property.metadata.properties;
+      var props = scope.property.metadata.properties || {};
       var options = {};
       var pathfieldWidget;
       var suggestionOverlay;

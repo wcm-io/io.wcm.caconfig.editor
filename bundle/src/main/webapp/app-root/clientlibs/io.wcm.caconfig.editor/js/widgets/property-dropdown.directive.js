@@ -49,15 +49,13 @@
         $dummyTagLists;
       var input = inputMap[scope.property.metadata.type];
       var inputType = input.type;
-      var props = scope.property.metadata.properties;
+      var props = scope.property.metadata.properties || {};
       var isRequired = props && (props.required === true || props.required === "true");
 
       scope.id = Coral.commons.getUID();
 
-      scope.dropdownOptions = [];
-      if (props && props.dropdownOptions) {
-        scope.dropdownOptions = props.dropdownOptions;
-      }
+      // clone array to avoid modifying original array in case of adding blank option for non-required single selection
+      scope.dropdownOptions = (props.dropdownOptions || []).slice();
 
       // for optional single-selection add blank option as first option
       if (!scope.multivalue && !isRequired) {
