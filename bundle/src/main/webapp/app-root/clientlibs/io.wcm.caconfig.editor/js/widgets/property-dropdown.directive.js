@@ -50,6 +50,7 @@
       var input = inputMap[scope.property.metadata.type];
       var inputType = input.type;
       var props = scope.property.metadata.properties;
+      var isRequired = props && (props.required === true || props.required === "true");
 
       scope.id = Coral.commons.getUID();
 
@@ -58,8 +59,8 @@
         scope.dropdownOptions = props.dropdownOptions;
       }
 
-      // if single-selection add blank option as first option
-      if (!scope.multivalue) {
+      // for optional single-selection add blank option as first option
+      if (!scope.multivalue && !isRequired) {
         scope.dropdownOptions.unshift({
           value: "",
           description: ""
