@@ -144,7 +144,7 @@
           // bind model to select field (dynamically created by Coral UI)
           var $input = $("select", selectWidget);
           $input.attr("name", "dropDown");
-          $input.attr("ng-required", props.required);
+          $input.attr("ng-required", "property.metadata.properties.required && !property.overridden && !property.readOnly && !property.inherited");
           $input.attr("ng-model", "property.value");
           $compile($input[0])(scope);
 

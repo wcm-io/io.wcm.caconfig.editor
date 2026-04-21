@@ -78,7 +78,7 @@
           // bind model to input field (dynamically created by Coral UI)
           var $input = $("input", pathfieldWidget);
           $input.attr("name", "pathBrowser");
-          $input.attr("ng-required", props.required);
+          $input.attr("ng-required", "property.metadata.properties.required && !property.overridden && !property.readOnly && !property.inherited");
           $input.attr("ng-model", "property.value");
           if (props.validation) {
             $input.attr("caconfig-validation", props.validation);

@@ -14,7 +14,7 @@
       <coral-icon class="coral3-Icon coral3-Select-openIcon coral3-Icon--chevronDown coral3-Icon--sizeXS" icon="chevronDown" size="XS"></coral-icon>
       <span class="coral3-Select-label" bo-if="i18n('button.choose')" bo-text="i18n('button.choose')"></span>
     </button>
-    <coral-taglist class="coral3-Select-tagList caconfig-dummy-taglist"></coral-taglist>
+    <coral-taglist class="coral3-Select-tagList caconfig-dummy-taglist" disabled readonly></coral-taglist>
   </span>
 
   <span class="coral-Select coral3-Select caconfig-if-property-overridden-or-inherited-or-readonly">
@@ -22,6 +22,6 @@
       <coral-icon class="coral3-Icon coral3-Select-openIcon coral3-Icon--chevronDown coral3-Icon--sizeXS" icon="chevronDown" size="XS"></coral-icon>
       <span class="coral3-Select-label" ng-bind="getOptionText(property.effectiveValue)"></span>
     </button>
-    <coral-taglist class="coral3-Select-tagList caconfig-dummy-taglist caconfig-dummy-taglist--effective"></coral-taglist>
+    <coral-taglist class="coral3-Select-tagList caconfig-dummy-taglist caconfig-dummy-taglist--effective" disabled readonly></coral-taglist>
   </span>
 </div>
