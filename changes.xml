@@ -24,7 +24,7 @@
     xsi:schemaLocation="http://maven.apache.org/changes/2.0.0 https://maven.apache.org/xsd/changes-2.0.0.xsd">
   <body>
 
-    <release version="1.17.0" date="not released">
+    <release version="1.17.0" date="2026-04-28">
       <action type="add" dev="sseifert" issue="79">
         Add support for required feature for for dropdown widget type. Don't add a "blank" entry for single-valued dropdown lists marked as required.
       </action>
