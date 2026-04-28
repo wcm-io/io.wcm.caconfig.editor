@@ -26,9 +26,9 @@
   angular.module("io.wcm.caconfig.widgets")
     .directive("caconfigPropertyDropdown", propertyDropdown);
 
-  propertyDropdown.$inject = ["$rootScope", "$timeout", "templateUrlList", "inputMap"];
+  propertyDropdown.$inject = ["$rootScope", "$timeout", "templateUrlList", "inputMap", "$compile"];
 
-  function propertyDropdown($rootScope, $timeout, templateList, inputMap) {
+  function propertyDropdown($rootScope, $timeout, templateList, inputMap, $compile) {
     var directive = {
       templateUrl: templateList.propertyDropdown,
       scope: {
@@ -49,16 +49,16 @@
         $dummyTagLists;
       var input = inputMap[scope.property.metadata.type];
       var inputType = input.type;
+      var props = scope.property.metadata.properties || {};
+      var isRequired = props && (props.required === true || props.required === "true");
 
       scope.id = Coral.commons.getUID();
 
-      scope.dropdownOptions = [];
-      if (scope.property.metadata.properties && scope.property.metadata.properties.dropdownOptions) {
-        scope.dropdownOptions = scope.property.metadata.properties.dropdownOptions;
-      }
+      // clone array to avoid modifying original array in case of adding blank option for non-required single selection
+      scope.dropdownOptions = (props.dropdownOptions || []).slice();
 
-      // if single-selection add blank option as first option
-      if (!scope.multivalue) {
+      // for optional single-selection add blank option as first option
+      if (!scope.multivalue && !isRequired) {
         scope.dropdownOptions.unshift({
           value: "",
           description: ""
@@ -141,14 +141,21 @@
             });
           }
 
-          // Add change event listen
+          // bind model to select field (dynamically created by Coral UI)
+          var $input = $("select", selectWidget);
+          $input.attr("name", "dropDown");
+          $input.attr("ng-required", "property.metadata.properties.required && !property.overridden && !property.readOnly && !property.inherited");
+          $input.attr("ng-model", "property.value");
+          $compile($input[0])(scope);
+
+          // Add change event listener
           selectWidget.on("change", function onChange() {
             scope.property.value = getValue(selectWidget, inputType);
 
             if ($rootScope.configForm.$pristine) {
               $rootScope.configForm.$setDirty();
-              scope.$digest();
             }
+            scope.$digest();
           });
         });
       });

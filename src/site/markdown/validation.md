@@ -36,6 +36,34 @@ Validation support is implemented for the following widget types:
 * `pathbrowser`
 
 
+### Required fields
+
+You can mark fields as mandatory with the `required` property.
+
+Example:
+
+```java
+@Property(label = "Title", property = {
+  "required=true"
+})
+String title();
+```
+
+When `required=true` is configured, the editor prevents saving until a value is entered.
+
+Required field support is implemented for the following widget types:
+
+* `textfield`
+* `textarea`
+* `checkbox`
+* `pathbrowser`
+* `dropdown`
+
+Required field support is currently **not** implemented for:
+
+* `tagbrowser`
+
+
 ### Validating with Granite UI foundation validators
 
 AEM provides very few built-in validators to be used in edit dialogs, but they can be added via 3rd-party libraries like [wcm.io WCM Granite UI Extensions][wcmio-graniteui-extensions] or implemented within the AEM project ([example][graniteui-foundation-validator-example]).

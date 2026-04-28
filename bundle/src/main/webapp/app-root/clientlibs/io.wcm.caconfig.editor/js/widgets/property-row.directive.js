@@ -59,8 +59,7 @@
       var metadata = scope.property.metadata || {};
       var props = metadata.properties || {};
       return (props.required == 'true'
-          && props.widgetType != 'tagbrowser'
-          && props.widgetType != 'dropdown');
+          && props.widgetType != 'tagbrowser');
     }
   }
 }(angular));
