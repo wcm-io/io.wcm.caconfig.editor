@@ -18,20 +18,19 @@
   limitations under the License.
   #L%
   -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>io.wcm</groupId>
     <artifactId>io.wcm.caconfig.editor.parent</artifactId>
-    <version>1.16.10</version>
+    <version>1.17.0</version>
     <relativePath>parent/pom.xml</relativePath>
   </parent>
 
   <groupId>io.wcm</groupId>
   <artifactId>io.wcm.caconfig.editor.root</artifactId>
-  <version>1.16.10</version>
+  <version>1.17.0</version>
   <packaging>pom</packaging>
 
   <name>Context-Aware Configuration Editor Root</name>
@@ -41,8 +40,8 @@
   <scm>
     <connection>scm:git:https://github.com/wcm-io/io.wcm.caconfig.editor.git</connection>
     <developerConnection>scm:git:https://github.com/wcm-io/io.wcm.caconfig.editor.git</developerConnection>
-    <url>https://github.com/wcm-io/io.wcm.caconfig.editor</url>
     <tag>HEAD</tag>
+    <url>https://github.com/wcm-io/io.wcm.caconfig.editor</url>
   </scm>
 
   <properties>

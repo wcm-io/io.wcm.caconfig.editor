@@ -18,20 +18,19 @@
   limitations under the License.
   #L%
   -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>io.wcm</groupId>
     <artifactId>io.wcm.caconfig.editor.parent</artifactId>
-    <version>1.16.10</version>
+    <version>1.17.0</version>
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
   <groupId>io.wcm</groupId>
   <artifactId>io.wcm.caconfig.editor</artifactId>
-  <version>1.16.10</version>
+  <version>1.17.0</version>
   <packaging>jar</packaging>
 
   <name>Context-Aware Configuration Editor</name>
@@ -42,7 +41,7 @@
     <site.url.module.prefix>caconfig/editor/bundle</site.url.module.prefix>
 
     <!-- Enable reproducible builds -->
-    <project.build.outputTimestamp>2026-02-24T09:57:02Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2026-04-28T13:39:33Z</project.build.outputTimestamp>
   </properties>
 
   <dependencies>
@@ -114,7 +113,7 @@
     <dependency>
       <groupId>io.wcm</groupId>
       <artifactId>io.wcm.testing.aem-mock.junit5</artifactId>
-      <version>5.7.0</version>
+      <version>5.7.4</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -180,16 +179,13 @@
           <bnd>
             Sling-Initial-Content: \
               SLING-INF/app-root;overwrite:=true;ignoreImportProviders:=xml;path:=/apps/wcm-io/caconfig/editor
-
             <!-- register non-standard JCR namespaces for conversion with cp2fm into enhanced DocView files -->
             Sling-Namespaces: \
               cq=http://www.day.com/jcr/cq/1.0,\
               sling=http://sling.apache.org/jcr/sling/1.0
-
             <!-- Make compatible with different AEM versions -->
             Import-Package: \
               javax.annotation;version="[0.0,2)",\
-              <!-- optional dependency -->\
               io.wcm.sling.commons.caservice;resolution:=optional,\
               *
           </bnd>
@@ -262,7 +258,7 @@
               <rules>
                 <requireFilesExist>
                   <files>
-                   <file>${project.build.outputDirectory}/SLING-INF/app-root/clientlibs/io.wcm.caconfig.editor/js/templates.module.js</file>
+                    <file>${project.build.outputDirectory}/SLING-INF/app-root/clientlibs/io.wcm.caconfig.editor/js/templates.module.js</file>
                   </files>
                 </requireFilesExist>
               </rules>

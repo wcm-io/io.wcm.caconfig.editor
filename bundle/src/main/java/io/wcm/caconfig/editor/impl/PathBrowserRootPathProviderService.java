@@ -48,12 +48,14 @@ public class PathBrowserRootPathProviderService {
    * @param contextResource Context resource
    * @return Root path or null
    */
-  @SuppressWarnings({ "null", "java:S112" })
+  @SuppressWarnings({
+      "null", "java:S112"
+  })
   public @Nullable String getRootPath(@NotNull String selector, @NotNull Resource contextResource) {
     final String filter = "(" + PathBrowserRootPathProvider.PROPERTY_SELECTOR + "=" + selector + ")";
     try {
       ServiceReference<PathBrowserRootPathProvider> ref = bundleContext.getServiceReferences(PathBrowserRootPathProvider.class, filter)
-              .stream().findFirst().orElse(null);
+        .stream().findFirst().orElse(null);
       if (ref != null) {
         PathBrowserRootPathProvider provider = bundleContext.getService(ref);
         try {

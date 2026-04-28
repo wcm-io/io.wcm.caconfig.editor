@@ -70,8 +70,8 @@ public class ConfigurationEditorFilterService {
    */
   public boolean allowAdd(@NotNull Resource contextResource, @NotNull String configName) {
     return serviceCollectionResolver.resolveAll(contextResource)
-        .filter(filter -> !filter.allowAdd(configName))
-        .count() == 0;
+      .filter(filter -> !filter.allowAdd(configName))
+      .count() == 0;
   }
 
 }

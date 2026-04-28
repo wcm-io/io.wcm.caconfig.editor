@@ -49,7 +49,7 @@
       }
 
       var prefix = directivePropertyPrefixes.tagbrowser;
-      var props = scope.property.metadata.properties;
+      var props = scope.property.metadata.properties || {};
 
       var tagfieldName = "tags-" + Coral.commons.getUID();
 

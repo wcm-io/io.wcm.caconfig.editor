@@ -39,7 +39,7 @@ public class UnifiedShellDetector {
   @Activate
   private void activate(BundleContext bundleContext) {
     this.available = Stream.of(bundleContext.getBundles())
-        .anyMatch(bundle -> StringUtils.equals(bundle.getSymbolicName(), BUNDLE_UNIFIED_SHELL_INTEGRATION));
+      .anyMatch(bundle -> StringUtils.equals(bundle.getSymbolicName(), BUNDLE_UNIFIED_SHELL_INTEGRATION));
   }
 
   /**

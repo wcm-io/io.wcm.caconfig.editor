@@ -48,12 +48,14 @@ public class TagBrowserRootPathProviderService {
    * @param contextResource Context resource
    * @return Root path or null
    */
-  @SuppressWarnings({ "null", "java:S112" })
+  @SuppressWarnings({
+      "null", "java:S112"
+  })
   public @Nullable String getRootPath(@NotNull String selector, @NotNull Resource contextResource) {
     final String filter = "(" + TagBrowserRootPathProvider.PROPERTY_SELECTOR + "=" + selector + ")";
     try {
       ServiceReference<TagBrowserRootPathProvider> ref = bundleContext.getServiceReferences(TagBrowserRootPathProvider.class, filter)
-              .stream().findFirst().orElse(null);
+        .stream().findFirst().orElse(null);
       if (ref != null) {
         TagBrowserRootPathProvider provider = bundleContext.getService(ref);
         try {

@@ -6,7 +6,7 @@
 (function(window, $) {
   var registry = $(window).adaptTo("foundation-registry");
   registry.register("foundation.validation.validator", {
-    selector: ".caconfig-detail input, .caconfig-detail textarea, .caconfig-detail foundation-autocomplete",
+    selector: ".caconfig-detail input, .caconfig-detail textarea, .caconfig-detail foundation-autocomplete, .caconfig-detail coral-select",
     show: function() {
       // ignore
     },

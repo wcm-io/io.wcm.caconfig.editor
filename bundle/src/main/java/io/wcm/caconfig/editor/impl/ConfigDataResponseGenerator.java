@@ -258,7 +258,9 @@ class ConfigDataResponseGenerator {
    * @param contextResource Context resource
    * @return JSON object or null
    */
-  @SuppressWarnings({ "PMD.ReturnEmptyCollectionRatherThanNull", "java:S3776" })
+  @SuppressWarnings({
+      "PMD.ReturnEmptyCollectionRatherThanNull", "java:S3776"
+  })
   private @Nullable Map<String, Object> toJsonWithValueConversion(@Nullable Map<String, String> properties,
       @NotNull Resource contextResource) {
     if (properties == null || properties.isEmpty()) {
@@ -274,9 +276,9 @@ class ConfigDataResponseGenerator {
     boolean isDropdown = WIDGET_TYPE_DROPDOWN.equals(metadataProps.get(PROPERTY_WIDGET_TYPE));
     if (isDropdown) {
       Optional<String> dynamicProvider = Optional.ofNullable(metadataProps.get(PROPERTY_DROPDOWN_OPTIONS_PROVIDER))
-          .filter(Objects::nonNull)
-          .map(String::valueOf)
-          .filter(StringUtils::isNotBlank);
+        .filter(Objects::nonNull)
+        .map(String::valueOf)
+        .filter(StringUtils::isNotBlank);
       if (dynamicProvider.isPresent()) {
         List<Map<String, Object>> items = dropdownOptionProviderService.getDropdownOptions(dynamicProvider.get(), contextResource);
         if (!items.isEmpty()) {
@@ -290,9 +292,9 @@ class ConfigDataResponseGenerator {
     boolean isPathBrowser = WIDGET_TYPE_PATHBROWSER.equals(metadataProps.get(PROPERTY_WIDGET_TYPE));
     if (isPathBrowser) {
       Optional<String> dynamicProvider = Optional.ofNullable(metadataProps.get(PROPERTY_PATHBROWSER_ROOT_PATH_PROVIDER))
-          .filter(Objects::nonNull)
-          .map(String::valueOf)
-          .filter(StringUtils::isNotBlank);
+        .filter(Objects::nonNull)
+        .map(String::valueOf)
+        .filter(StringUtils::isNotBlank);
       if (dynamicProvider.isPresent()) {
         String rootPath = pathBrowserRootPathProviderService.getRootPath(dynamicProvider.get(), contextResource);
         if (rootPath != null) {
@@ -305,9 +307,9 @@ class ConfigDataResponseGenerator {
     boolean isTagBrowser = WIDGET_TYPE_TAGBROWSER.equals(metadataProps.get(PROPERTY_WIDGET_TYPE));
     if (isTagBrowser) {
       Optional<String> dynamicProvider = Optional.ofNullable(metadataProps.get(PROPERTY_TAGBROWSER_ROOT_PATH_PROVIDER))
-          .filter(Objects::nonNull)
-          .map(String::valueOf)
-          .filter(StringUtils::isNotBlank);
+        .filter(Objects::nonNull)
+        .map(String::valueOf)
+        .filter(StringUtils::isNotBlank);
       if (dynamicProvider.isPresent()) {
         String rootPath = tagBrowserRootPathProviderService.getRootPath(dynamicProvider.get(), contextResource);
         if (rootPath != null) {
@@ -352,7 +354,9 @@ class ConfigDataResponseGenerator {
           return true;
         }
         else if (resourcePath != null) {
-          return !accessControlManager.hasPrivileges(resourcePath, new Privilege[] { jcrWritePrivilege });
+          return !accessControlManager.hasPrivileges(resourcePath, new Privilege[] {
+              jcrWritePrivilege
+          });
         }
       }
       catch (RepositoryException ex) {

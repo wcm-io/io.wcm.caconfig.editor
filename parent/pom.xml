@@ -18,38 +18,37 @@
   limitations under the License.
   #L%
   -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>io.wcm</groupId>
     <artifactId>io.wcm.parent_toplevel</artifactId>
-    <version>2.7.0</version>
+    <version>2.8.0</version>
     <relativePath />
   </parent>
 
   <groupId>io.wcm</groupId>
   <artifactId>io.wcm.caconfig.editor.parent</artifactId>
-  <version>1.16.10</version>
+  <version>1.17.0</version>
   <packaging>pom</packaging>
 
   <name>Context-Aware Configuration Editor Parent</name>
   <description>Context-Aware Configuration Editor Template for AEM.</description>
-
-  <ciManagement>
-    <system>GitHub Actions</system>
-    <url>https://github.com/wcm-io/io.wcm.caconfig.editor/actions</url>
-  </ciManagement>
 
   <issueManagement>
     <system>GitHub</system>
     <url>https://github.com/wcm-io/io.wcm.caconfig.editor/issues/</url>
   </issueManagement>
 
+  <ciManagement>
+    <system>GitHub Actions</system>
+    <url>https://github.com/wcm-io/io.wcm.caconfig.editor/actions</url>
+  </ciManagement>
+
   <properties>
     <!-- Enable reproducible builds -->
-    <project.build.outputTimestamp>2026-02-24T09:57:02Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2026-04-28T13:39:33Z</project.build.outputTimestamp>
   </properties>
 
   <build>

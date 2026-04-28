@@ -83,7 +83,7 @@ class ConfigPersistServletTest {
         new PropertyMetadata<>("doubleProp", Double.class),
         new PropertyMetadata<>("boolProp", Boolean.class),
         new PropertyMetadata<>("nestedConfig", ConfigurationMetadata.class)
-            .configurationMetadata(new ConfigurationMetadata("nestedConfig", List.<PropertyMetadata<?>>of(), false))),
+          .configurationMetadata(new ConfigurationMetadata("nestedConfig", List.<PropertyMetadata<?>>of(), false))),
         false);
     when(configManager.getConfigurationMetadata(CONFIG_NAME)).thenReturn(configMetadata);
 
@@ -94,12 +94,11 @@ class ConfigPersistServletTest {
         new PropertyMetadata<>("doubleProp", Double[].class),
         new PropertyMetadata<>("boolProp", Boolean[].class),
         new PropertyMetadata<>("nestedConfig", ConfigurationMetadata[].class)
-            .configurationMetadata(new ConfigurationMetadata("nestedConfig", List.<PropertyMetadata<?>>of(), false))),
+          .configurationMetadata(new ConfigurationMetadata("nestedConfig", List.<PropertyMetadata<?>>of(), false))),
         true);
     when(configManager.getConfigurationMetadata(CONFIG_COL_NAME)).thenReturn(configColMetadata);
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   void testPersist() throws Exception {
     String jsonData = "{properties:{"
@@ -188,7 +187,6 @@ class ConfigPersistServletTest {
     assertEquals(0, persistData.getValue().getItems().size());
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   void testPersistCollection_One() throws Exception {
     String jsonData = "{properties:{colProp:'value1'},items:[{collectionItemName:'item1',properties:{"
