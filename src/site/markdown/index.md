@@ -36,7 +36,8 @@ There is also a [sample application][sample-app] you can deploy directly in a lo
 
 |Context-Aware Configuration Editor version |AEM version supported
 |-------------------------------------------|----------------------
-|1.15.10 or higher                          |AEM 6.5.17+, AEMaaCS
+|1.17.2 or higher                           |AEM 6.5.24+, 6.6.2+, AEMaaCS
+|1.15.10 - 1.17.0                           |AEM 6.5.17+, 6.6.0+, AEMaaCS
 |1.12.0 - 1.15.8                            |AEM 6.5.7+, AEMaaCS
 |1.9.x - 1.11.0                             |AEM 6.5+, AEMaaCS
 |1.8.x                                      |AEM 6.4+, AEMaaCS
