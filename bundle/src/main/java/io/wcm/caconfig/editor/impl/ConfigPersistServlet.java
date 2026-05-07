@@ -90,7 +90,8 @@ public class ConfigPersistServlet extends SlingAllMethodsServlet {
 
   @Override
   @SuppressWarnings({
-      "null", "PMD.GuardLogStatement", "PMD.AvoidCatchingGenericException"
+      "null", "PMD.GuardLogStatement", "PMD.AvoidCatchingGenericException",
+      "java:S3776" // cognitive complexity is acceptable here
   })
   protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
     if (!editorConfig.isEnabled()) {
@@ -175,6 +176,9 @@ public class ConfigPersistServlet extends SlingAllMethodsServlet {
       .properties(properties);
   }
 
+  @SuppressWarnings({
+      "java:S3776", "java:S6541" // cognitive complexity is acceptable here
+  })
   private ConfigurationPersistData parseConfigData(JsonNode item, ConfigurationMetadata configMetadata) {
     Map<String, Object> props = new HashMap<>();
     JsonNode properties = item.get("properties");
@@ -291,6 +295,7 @@ public class ConfigPersistServlet extends SlingAllMethodsServlet {
     return null;
   }
 
+  @SuppressWarnings("java:S3776") // cognitive complexity is acceptable here
   private @NotNull Object toArray(@NotNull ArrayNode array, @NotNull Class<?> propertyType) {
     if (propertyType.equals(String.class)) {
       String[] values = new String[array.size()];
