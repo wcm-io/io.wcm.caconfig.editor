@@ -32,6 +32,7 @@ import java.util.TreeSet;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.sling.caconfig.management.ConfigurationCollectionData;
 import org.apache.sling.caconfig.management.ConfigurationData;
 import org.apache.sling.caconfig.management.ConfigurationManager;
@@ -164,7 +165,7 @@ class ConfigNamesServletTest {
 
       @Override
       public boolean allowAdd(@NotNull String configName) {
-        return !StringUtils.equals(configName, "name3");
+        return !Strings.CS.equals(configName, "name3");
       }
     });
     context.registerInjectActivateService(ContextAwareServiceResolverImpl.class);

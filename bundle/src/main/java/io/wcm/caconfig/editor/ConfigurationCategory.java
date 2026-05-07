@@ -19,7 +19,8 @@
  */
 package io.wcm.caconfig.editor;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.Objects;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.osgi.annotation.versioning.ProviderType;
@@ -54,7 +55,7 @@ public final class ConfigurationCategory implements Comparable<ConfigurationCate
    * @return Category label. Falls back to category name if not defined.
    */
   public @NotNull String getLabel() {
-    return StringUtils.defaultString(this.label, this.category);
+    return Objects.toString(this.label, this.category);
   }
 
   /**
