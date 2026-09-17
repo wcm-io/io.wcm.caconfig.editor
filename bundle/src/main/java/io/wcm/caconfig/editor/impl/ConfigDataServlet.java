@@ -41,6 +41,7 @@ import org.apache.sling.servlets.annotations.SlingServletResourceTypes;
 import org.jetbrains.annotations.NotNull;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,6 +75,8 @@ public class ConfigDataServlet extends SlingSafeMethodsServlet {
   private PathBrowserRootPathProviderService pathBrowserRootPathProviderService;
   @Reference
   private TagBrowserRootPathProviderService tagBrowserRootPathProviderService;
+  @Reference(cardinality = ReferenceCardinality.OPTIONAL)
+  private EncryptionService encryptionService;
 
   private static Logger log = LoggerFactory.getLogger(ConfigDataServlet.class);
 
@@ -99,7 +102,8 @@ public class ConfigDataServlet extends SlingSafeMethodsServlet {
     try {
       ConfigDataResponseGenerator generator = new ConfigDataResponseGenerator(
           request, configManager, configurationPersistenceStrategy,
-          dropdownOptionProviderService, pathBrowserRootPathProviderService, tagBrowserRootPathProviderService);
+          dropdownOptionProviderService, pathBrowserRootPathProviderService, tagBrowserRootPathProviderService,
+          encryptionService);
       Object result = generator.getConfiguration(request.getResource(), configName, collection);
       if (result == null) {
         response.sendError(HttpServletResponse.SC_NOT_FOUND);

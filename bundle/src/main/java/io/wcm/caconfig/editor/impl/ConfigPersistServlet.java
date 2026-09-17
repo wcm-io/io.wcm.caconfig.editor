@@ -22,6 +22,7 @@ package io.wcm.caconfig.editor.impl;
 import static io.wcm.caconfig.editor.impl.JsonMapper.OBJECT_MAPPER;
 import static io.wcm.caconfig.editor.impl.NameConstants.RP_COLLECTION;
 import static io.wcm.caconfig.editor.impl.NameConstants.RP_CONFIGNAME;
+import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_ENCRYPT;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -55,6 +56,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,6 +87,8 @@ public class ConfigPersistServlet extends SlingAllMethodsServlet {
   private ConfigurationManager configManager;
   @Reference
   private EditorConfig editorConfig;
+  @Reference(cardinality = ReferenceCardinality.OPTIONAL)
+  private EncryptionService encryptionService;
 
   private static Logger log = LoggerFactory.getLogger(ConfigPersistServlet.class);
 
@@ -187,6 +191,7 @@ public class ConfigPersistServlet extends SlingAllMethodsServlet {
       String propertyName = propertyNames.next();
       Class<?> propertyType = null;
       boolean isArray = false;
+      boolean isEncrypted = false;
       if (configMetadata != null) {
         PropertyMetadata<?> propertyMetadata = configMetadata.getPropertyMetadata().get(propertyName);
         if (propertyMetadata != null) {
@@ -196,6 +201,11 @@ public class ConfigPersistServlet extends SlingAllMethodsServlet {
           }
           else {
             propertyType = propertyMetadata.getType();
+          }
+          // Check if property should be encrypted
+          Map<String, String> propertyProps = propertyMetadata.getProperties();
+          if (propertyProps != null && "true".equals(propertyProps.get(PROPERTY_ENCRYPT))) {
+            isEncrypted = true;
           }
         }
       }
@@ -239,7 +249,12 @@ public class ConfigPersistServlet extends SlingAllMethodsServlet {
       }
       else {
         JsonNode value = properties.get(propertyName);
-        props.put(propertyName, toSingle(value, propertyType));
+        Object convertedValue = toSingle(value, propertyType);
+        // Encrypt string values if needed
+        if (isEncrypted && convertedValue instanceof String) {
+          convertedValue = encryptionService.encrypt((String)convertedValue);
+        }
+        props.put(propertyName, convertedValue);
       }
     }
 

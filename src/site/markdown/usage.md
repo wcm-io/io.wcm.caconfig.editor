@@ -157,6 +157,27 @@ String stringTextArea();
 ```
 
 
+#### Encrypted String Fields
+
+Define an encrypted string parameter that is stored securely and displayed as a password field in the editor:
+
+```java
+@Property(label = "API Key", description = "Secure API key stored encrypted.", property = {
+    "encrypt=true"
+})
+String apiKey();
+```
+
+Encrypted fields will:
+- Display as a password input field (masked) in the Configuration Editor
+- Be encrypted server-side before persisting to the repository
+
+**Requirements:** At least one of the following crypto providers must be available in your system:
+- Adobe Granite CryptoSupport (included in AEM 6.5+, available as optional service)
+- Apache Sling Commons Crypto (optional, can be deployed separately)
+
+If no crypto provider is available, the editor will throw an exception to prevent accidentally storing sensitive data unencrypted.
+
 
 ### Validation
 

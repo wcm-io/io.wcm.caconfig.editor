@@ -130,4 +130,11 @@ public final class EditorProperties {
    */
   public static final String PROPERTY_TEXTAREA_ROWS = "textareaRows";
 
+  /**
+   * Property name for marking a string property as encrypted.
+   * When set to "true", the value is stored in encrypted form and displayed as a password field.
+   * The value is encrypted server-side using CryptoSupport when persisted.
+   */
+  public static final String PROPERTY_ENCRYPT = "encrypt";
+
 }
