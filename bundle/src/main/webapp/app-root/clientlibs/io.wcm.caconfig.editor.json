@@ -9,5 +9,5 @@
     "io.wcm.caconfig.editor.angularjs",
     "io.wcm.caconfig.editor.validation"
   ],
-  "jsProcessor": ["min:gcc;languageIn=ECMASCRIPT_2015"]
+  "jsProcessor": ["min:gcc;languageIn=ECMASCRIPT_2020"]
 }
