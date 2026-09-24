@@ -28,6 +28,9 @@
       <action type="update" dev="sseifert">
         Switch to AEM 6.5.24 as minimum version (also compatible with AEM 6.6.2 / AEM 6.5 LTS SP2 and AEMaaCS).
       </action>
+      <action type="fix" dev="sseifert" issue="82">
+        Switch script languageIn to ECMASCRIPT_2020.
+      </action>
     </release>
 
     <release version="1.17.0" date="2026-04-28">
