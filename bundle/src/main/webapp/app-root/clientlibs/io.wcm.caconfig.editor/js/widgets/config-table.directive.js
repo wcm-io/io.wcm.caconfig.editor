@@ -177,46 +177,49 @@
      * @param  {Object} obj
      * @return {String}
      */
-    function getPropertyInputHtml(obj) {
-      if (obj.type === "text" || obj.type === "number") {
-        return "<td caconfig-property-input-text property=\"config.properties[" + obj.propIndex + "]\"></td>";
-      }
-      if (obj.type === "textarea") {
-        return "<td caconfig-property-input-textarea property=\"config.properties[" + obj.propIndex + "]\"></td>";
-      }
-      if (obj.type === "checkbox") {
-        return "<td caconfig-property-input-checkbox property=\"config.properties[" + obj.propIndex + "]\"></td>";
-      }
+     function getPropertyInputHtml(obj) {
+       if (obj.type === "text" || obj.type === "number") {
+         return "<td caconfig-property-input-text property=\"config.properties[" + obj.propIndex + "]\"></td>";
+       }
+       if (obj.type === "password") {
+         return "<td caconfig-property-input-password property=\"config.properties[" + obj.propIndex + "]\"></td>";
+       }
+       if (obj.type === "textarea") {
+         return "<td caconfig-property-input-textarea property=\"config.properties[" + obj.propIndex + "]\"></td>";
+       }
+       if (obj.type === "checkbox") {
+         return "<td caconfig-property-input-checkbox property=\"config.properties[" + obj.propIndex + "]\"></td>";
+       }
 
-      if (obj.type === "multivalue") {
-        return "<td caconfig-multifield property=\"config.properties[" + obj.propIndex + "]\"></td>";
-      }
+       if (obj.type === "multivalue") {
+         return "<td caconfig-multifield property=\"config.properties[" + obj.propIndex + "]\"></td>";
+       }
 
-      if (obj.type === "pathbrowser") {
-        return "<td caconfig-pathbrowser property=\"config.properties[" + obj.propIndex + "]\"></td>";
-      }
+       if (obj.type === "pathbrowser") {
+         return "<td caconfig-pathbrowser property=\"config.properties[" + obj.propIndex + "]\"></td>";
+       }
 
-      if (obj.type === "tagbrowser") {
-        return "<td caconfig-tagbrowser property=\"config.properties[" + obj.propIndex + "]\"></td>";
-      }
+       if (obj.type === "tagbrowser") {
+         return "<td caconfig-tagbrowser property=\"config.properties[" + obj.propIndex + "]\"></td>";
+       }
 
-      if (obj.type === "dropdown") {
-        return "<td caconfig-property-dropdown property=\"config.properties[" + obj.propIndex + "]\""
-          + "multivalue=\"" + Boolean(obj.property.metadata.multivalue) + "\"></td>";
-      }
+       if (obj.type === "dropdown") {
+         return "<td caconfig-property-dropdown property=\"config.properties[" + obj.propIndex + "]\""
+           + "multivalue=\"" + Boolean(obj.property.metadata.multivalue) + "\"></td>";
+       }
 
-      if (obj.type === "nestedConfig") {
-        return "<td caconfig-property-edit-link config-name=\"" + obj.property.nestedConfig.configName + "\" "
-          + "link-text=\"" + obj.editLinkText + "\"></td>";
-      }
+       if (obj.type === "nestedConfig") {
+         return "<td caconfig-property-edit-link config-name=\"" + obj.property.nestedConfig.configName + "\" "
+           + "link-text=\"" + obj.editLinkText + "\"></td>";
+       }
 
-      if (obj.type === "nestedConfigCollection") {
-        return "<td caconfig-property-edit-link config-name=\"" + obj.property.nestedConfigCollection.configName + "\" "
-          + "link-text=\"" + obj.editLinkText + "\"></td>";
-      }
+       if (obj.type === "nestedConfigCollection") {
+         return "<td caconfig-property-edit-link config-name=\"" + obj.property.nestedConfigCollection.configName + "\" "
+           + "link-text=\"" + obj.editLinkText + "\"></td>";
+       }
 
-      return "<td>" + obj.property.value + "</td>";
-    }
+       return "<td>" + obj.property.value + "</td>";
+     }
 
     /**
      * @param  {Number} index - index of item in configs array

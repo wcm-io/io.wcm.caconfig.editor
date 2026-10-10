@@ -88,39 +88,43 @@
       });
     }
 
-    function determinePropertyType(property) {
-      var input;
-      if (property.nestedConfig) {
-        return "nestedConfig";
-      }
-      if (property.nestedConfigCollection) {
-        return "nestedConfigCollection";
-      }
-      if (property.metadata && property.metadata.properties
-        && property.metadata.properties.widgetType === "dropdown") {
-        return "dropdown";
-      }
-      if (property.metadata && property.metadata.properties
-          && property.metadata.properties.widgetType === "tagbrowser") {
-        return "tagbrowser";
-      }
-      if (property.metadata && property.metadata.multivalue) {
-        return "multivalue";
-      }
-      if (property.metadata && property.metadata.properties
-            && property.metadata.properties.widgetType === "pathbrowser") {
-        return "pathbrowser";
-      }
-      if (property.metadata && property.metadata.properties
-          && property.metadata.properties.widgetType === "textarea") {
-        return "textarea";
-      }
-      if (property.metadata && property.metadata.type) {
-        input = inputMap[property.metadata.type];
-        return input.type || property.metadata.type;
-      }
-      return "";
-    }
+     function determinePropertyType(property) {
+       var input;
+       if (property.nestedConfig) {
+         return "nestedConfig";
+       }
+       if (property.nestedConfigCollection) {
+         return "nestedConfigCollection";
+       }
+       if (property.metadata && property.metadata.properties
+         && property.metadata.properties.widgetType === "dropdown") {
+         return "dropdown";
+       }
+       if (property.metadata && property.metadata.properties
+           && property.metadata.properties.widgetType === "tagbrowser") {
+         return "tagbrowser";
+       }
+       if (property.metadata && property.metadata.properties
+           && property.metadata.properties.encrypt === "true") {
+         return "password";
+       }
+       if (property.metadata && property.metadata.multivalue) {
+         return "multivalue";
+       }
+       if (property.metadata && property.metadata.properties
+             && property.metadata.properties.widgetType === "pathbrowser") {
+         return "pathbrowser";
+       }
+       if (property.metadata && property.metadata.properties
+           && property.metadata.properties.widgetType === "textarea") {
+         return "textarea";
+       }
+       if (property.metadata && property.metadata.type) {
+         input = inputMap[property.metadata.type];
+         return input.type || property.metadata.type;
+       }
+       return "";
+     }
 
     that.plantConfigCache = function (data) {
       configCache = configCache || getStoredConfigCache() || {};
