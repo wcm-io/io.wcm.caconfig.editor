@@ -34,6 +34,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
@@ -113,7 +114,7 @@ public class ConfigNamesServlet extends SlingSafeMethodsServlet {
     SortedSet<ConfigNameItem> sortedResult = new TreeSet<>((ConfigNameItem o1, ConfigNameItem o2) -> {
       String label1 = o1.getLabel();
       String label2 = o2.getLabel();
-      if (StringUtils.equals(label1, label2)) {
+      if (Strings.CS.equals(label1, label2)) {
         String configName1 = o1.getConfigName();
         String configName2 = o2.getConfigName();
         return configName1.compareTo(configName2);

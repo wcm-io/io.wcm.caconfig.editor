@@ -27,6 +27,7 @@ import javax.jcr.security.Privilege;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.caconfig.resource.ConfigurationResourceResolver;
@@ -86,7 +87,7 @@ public class EditorConfiguration {
   @PostConstruct
   private void activate() {
     this.servletContextPathPrefix = StringUtils.defaultString(request.getContextPath());
-    if (StringUtils.equals(this.servletContextPathPrefix, "/")) {
+    if (Strings.CS.equals(this.servletContextPathPrefix, "/")) {
       this.servletContextPathPrefix = "";
     }
     this.configNamesUrl = buildServletPath(ConfigNamesServlet.SELECTOR);

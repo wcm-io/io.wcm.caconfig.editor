@@ -21,7 +21,7 @@ package io.wcm.caconfig.editor.impl;
 
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -39,7 +39,7 @@ public class UnifiedShellDetector {
   @Activate
   private void activate(BundleContext bundleContext) {
     this.available = Stream.of(bundleContext.getBundles())
-      .anyMatch(bundle -> StringUtils.equals(bundle.getSymbolicName(), BUNDLE_UNIFIED_SHELL_INTEGRATION));
+      .anyMatch(bundle -> Strings.CS.equals(bundle.getSymbolicName(), BUNDLE_UNIFIED_SHELL_INTEGRATION));
   }
 
   /**
