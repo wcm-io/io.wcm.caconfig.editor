@@ -39,6 +39,7 @@ widgets/pathbrowser.directive.js
 widgets/property-dropdown.directive.js
 widgets/property-edit-link.directive.js
 widgets/property-input-checkbox.directive.js
+widgets/property-input-password.directive.js
 widgets/property-input-text.directive.js
 widgets/property-input-textarea.directive.js
 widgets/property-row.directive.js

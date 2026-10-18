@@ -28,22 +28,23 @@
   /**
    * Provides the list of available templates, used in directives
    */
-  angular.module("io.wcm.caconfig.widgets")
-    .constant("templateUrlList", {
-      configTable: "configTable.html",
-      descriptionPopup: "descriptionPopup.html",
-      helpInlinePopup: "helpInlinePopup.html",
-      multifield: "multifield.html",
-      pathbrowser: "pathbrowser.html",
-      propertyDropdown: "propertyDropdown.html",
-      propertyEditLink: "propertyEditLink.html",
-      propertyInputCheckbox: "propertyInputCheckbox.html",
-      propertyInputText: "propertyInputText.html",
-      propertyInputTextarea: "propertyInputTextarea.html",
-      propertyRow: "propertyRow.html",
-      propertyRowPreview: "propertyRowPreview.html",
-      tagbrowser: "tagbrowser.html"
-    })
+   angular.module("io.wcm.caconfig.widgets")
+     .constant("templateUrlList", {
+       configTable: "configTable.html",
+       descriptionPopup: "descriptionPopup.html",
+       helpInlinePopup: "helpInlinePopup.html",
+       multifield: "multifield.html",
+       pathbrowser: "pathbrowser.html",
+       propertyDropdown: "propertyDropdown.html",
+       propertyEditLink: "propertyEditLink.html",
+       propertyInputCheckbox: "propertyInputCheckbox.html",
+       propertyInputPassword: "propertyInputPassword.html",
+       propertyInputText: "propertyInputText.html",
+       propertyInputTextarea: "propertyInputTextarea.html",
+       propertyRow: "propertyRow.html",
+       propertyRowPreview: "propertyRowPreview.html",
+       tagbrowser: "tagbrowser.html"
+     })
     .constant("cssClasses", {
       CONFIG_PREVIEW: "caconfig-is-preview",
       CONFIG_NOT_PREVIEW: "caconfig-not-preview",

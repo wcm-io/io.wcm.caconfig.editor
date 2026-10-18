@@ -21,6 +21,7 @@ package io.wcm.caconfig.editor.impl;
 
 import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_DROPDOWN_OPTIONS;
 import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_DROPDOWN_OPTIONS_PROVIDER;
+import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_ENCRYPT;
 import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_PATHBROWSER_ROOT_PATH;
 import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_PATHBROWSER_ROOT_PATH_PROVIDER;
 import static io.wcm.caconfig.editor.EditorProperties.PROPERTY_TAGBROWSER_ROOT_PATH;
@@ -79,6 +80,7 @@ class ConfigDataResponseGenerator {
   private final DropdownOptionProviderService dropdownOptionProviderService;
   private final PathBrowserRootPathProviderService pathBrowserRootPathProviderService;
   private final TagBrowserRootPathProviderService tagBrowserRootPathProviderService;
+  private final EncryptionService encryptionService;
 
   private AccessControlManager accessControlManager;
   private Privilege jcrWritePrivilege;
@@ -90,12 +92,14 @@ class ConfigDataResponseGenerator {
       @NotNull ConfigurationPersistenceStrategyMultiplexer configurationPersistenceStrategy,
       @NotNull DropdownOptionProviderService dropdownOptionProviderService,
       @NotNull PathBrowserRootPathProviderService pathBrowserRootPathProviderService,
-      @NotNull TagBrowserRootPathProviderService tagBrowserRootPathProviderService) {
+      @NotNull TagBrowserRootPathProviderService tagBrowserRootPathProviderService,
+      @NotNull EncryptionService encryptionService) {
     this.configManager = configManager;
     this.configurationPersistenceStrategy = configurationPersistenceStrategy;
     this.dropdownOptionProviderService = dropdownOptionProviderService;
     this.pathBrowserRootPathProviderService = pathBrowserRootPathProviderService;
     this.tagBrowserRootPathProviderService = tagBrowserRootPathProviderService;
+    this.encryptionService = encryptionService;
 
     Session session = request.getResourceResolver().adaptTo(Session.class);
     if (session != null) {
@@ -220,8 +224,25 @@ class ConfigDataResponseGenerator {
 
       // property data and metadata
       else {
-        prop.setValue(item.getValue());
-        prop.setEffectiveValue(item.getEffectiveValue());
+        Object propValue = item.getValue();
+        Object propEffectiveValue = item.getEffectiveValue();
+
+        // Decrypt value if the encrypt property is set
+        if (itemMetadata != null && propValue instanceof String) {
+          Map<String, String> propMetadata = itemMetadata.getProperties();
+          if (propMetadata != null && "true".equals(propMetadata.get(PROPERTY_ENCRYPT))) {
+            propValue = encryptionService.decrypt((String)propValue);
+          }
+        }
+        if (itemMetadata != null && propEffectiveValue instanceof String) {
+          Map<String, String> propMetadata = itemMetadata.getProperties();
+          if (propMetadata != null && "true".equals(propMetadata.get(PROPERTY_ENCRYPT))) {
+            propEffectiveValue = encryptionService.decrypt((String)propEffectiveValue);
+          }
+        }
+
+        prop.setValue(propValue);
+        prop.setEffectiveValue(propEffectiveValue);
         prop.setConfigSourcePath(item.getConfigSourcePath());
         prop.setIsDefault(item.isDefault());
         prop.setInherited(item.isInherited());
